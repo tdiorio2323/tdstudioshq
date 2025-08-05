@@ -124,7 +124,7 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
       <div className="absolute inset-0 bg-black/40" />
       
       <Card className="w-full max-w-md bg-black/10 backdrop-blur-sm border-white/10 shadow-2xl relative z-10">
-        <CardHeader className="text-center space-y-4">
+        <CardHeader className="text-center space-y-6">
           <div className="flex items-center justify-center">
             <img 
               src="/lovable-uploads/9d23fdcd-25dd-46bf-bedd-97557e70bf90.png" 
@@ -132,68 +132,81 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
               className="h-40 w-auto"
             />
           </div>
-          <p className="text-muted-foreground">Welcome back</p>
-          
-          <div className="flex rounded-lg bg-muted p-1">
-            <Button
-              variant={!isSignUp ? "default" : "ghost"}
-              className="flex-1 text-sm"
-              onClick={() => setIsSignUp(false)}
-            >
-              Sign In
-            </Button>
-            <Button
-              variant={isSignUp ? "default" : "ghost"}
-              className="flex-1 text-sm"
-              onClick={() => setIsSignUp(true)}
-            >
-              Sign Up
-            </Button>
+          <div className="space-y-2">
+            <h2 className="text-2xl font-bold text-white">Join the Community</h2>
+            <p className="text-white/70">Enter your email to get started</p>
           </div>
         </CardHeader>
 
         <CardContent className="space-y-6">
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Input
-                id="email"
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="bg-white/10 text-white placeholder:text-white/70 border-white/30 h-14"
-              />
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="email" className="text-white/90 text-sm font-medium">
+                  Email Address
+                </Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="your@email.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="bg-white/10 text-white placeholder:text-white/50 border-white/30 h-12 text-base"
+                />
+              </div>
+
+              {isSignUp && (
+                <div className="space-y-2">
+                  <Label htmlFor="password" className="text-white/90 text-sm font-medium">
+                    Create Password
+                  </Label>
+                  <div className="relative">
+                    <Input
+                      id="password"
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Create a secure password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="bg-white/10 text-white placeholder:text-white/50 border-white/30 pr-10 h-12 text-base"
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      className="absolute right-0 top-0 h-12 px-3 py-2 hover:bg-transparent"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? (
+                        <EyeOff className="h-4 w-4 text-white/60" />
+                      ) : (
+                        <Eye className="h-4 w-4 text-white/60" />
+                      )}
+                    </Button>
+                  </div>
+                </div>
+              )}
             </div>
 
-            <div className="space-y-2">
-              <div className="relative">
-                <Input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Enter your password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="bg-white/10 text-white placeholder:text-white/70 border-white/30 pr-10 h-14"
-                />
+            <div className="space-y-3">
+              <Button 
+                type="submit" 
+                disabled={isLoading} 
+                className="w-full h-12 text-base font-semibold bg-primary hover:bg-primary-hover"
+              >
+                {isLoading ? "Loading..." : (isSignUp ? "Create Account" : "Continue")}
+              </Button>
+              
+              <div className="text-center">
                 <Button
                   type="button"
                   variant="ghost"
-                  size="icon"
-                  className="absolute right-0 top-0 h-14 px-3 py-2 hover:bg-transparent"
-                  onClick={() => setShowPassword(!showPassword)}
+                  className="text-white/70 hover:text-white text-sm"
+                  onClick={() => setIsSignUp(!isSignUp)}
                 >
-                  {showPassword ? (
-                    <EyeOff className="h-4 w-4 text-muted-foreground" />
-                  ) : (
-                    <Eye className="h-4 w-4 text-muted-foreground" />
-                  )}
+                  {isSignUp ? "Already have an account? Sign in" : "Don't have an account? Sign up"}
                 </Button>
               </div>
             </div>
-
-            <Button type="submit" disabled={isLoading} className="w-full">
-              {isLoading ? "Loading..." : (isSignUp ? "Sign Up" : "Sign In")}
-            </Button>
           </form>
         </CardContent>
       </Card>
