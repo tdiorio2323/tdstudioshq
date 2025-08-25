@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import grassBackground from '@/assets/grass-background.jpg';
 
 interface Product {
   id: string;
@@ -119,7 +120,7 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
 
   return (
     <div className="min-h-screen bg-cover bg-center bg-no-repeat" style={{
-      backgroundImage: `url('/lovable-uploads/100c1251-d4f7-413c-a115-dbbfa5066289.png')`
+      backgroundImage: `url(${grassBackground})`
     }}>
       <div className="min-h-screen bg-black/60 backdrop-blur-sm">
         {/* Header */}
@@ -134,11 +135,8 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
               />
             </div>
             
-            {/* Bottom row with CABANA text and cart button */}
-            <div className="flex items-center justify-center relative">
-              <div className="text-center">
-                <h1 className="text-2xl font-bold text-white">CABANA</h1>
-              </div>
+            {/* Bottom row with cart button */}
+            <div className="flex items-center justify-end relative">
               <div className="absolute right-0">
                 <Button 
                   variant="outline" 
@@ -299,11 +297,11 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
               <div className="space-y-4">
                 <img 
                   src="/lovable-uploads/bff2ab24-8836-4dfa-836d-bff37b607cfa.png" 
-                  alt="Cabana" 
+                  alt="TD Studios" 
                   className="h-8 w-auto"
                 />
                 <p className="text-white/60 text-sm">
-                  Premium cannabis delivery service bringing you the finest products right to your door.
+                  Premium delivery service bringing you the finest products right to your door.
                 </p>
                 <div className="flex space-x-4">
                   <a href="#" className="text-white/60 hover:text-white transition-colors">
@@ -338,7 +336,7 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
               </div>
               
               <div>
-                <h3 className="font-semibold text-white mb-4">Follow @cabana</h3>
+                <h3 className="font-semibold text-white mb-4">Follow Us</h3>
                 <div className="grid grid-cols-2 gap-2">
                   <div className="aspect-square bg-white/10 rounded-lg"></div>
                   <div className="aspect-square bg-white/10 rounded-lg"></div>
@@ -350,7 +348,7 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
             
             <div className="border-t border-white/10 mt-8 pt-8 text-center">
               <p className="text-white/60 text-sm">
-                © 2024 Cabana. All rights reserved. Please consume responsibly.
+                © 2024 TD Studios. All rights reserved. Please consume responsibly.
               </p>
             </div>
           </div>
