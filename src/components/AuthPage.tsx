@@ -169,7 +169,7 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
                   placeholder="your@email.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="bg-white/10 text-white placeholder:text-white/50 border-white/30 h-12 text-base mt-[75px]"
+                  className="bg-white/10 text-white placeholder:text-white/50 border-white/30 h-12 text-base"
                 />
               </div>
 
