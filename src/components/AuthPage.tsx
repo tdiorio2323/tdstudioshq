@@ -14,19 +14,35 @@ interface AuthPageProps {
 
 export const AuthPage = ({ onLogin }: AuthPageProps) => {
   const navigate = useNavigate();
-  const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [showPasswordField, setShowPasswordField] = useState(false);
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || !password) {
+    
+    if (!email) {
       toast({
         title: "Error",
-        description: "Please fill in all fields",
+        description: "Please enter your email address",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // If password field is not shown yet, show it after email is entered
+    if (!showPasswordField) {
+      setShowPasswordField(true);
+      return;
+    }
+
+    if (!password) {
+      toast({
+        title: "Error",
+        description: "Please enter your password",
         variant: "destructive"
       });
       return;
@@ -35,9 +51,14 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
     setIsLoading(true);
     
     try {
-      let authResult;
+      // First try to sign in
+      let authResult = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
       
-      if (isSignUp) {
+      // If sign in fails, try to sign up
+      if (authResult.error && authResult.error.message.includes('Invalid login credentials')) {
         authResult = await supabase.auth.signUp({
           email,
           password,
@@ -52,16 +73,12 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
           title: "Account Created",
           description: "Please check your email to verify your account",
         });
-      } else {
-        authResult = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
-        
-        if (authResult.error) throw authResult.error;
+        return;
       }
+      
+      if (authResult.error) throw authResult.error;
 
-      if (authResult.data.user && !isSignUp) {
+      if (authResult.data.user) {
         // Get user role from user_roles table
         const { data: roleData } = await supabase
           .from('user_roles')
@@ -114,7 +131,7 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
     <div 
       className="min-h-screen flex items-center justify-center p-4 relative"
       style={{
-        backgroundImage: `url('/lovable-uploads/fa9437b3-6b52-4add-a826-421f47af7c9c.png')`,
+        backgroundImage: `url('/lovable-uploads/acec3db6-9ac8-4c98-acbd-df4f9cd2e5ad.png')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat'
@@ -155,16 +172,16 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
                 />
               </div>
 
-              {isSignUp && (
+              {showPasswordField && (
                 <div className="space-y-2">
                   <Label htmlFor="password" className="text-white/90 text-sm font-medium">
-                    Create Password
+                    Password
                   </Label>
                   <div className="relative">
                     <Input
                       id="password"
                       type={showPassword ? "text" : "password"}
-                      placeholder="Create a secure password"
+                      placeholder="Enter your password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       className="bg-white/10 text-white placeholder:text-white/50 border-white/30 pr-10 h-12 text-base"
@@ -193,19 +210,8 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
                 disabled={isLoading} 
                 className="w-full h-12 text-base font-semibold bg-primary hover:bg-primary-hover"
               >
-                {isLoading ? "Loading..." : (isSignUp ? "Create Account" : "Continue")}
+                {isLoading ? "Loading..." : (!showPasswordField ? "Continue" : "Sign In")}
               </Button>
-              
-              <div className="text-center">
-                <Button
-                  type="button"
-                  variant="ghost"
-                  className="text-white/70 hover:text-white text-sm"
-                  onClick={() => setIsSignUp(!isSignUp)}
-                >
-                  {isSignUp ? "Already have an account? Sign in" : "Don't have an account? Sign up"}
-                </Button>
-              </div>
             </div>
           </form>
         </CardContent>
