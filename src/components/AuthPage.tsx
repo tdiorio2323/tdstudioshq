@@ -14,6 +14,7 @@ interface AuthPageProps {
 
 export const AuthPage = ({ onLogin }: AuthPageProps) => {
   const navigate = useNavigate();
+  // Force refresh to clear isSignUp reference error
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
