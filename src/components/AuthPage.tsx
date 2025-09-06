@@ -132,7 +132,7 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
     <div 
       className="min-h-screen flex items-center justify-center p-4 relative"
       style={{
-        backgroundImage: `url('/lovable-uploads/acec3db6-9ac8-4c98-acbd-df4f9cd2e5ad.png')`,
+        backgroundImage: `url('/lovable-uploads/67d6d2cf-3ae5-48f0-8b30-8cbded3815b7.png')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat'
@@ -145,8 +145,8 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
         <CardHeader className="text-center space-y-6">
           <div className="flex items-center justify-center">
             <img 
-              src="/lovable-uploads/9d23fdcd-25dd-46bf-bedd-97557e70bf90.png" 
-              alt="Bag Man NY" 
+              src="/lovable-uploads/29251ffd-00b5-4b7d-b8a1-a2f82a9b0479.png" 
+              alt="TD Studios" 
               className="h-40 w-auto"
             />
           </div>
