@@ -15,7 +15,7 @@ const Auth = () => {
           .from('user_roles')
           .select('role')
           .eq('user_id', session.user.id)
-          .single()
+          .maybeSingle()
           .then(({ data }) => {
             if (data) {
               if (data.role === 'admin') {

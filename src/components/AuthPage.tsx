@@ -85,7 +85,7 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
           .from('user_roles')
           .select('role')
           .eq('user_id', authResult.data.user.id)
-          .single();
+          .maybeSingle();
 
         if (roleData) {
           const userRole = roleData.role;

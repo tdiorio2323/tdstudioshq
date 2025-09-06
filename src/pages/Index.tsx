@@ -11,10 +11,10 @@ const Index = () => {
       if (session) {
         // Get user role from users table
         supabase
-          .from('users')
+          .from('user_roles')
           .select('role')
-          .eq('id', session.user.id)
-          .single()
+          .eq('user_id', session.user.id)
+          .maybeSingle()
           .then(({ data }) => {
             if (data) {
               if (data.role === 'admin') {
@@ -36,10 +36,10 @@ const Index = () => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_IN' && session) {
         supabase
-          .from('users')
+          .from('user_roles')
           .select('role')
-          .eq('id', session.user.id)
-          .single()
+          .eq('user_id', session.user.id)
+          .maybeSingle()
           .then(({ data }) => {
             if (data) {
               if (data.role === 'admin') {

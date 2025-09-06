@@ -14,16 +14,13 @@ import grassBackground from '@/assets/grass-background.jpg';
 interface Product {
   id: string;
   name: string;
-  price: number;
+  price: number; // dollars
   description: string | null;
   image_url: string | null;
-  category: string;
-  cbd_percentage: number | null;
-  thc_percentage: number | null;
-  strain_type: string | null;
-  weight_grams: number | null;
-  is_available: boolean;
-  brand_id: string;
+  category: string | null;
+  stock_quantity: number | null;
+  is_active: boolean | null;
+  brand_id: string | null;
 }
 
 interface CartItem extends Product {
@@ -57,10 +54,11 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
       const { data, error } = await supabase
         .from('products')
         .select('*')
-        .eq('is_available', true);
+        .eq('is_active', true);
 
       if (error) throw error;
-      setProducts(data || []);
+      const normalized = (data || []).map((p: any) => ({ ...p, price: Number(p.price) }));
+      setProducts(normalized);
     } catch (error) {
       console.error('Error fetching products:', error);
       toast.error('Failed to load products');
@@ -105,7 +103,7 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
     return matchesCategory && matchesSearch;
   });
 
-  const categories = [...new Set(products.map(product => product.category))];
+  const categories = [...new Set(products.map(product => product.category).filter(Boolean) as string[])];
 
   if (isLoading) {
     return (
@@ -157,11 +155,11 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
                 >
                   <ShoppingCart className="h-4 w-4 mr-2" />
                   Cart ({cart.length})
-                  {cart.length > 0 && (
-                    <Badge className="ml-2 bg-primary text-primary-foreground">
-                      ${(cartTotal / 100).toFixed(2)}
-                    </Badge>
-                  )}
+                    {cart.length > 0 && (
+                      <Badge className="ml-2 bg-primary text-primary-foreground">
+                        ${cartTotal.toFixed(2)}
+                      </Badge>
+                    )}
                 </Button>
               </div>
             </div>
@@ -238,27 +236,10 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
                     
                     <div className="flex justify-between items-center">
                       <div>
-                        <span className="text-2xl font-bold text-white">${(product.price / 100).toFixed(2)}</span>
-                        {product.weight_grams && (
-                          <span className="text-white/60 text-sm ml-2">/ {product.weight_grams}g</span>
-                        )}
+                        <span className="text-2xl font-bold text-white">${product.price.toFixed(2)}</span>
                       </div>
                     </div>
                     
-                    {(product.thc_percentage || product.cbd_percentage) && (
-                      <div className="flex gap-2">
-                        {product.thc_percentage && (
-                          <Badge variant="outline" className="border-red-400/50 text-red-300 bg-red-500/10">
-                            THC: {product.thc_percentage}%
-                          </Badge>
-                        )}
-                        {product.cbd_percentage && (
-                          <Badge variant="outline" className="border-green-400/50 text-green-300 bg-green-500/10">
-                            CBD: {product.cbd_percentage}%
-                          </Badge>
-                        )}
-                      </div>
-                    )}
                     
                     <div className="flex gap-2">
                       <Button

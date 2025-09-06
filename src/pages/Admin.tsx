@@ -18,7 +18,7 @@ const Admin = () => {
         .from('user_roles')
         .select('role')
         .eq('user_id', session.user.id)
-        .single()
+        .maybeSingle()
         .then(({ data }) => {
           if (!data || data.role !== 'admin') {
             navigate('/shop');
