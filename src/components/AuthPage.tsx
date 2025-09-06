@@ -157,6 +157,45 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
         </CardHeader>
 
         <CardContent className="space-y-6">
+          {/* CTA Buttons */}
+          <div className="space-y-3">
+            <Button 
+              variant="chrome" 
+              className="w-full h-12 text-base font-semibold rounded-xl"
+              onClick={() => window.open('#', '_blank')}
+            >
+              View Services
+            </Button>
+            <Button 
+              variant="platinum" 
+              className="w-full h-12 text-base font-semibold rounded-xl"
+              onClick={() => window.open('#', '_blank')}
+            >
+              Portfolio
+            </Button>
+            <Button 
+              variant="gold" 
+              className="w-full h-12 text-base font-semibold rounded-xl"
+              onClick={() => window.open('#', '_blank')}
+            >
+              Join Waitlist
+            </Button>
+            <Button 
+              variant="emerald" 
+              className="w-full h-12 text-base font-semibold rounded-xl"
+              onClick={() => window.open('#', '_blank')}
+            >
+              Book a Call
+            </Button>
+            <Button 
+              variant="chrome" 
+              className="w-full h-12 text-base font-semibold rounded-xl"
+              onClick={() => window.open('#', '_blank')}
+            >
+              About Us
+            </Button>
+          </div>
+          
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-4">
               <div>

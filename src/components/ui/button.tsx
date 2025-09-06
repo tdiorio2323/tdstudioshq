@@ -18,6 +18,10 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        chrome: "bg-gradient-to-br from-gray-300 via-gray-100 to-gray-300 text-gray-800 hover:from-gray-400 hover:via-gray-200 hover:to-gray-400 shadow-md border border-gray-200/50",
+        platinum: "bg-gradient-to-br from-slate-400 via-slate-200 to-slate-400 text-slate-800 hover:from-slate-500 hover:via-slate-300 hover:to-slate-500 shadow-md border border-slate-300/50",
+        gold: "bg-gradient-to-br from-yellow-400 via-yellow-200 to-yellow-400 text-yellow-900 hover:from-yellow-500 hover:via-yellow-300 hover:to-yellow-500 shadow-md border border-yellow-300/50",
+        emerald: "bg-gradient-to-br from-emerald-400 via-emerald-200 to-emerald-400 text-emerald-900 hover:from-emerald-500 hover:via-emerald-300 hover:to-emerald-500 shadow-md border border-emerald-300/50",
       },
       size: {
         default: "h-10 px-4 py-2",
