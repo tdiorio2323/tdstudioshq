@@ -7,382 +7,37 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instanciate createClient with right options
+  // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "12.2.3 (519615d)"
+    PostgrestVersion: "13.0.4"
   }
   public: {
     Tables: {
-      brands: {
+      kv_store_64e807fc: {
         Row: {
-          id: string
-          is_active: boolean | null
-          logo_url: string | null
-          name: string
+          key: string
+          value: Json
         }
         Insert: {
-          id?: string
-          is_active?: boolean | null
-          logo_url?: string | null
-          name: string
+          key: string
+          value: Json
         }
         Update: {
-          id?: string
-          is_active?: boolean | null
-          logo_url?: string | null
-          name?: string
+          key?: string
+          value?: Json
         }
         Relationships: []
-      }
-      cart_items: {
-        Row: {
-          created_at: string
-          id: string
-          product_id: string
-          quantity: number
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          id?: string
-          product_id: string
-          quantity?: number
-          updated_at?: string
-          user_id: string
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          product_id?: string
-          quantity?: number
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "cart_items_product_id_fkey"
-            columns: ["product_id"]
-            isOneToOne: false
-            referencedRelation: "products"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "cart_items_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      order_items: {
-        Row: {
-          created_at: string
-          id: string
-          order_id: string
-          product_id: string
-          quantity: number
-          total_price: number
-          unit_price: number
-        }
-        Insert: {
-          created_at?: string
-          id?: string
-          order_id: string
-          product_id: string
-          quantity?: number
-          total_price: number
-          unit_price: number
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          order_id?: string
-          product_id?: string
-          quantity?: number
-          total_price?: number
-          unit_price?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "order_items_order_id_fkey"
-            columns: ["order_id"]
-            isOneToOne: false
-            referencedRelation: "orders"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "order_items_product_id_fkey"
-            columns: ["product_id"]
-            isOneToOne: false
-            referencedRelation: "products"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      orders: {
-        Row: {
-          brand_id: string
-          completed_at: string | null
-          created_at: string
-          customer_id: string
-          customer_notes: string | null
-          delivery_address: Json | null
-          delivery_fee: number
-          estimated_delivery: string | null
-          id: string
-          status: Database["public"]["Enums"]["order_status"]
-          subtotal: number
-          tax_amount: number
-          total_amount: number
-          updated_at: string
-        }
-        Insert: {
-          brand_id: string
-          completed_at?: string | null
-          created_at?: string
-          customer_id: string
-          customer_notes?: string | null
-          delivery_address?: Json | null
-          delivery_fee?: number
-          estimated_delivery?: string | null
-          id?: string
-          status?: Database["public"]["Enums"]["order_status"]
-          subtotal: number
-          tax_amount?: number
-          total_amount: number
-          updated_at?: string
-        }
-        Update: {
-          brand_id?: string
-          completed_at?: string | null
-          created_at?: string
-          customer_id?: string
-          customer_notes?: string | null
-          delivery_address?: Json | null
-          delivery_fee?: number
-          estimated_delivery?: string | null
-          id?: string
-          status?: Database["public"]["Enums"]["order_status"]
-          subtotal?: number
-          tax_amount?: number
-          total_amount?: number
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "orders_brand_id_fkey"
-            columns: ["brand_id"]
-            isOneToOne: false
-            referencedRelation: "brands"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "orders_customer_id_fkey"
-            columns: ["customer_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      products: {
-        Row: {
-          brand_id: string
-          category: Database["public"]["Enums"]["product_category"]
-          cbd_percentage: number | null
-          created_at: string
-          description: string | null
-          id: string
-          image_url: string | null
-          is_available: boolean
-          name: string
-          price: number
-          strain_type: string | null
-          thc_percentage: number | null
-          updated_at: string
-          weight_grams: number | null
-        }
-        Insert: {
-          brand_id: string
-          category: Database["public"]["Enums"]["product_category"]
-          cbd_percentage?: number | null
-          created_at?: string
-          description?: string | null
-          id?: string
-          image_url?: string | null
-          is_available?: boolean
-          name: string
-          price: number
-          strain_type?: string | null
-          thc_percentage?: number | null
-          updated_at?: string
-          weight_grams?: number | null
-        }
-        Update: {
-          brand_id?: string
-          category?: Database["public"]["Enums"]["product_category"]
-          cbd_percentage?: number | null
-          created_at?: string
-          description?: string | null
-          id?: string
-          image_url?: string | null
-          is_available?: boolean
-          name?: string
-          price?: number
-          strain_type?: string | null
-          thc_percentage?: number | null
-          updated_at?: string
-          weight_grams?: number | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "products_brand_id_fkey"
-            columns: ["brand_id"]
-            isOneToOne: false
-            referencedRelation: "brands"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      subscriptions: {
-        Row: {
-          brand_id: string
-          created_at: string
-          current_period_end: string | null
-          id: string
-          is_active: boolean
-          monthly_price: number
-          stripe_customer_id: string | null
-          stripe_subscription_id: string | null
-          tier: Database["public"]["Enums"]["subscription_tier"]
-          trial_end_date: string | null
-          updated_at: string
-        }
-        Insert: {
-          brand_id: string
-          created_at?: string
-          current_period_end?: string | null
-          id?: string
-          is_active?: boolean
-          monthly_price?: number
-          stripe_customer_id?: string | null
-          stripe_subscription_id?: string | null
-          tier?: Database["public"]["Enums"]["subscription_tier"]
-          trial_end_date?: string | null
-          updated_at?: string
-        }
-        Update: {
-          brand_id?: string
-          created_at?: string
-          current_period_end?: string | null
-          id?: string
-          is_active?: boolean
-          monthly_price?: number
-          stripe_customer_id?: string | null
-          stripe_subscription_id?: string | null
-          tier?: Database["public"]["Enums"]["subscription_tier"]
-          trial_end_date?: string | null
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "subscriptions_brand_id_fkey"
-            columns: ["brand_id"]
-            isOneToOne: false
-            referencedRelation: "brands"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      user_roles: {
-        Row: {
-          created_at: string | null
-          id: string
-          role: Database["public"]["Enums"]["app_role"]
-          user_id: string
-        }
-        Insert: {
-          created_at?: string | null
-          id?: string
-          role?: Database["public"]["Enums"]["app_role"]
-          user_id: string
-        }
-        Update: {
-          created_at?: string | null
-          id?: string
-          role?: Database["public"]["Enums"]["app_role"]
-          user_id?: string
-        }
-        Relationships: []
-      }
-      users: {
-        Row: {
-          brand_id: string | null
-          email: string
-          id: string
-          name: string
-          role: string
-        }
-        Insert: {
-          brand_id?: string | null
-          email: string
-          id?: string
-          name: string
-          role?: string
-        }
-        Update: {
-          brand_id?: string | null
-          email?: string
-          id?: string
-          name?: string
-          role?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "users_brand_id_fkey"
-            columns: ["brand_id"]
-            isOneToOne: false
-            referencedRelation: "brands"
-            referencedColumns: ["id"]
-          },
-        ]
       }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      get_user_role: {
-        Args: { user_uuid: string }
-        Returns: Database["public"]["Enums"]["app_role"]
-      }
-      has_role: {
-        Args: {
-          user_uuid: string
-          required_role: Database["public"]["Enums"]["app_role"]
-        }
-        Returns: boolean
-      }
+      [_ in never]: never
     }
     Enums: {
-      app_role: "admin" | "brand" | "customer"
-      order_status:
-        | "pending"
-        | "confirmed"
-        | "preparing"
-        | "ready"
-        | "completed"
-        | "cancelled"
-      product_category:
-        | "flower"
-        | "edibles"
-        | "pre_rolls"
-        | "disposable_vapes"
-        | "concentrate"
-      subscription_tier: "basic" | "premium" | "enterprise"
+      [_ in never]: never
     }
     CompositeTypes: {
       [_ in never]: never
@@ -509,24 +164,6 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {
-      app_role: ["admin", "brand", "customer"],
-      order_status: [
-        "pending",
-        "confirmed",
-        "preparing",
-        "ready",
-        "completed",
-        "cancelled",
-      ],
-      product_category: [
-        "flower",
-        "edibles",
-        "pre_rolls",
-        "disposable_vapes",
-        "concentrate",
-      ],
-      subscription_tier: ["basic", "premium", "enterprise"],
-    },
+    Enums: {},
   },
 } as const
