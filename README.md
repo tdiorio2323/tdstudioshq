@@ -36,6 +36,17 @@ npm i
 npm run dev
 ```
 
+## Environment Variables
+
+Create a `.env` file in the project root to configure Supabase:
+
+```
+VITE_SUPABASE_URL=<Your Supabase project URL>
+VITE_SUPABASE_ANON_KEY=<Your Supabase anon key>
+```
+
+These variables are loaded automatically by Vite. The `.env` file is ignored by Git.
+
 **Edit a file directly in GitHub**
 
 - Navigate to the desired file(s).
