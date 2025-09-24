@@ -106,3 +106,35 @@ Production: `tdstudiosny.com` (Deployment Protection disabled)
 Optional: `tdstudioshq.com` via Wix DNS
 - `A @` → `76.76.21.21`
 - `CNAME www` → `cname.vercel-dns.com`
+
+## Deploy & Git Auth
+
+### Normal deploy
+1. `npm i`
+2. `node scripts/generate-sitemap.mjs`
+3. `npm run build`
+4. Push to `main` on `github.com/tdiorio2323/TD-STUDIOS-LOVABLE-SITE`. Vercel auto-deploys Production.
+
+### If push is blocked (wrong Git creds)
+Use SSH for the `tdiorio2323` account:
+```bash
+git remote set-url origin git@github.com:tdiorio2323/TD-STUDIOS-LOVABLE-SITE.git
+ssh-keygen -t ed25519 -C "tyler@tdstudiosny.com" -f ~/.ssh/id_ed25519 -N ""
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+gh auth login
+gh ssh-key add ~/.ssh/id_ed25519.pub -t "MBP Lovable Site"
+git push origin main
+```
+
+### Verify Production
+- Vercel: Project → Deployments → confirm latest build on `main`.
+- Domains: ensure `tdstudiosny.com` (protection off), `tdstudiosdigital.com`, and Wix DNS (`A @` → `76.76.21.21`, `CNAME www` → `cname.vercel-dns.com`) are correct.
+
+CLI spot-checks:
+```bash
+curl -I https://tdstudiosny.com
+curl -I https://tdstudiosdigital.com
+dig +short tdstudioshq.com
+dig +short www.tdstudioshq.com
+```
