@@ -272,8 +272,8 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
         </main>
 
         {/* Footer */}
-        <footer className="bg-black/80 backdrop-blur-md border-t border-white/10 mt-16">
-          <div className="container mx-auto px-4 py-12">
+        <footer className="py-[18px] sm:py-[14px] bg-black/80 backdrop-blur-md border-t border-white/10 mt-16">
+          <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
               <div className="space-y-4">
                 <img 
@@ -318,11 +318,11 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
               
               <div>
                 <h3 className="font-semibold text-white mb-4">Follow Us</h3>
-                <div className="grid grid-cols-2 gap-2">
-                  <div className="aspect-square bg-white/10 rounded-lg"></div>
-                  <div className="aspect-square bg-white/10 rounded-lg"></div>
-                  <div className="aspect-square bg-white/10 rounded-lg"></div>
-                  <div className="aspect-square bg-white/10 rounded-lg"></div>
+                <div className="social-grid grid grid-cols-4 sm:grid-cols-2 gap-3 items-center justify-center">
+                  <div className="tile w-16 h-16 bg-white/10 rounded-lg"></div>
+                  <div className="tile w-16 h-16 bg-white/10 rounded-lg"></div>
+                  <div className="tile w-16 h-16 bg-white/10 rounded-lg"></div>
+                  <div className="tile w-16 h-16 bg-white/10 rounded-lg"></div>
                 </div>
               </div>
             </div>

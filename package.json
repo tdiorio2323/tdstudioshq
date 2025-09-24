@@ -1,14 +1,14 @@
 {
-  "name": "vite_react_shadcn_ts",
+  "name": "td-studios-lovable-site",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
+  "description": "TD Studios Lovable Site",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 5173",
     "build": "vite build",
-    "build:dev": "vite build --mode development",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "sitemap": "node scripts/generate-sitemap.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
