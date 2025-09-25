@@ -19,7 +19,7 @@ export const MYLAR_PRODUCTS: MylarProduct[] = [
     name: "1 Design",
     description: "Custom mylar bag design service for 1 unique design",
     basePrice: 40,
-    image: "/products/td-bomber-black.jpg", // Placeholder - using existing image
+    image: "/products/td-dunk-mylar.jpg",
     category: "Mylar Bags",
     active: true,
     hasQuantityOptions: false
@@ -29,7 +29,7 @@ export const MYLAR_PRODUCTS: MylarProduct[] = [
     name: "2 Designs",
     description: "Custom mylar bag design service for 2 unique designs",
     basePrice: 60,
-    image: "/products/WHITE BOMBER.png", // Placeholder - using existing image
+    image: "/products/td-mistic-mylar.jpg",
     category: "Mylar Bags",
     active: true,
     hasQuantityOptions: false
@@ -39,7 +39,7 @@ export const MYLAR_PRODUCTS: MylarProduct[] = [
     name: "3 Designs",
     description: "Custom mylar bag design service for 3 unique designs",
     basePrice: 85,
-    image: "/products/BLACK TD STUDIOS FRIDAY 13TH HOODIE.png", // Placeholder - using existing image
+    image: "/products/td-kitkat-mylar.jpg",
     category: "Mylar Bags",
     active: true,
     hasQuantityOptions: false
@@ -49,7 +49,7 @@ export const MYLAR_PRODUCTS: MylarProduct[] = [
     name: "4+ Designs",
     description: "Custom mylar bag design service for 4 or more unique designs",
     basePrice: 100,
-    image: "/lovable-uploads/bff2ab24-8836-4dfa-836d-bff37b607cfa.png", // Placeholder - using logo
+    image: "/products/td-hershey-mylar.jpg",
     category: "Mylar Bags",
     active: true,
     hasQuantityOptions: true,

@@ -60,12 +60,12 @@ const MylarCustomerApp = () => {
     // Store order details for confirmation
     sessionStorage.setItem('mylarOrder', JSON.stringify(orderSummary));
 
-    toast.success(`Order prepared! Send $${currentPrice} to $tdiorio23 on CashApp`, {
+    toast.success(`Order details saved! Opening CashApp profile - you can enter $${currentPrice}`, {
       duration: 8000,
     });
 
-    // Open CashApp with pre-filled amount
-    const cashAppUrl = `https://cash.app/$tdiorio23/${currentPrice}`;
+    // Open CashApp profile - user will enter amount manually
+    const cashAppUrl = `https://cash.app/$tdiorio23`;
     window.open(cashAppUrl, '_blank');
   };
 
@@ -276,11 +276,11 @@ const MylarCustomerApp = () => {
                     className="w-full bg-green-600 hover:bg-green-700 text-white py-3 text-lg font-semibold"
                   >
                     <ExternalLink className="h-5 w-5 mr-2" />
-                    Pay ${getCurrentPrice(selectedProduct)} via CashApp
+                    Open CashApp Profile ($${getCurrentPrice(selectedProduct)})
                   </Button>
 
                   <p className="text-white/60 text-sm text-center">
-                    Click the button above to open CashApp and send payment to $tdiorio23
+                    Click the button above to open CashApp profile - enter the amount shown and send to $tdiorio23
                   </p>
                 </div>
               </div>
