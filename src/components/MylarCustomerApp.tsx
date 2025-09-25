@@ -1,0 +1,389 @@
+import React, { useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Search, ExternalLink } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import { toast } from 'sonner';
+import grassBackground from '@/assets/grass-background.jpg';
+import { MYLAR_PRODUCTS, MYLAR_CATEGORIES, MylarProduct } from '@/data/mylarProducts';
+
+const MylarCustomerApp = () => {
+  const navigate = useNavigate();
+  const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedProduct, setSelectedProduct] = useState<MylarProduct | null>(null);
+  const [selectedQuantity, setSelectedQuantity] = useState<number>(4);
+  const [contactName, setContactName] = useState('');
+  const [socialMedia, setSocialMedia] = useState('');
+  const [designNotes, setDesignNotes] = useState('');
+  const [uploadedFiles, setUploadedFiles] = useState<FileList | null>(null);
+
+  const filteredProducts = useMemo(() => {
+    const base = MYLAR_PRODUCTS.filter(p => p.active !== false);
+    const byCat = selectedCategory === 'All' ? base : base.filter(p => p.category === selectedCategory);
+    const byText = searchTerm ? byCat.filter(p =>
+      (p.name + " " + (p.description ?? "")).toLowerCase().includes(searchTerm.toLowerCase())
+    ) : byCat;
+    return byText;
+  }, [searchTerm, selectedCategory]);
+
+  const getCurrentPrice = (product: MylarProduct) => {
+    if (product.hasQuantityOptions && product.quantityOptions) {
+      const option = product.quantityOptions.find(opt => opt.quantity === selectedQuantity);
+      return option ? option.price : product.basePrice;
+    }
+    return product.basePrice;
+  };
+
+  const handleCashAppCheckout = (product: MylarProduct) => {
+    const currentPrice = getCurrentPrice(product);
+
+    if (!contactName.trim()) {
+      toast.error('Please enter your contact name');
+      return;
+    }
+
+    if (!designNotes.trim()) {
+      toast.error('Please provide design notes');
+      return;
+    }
+
+    // Create order summary
+    const orderSummary = {
+      product: product.name,
+      quantity: product.hasQuantityOptions ? selectedQuantity : 1,
+      price: currentPrice,
+      contactName,
+      socialMedia,
+      designNotes,
+      hasFiles: uploadedFiles && uploadedFiles.length > 0
+    };
+
+    // Store order details for confirmation
+    sessionStorage.setItem('mylarOrder', JSON.stringify(orderSummary));
+
+    toast.success(`Order prepared! Send $${currentPrice} to $tdiorio23 on CashApp`, {
+      duration: 8000,
+    });
+
+    // Open CashApp with pre-filled amount
+    const cashAppUrl = `https://cash.app/$tdiorio23/${currentPrice}`;
+    window.open(cashAppUrl, '_blank');
+  };
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setUploadedFiles(e.target.files);
+      toast.success(`${e.target.files.length} file(s) selected`);
+    }
+  };
+
+  const ProductCard = ({ product }: { product: MylarProduct }) => (
+    <Card className="bg-white/10 backdrop-blur-md border-white/20 hover:bg-white/15 transition-all duration-300">
+      <CardContent className="p-6">
+        <div className="aspect-square mb-4 bg-white/5 rounded-lg overflow-hidden">
+          {product.image ? (
+            <img
+              src={product.image}
+              alt={product.name}
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center text-white/40">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-white/10 rounded-full mx-auto mb-2 flex items-center justify-center">
+                  <span className="text-2xl">📦</span>
+                </div>
+                <p className="text-sm">No Image</p>
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="space-y-3">
+          <div>
+            <h3 className="font-semibold text-white text-lg">{product.name}</h3>
+            <Badge variant="secondary" className="mt-1 bg-white/20 text-white/80">
+              {product.category}
+            </Badge>
+          </div>
+
+          {product.description && (
+            <p className="text-white/70 text-sm line-clamp-2">{product.description}</p>
+          )}
+
+          <div className="flex justify-between items-center">
+            <div>
+              <span className="text-2xl font-bold text-white">
+                ${product.hasQuantityOptions ? `${getCurrentPrice(product)}` : product.basePrice.toFixed(2)}
+              </span>
+            </div>
+          </div>
+
+          <Button
+            onClick={() => setSelectedProduct(product)}
+            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+          >
+            Customize Order
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  );
+
+  if (selectedProduct) {
+    return (
+      <div className="min-h-screen bg-cover bg-center bg-no-repeat" style={{
+        backgroundImage: `url(${grassBackground})`
+      }}>
+        <div className="min-h-screen bg-black/60 backdrop-blur-sm">
+          {/* Header */}
+          <header className="bg-black/80 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
+            <div className="container mx-auto px-4 py-4">
+              <div className="flex items-start justify-between">
+                <Button
+                  variant="outline"
+                  onClick={() => setSelectedProduct(null)}
+                  className="bg-white/10 border-white/20 text-white hover:bg-white/20"
+                >
+                  ← Back to Products
+                </Button>
+                <div className="flex flex-col items-center space-y-4">
+                  <img
+                    src="/lovable-uploads/bff2ab24-8836-4dfa-836d-bff37b607cfa.png"
+                    alt="TD Studios"
+                    className="h-32 w-auto"
+                  />
+                  <nav className="flex space-x-6 text-white/80 text-sm">
+                    <a href="/" className="hover:text-white transition-colors">Home</a>
+                    <a href="/shop" className="hover:text-white transition-colors">Shop All</a>
+                    <a href="/mylars" className="hover:text-white transition-colors font-semibold">Mylar Bags</a>
+                    <a href="#" className="hover:text-white transition-colors">T-shirts</a>
+                    <a href="#" className="hover:text-white transition-colors">Outerwear</a>
+                    <a href="#" className="hover:text-white transition-colors">Hats</a>
+                    <a href="#" className="hover:text-white transition-colors">Accessories</a>
+                  </nav>
+                </div>
+                <div></div>
+              </div>
+            </div>
+          </header>
+
+          {/* Product Details */}
+          <main className="container mx-auto px-4 py-8">
+            <div className="max-w-4xl mx-auto">
+              <div className="grid md:grid-cols-2 gap-8">
+                {/* Product Image */}
+                <div className="aspect-square bg-white/5 rounded-lg overflow-hidden">
+                  <img
+                    src={selectedProduct.image}
+                    alt={selectedProduct.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+
+                {/* Product Form */}
+                <div className="space-y-6">
+                  <div>
+                    <h1 className="text-3xl font-bold text-white mb-2">{selectedProduct.name}</h1>
+                    <p className="text-white/70">{selectedProduct.description}</p>
+                  </div>
+
+                  {selectedProduct.hasQuantityOptions && (
+                    <div>
+                      <Label className="text-white mb-2 block">Number of Designs</Label>
+                      <Select value={selectedQuantity.toString()} onValueChange={(value) => setSelectedQuantity(parseInt(value))}>
+                        <SelectTrigger className="bg-white/10 border-white/20 text-white">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {selectedProduct.quantityOptions?.map((option) => (
+                            <SelectItem key={option.quantity} value={option.quantity.toString()}>
+                              {option.quantity} designs - ${option.price}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  )}
+
+                  <div className="text-3xl font-bold text-white">
+                    Total: ${getCurrentPrice(selectedProduct).toFixed(2)}
+                  </div>
+
+                  {/* Customer Info Form */}
+                  <div className="space-y-4">
+                    <div>
+                      <Label className="text-white mb-2 block">Contact Name *</Label>
+                      <Input
+                        value={contactName}
+                        onChange={(e) => setContactName(e.target.value)}
+                        placeholder="Your full name"
+                        className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+                      />
+                    </div>
+
+                    <div>
+                      <Label className="text-white mb-2 block">Social Media Name/Link</Label>
+                      <Input
+                        value={socialMedia}
+                        onChange={(e) => setSocialMedia(e.target.value)}
+                        placeholder="@username or profile link"
+                        className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+                      />
+                    </div>
+
+                    <div>
+                      <Label className="text-white mb-2 block">Design Notes *</Label>
+                      <Textarea
+                        value={designNotes}
+                        onChange={(e) => setDesignNotes(e.target.value)}
+                        placeholder="Describe the type of design you want for your mylar bags..."
+                        className="bg-white/10 border-white/20 text-white placeholder:text-white/60 min-h-[120px]"
+                      />
+                    </div>
+
+                    <div>
+                      <Label className="text-white mb-2 block">Upload References</Label>
+                      <Input
+                        type="file"
+                        multiple
+                        accept="image/*,.pdf"
+                        onChange={handleFileUpload}
+                        className="bg-white/10 border-white/20 text-white file:bg-white/20 file:text-white file:border-0 file:rounded"
+                      />
+                      {uploadedFiles && uploadedFiles.length > 0 && (
+                        <p className="text-white/70 text-sm mt-1">
+                          {uploadedFiles.length} file(s) selected
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* CashApp Checkout */}
+                  <Button
+                    onClick={() => handleCashAppCheckout(selectedProduct)}
+                    className="w-full bg-green-600 hover:bg-green-700 text-white py-3 text-lg font-semibold"
+                  >
+                    <ExternalLink className="h-5 w-5 mr-2" />
+                    Pay ${getCurrentPrice(selectedProduct)} via CashApp
+                  </Button>
+
+                  <p className="text-white/60 text-sm text-center">
+                    Click the button above to open CashApp and send payment to $tdiorio23
+                  </p>
+                </div>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-cover bg-center bg-no-repeat" style={{
+      backgroundImage: `url(${grassBackground})`
+    }}>
+      <div className="min-h-screen bg-black/60 backdrop-blur-sm">
+        {/* Header */}
+        <header className="bg-black/80 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
+          <div className="container mx-auto px-4 py-4">
+            <div className="flex items-start justify-between">
+              <div></div>
+              <div className="flex flex-col items-center space-y-4">
+                <img
+                  src="/lovable-uploads/bff2ab24-8836-4dfa-836d-bff37b607cfa.png"
+                  alt="TD Studios"
+                  className="h-32 w-auto"
+                />
+                <nav className="flex space-x-6 text-white/80 text-sm">
+                  <a href="/" className="hover:text-white transition-colors">Home</a>
+                  <a href="/shop" className="hover:text-white transition-colors">Shop All</a>
+                  <a href="/mylars" className="hover:text-white transition-colors font-semibold">Mylar Bags</a>
+                  <a href="#" className="hover:text-white transition-colors">T-shirts</a>
+                  <a href="#" className="hover:text-white transition-colors">Outerwear</a>
+                  <a href="#" className="hover:text-white transition-colors">Hats</a>
+                  <a href="#" className="hover:text-white transition-colors">Accessories</a>
+                </nav>
+              </div>
+              <div></div>
+            </div>
+          </div>
+        </header>
+
+        {/* Main Content */}
+        <main className="container mx-auto px-4 py-8">
+          <div className="text-center mb-8">
+            <h1 className="text-4xl font-bold text-white mb-4">Custom Mylar Bag Designs</h1>
+            <p className="text-white/70 text-lg">Professional mylar bag design services for your brand</p>
+          </div>
+
+          {/* Filters */}
+          <div className="mb-8 space-y-4">
+            <div className="flex flex-col md:flex-row gap-4">
+              <div className="flex-1">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/60 h-4 w-4" />
+                  <Input
+                    placeholder="Search products..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-10 bg-white/10 border-white/20 text-white placeholder:text-white/60"
+                  />
+                </div>
+              </div>
+              <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                <SelectTrigger className="w-full md:w-48 bg-white/10 border-white/20 text-white">
+                  <SelectValue placeholder="All Categories" />
+                </SelectTrigger>
+                <SelectContent>
+                  {MYLAR_CATEGORIES.map(category => (
+                    <SelectItem key={category} value={category}>
+                      {category.charAt(0).toUpperCase() + category.slice(1).replace('_', ' ')}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          {/* Products Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {filteredProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+
+          {filteredProducts.length === 0 && (
+            <div className="text-center py-12">
+              <div className="text-white/60 text-xl mb-4">No products found</div>
+              <p className="text-white/40">Try adjusting your search or filter criteria</p>
+            </div>
+          )}
+        </main>
+
+        {/* Footer */}
+        <footer className="bg-black/70 border-t border-white/10">
+          <div className="mx-auto max-w-7xl px-4 py-6 flex flex-col items-center space-y-4">
+            <img
+              src="/lovable-uploads/bff2ab24-8836-4dfa-836d-bff37b607cfa.png"
+              alt="TD Studios"
+              className="h-16 w-auto"
+            />
+            <div className="text-center text-white/40 text-xs">
+              © 2024 TD Studios. All rights reserved. Professional design services.
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+  );
+};
+
+export default MylarCustomerApp;

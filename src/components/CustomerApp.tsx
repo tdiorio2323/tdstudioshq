@@ -91,6 +91,7 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
                 <nav className="flex space-x-6 text-white/80 text-sm">
                   <a href="/" className="hover:text-white transition-colors">Home</a>
                   <a href="/shop" className="hover:text-white transition-colors">Shop All</a>
+                  <a href="/mylars" className="hover:text-white transition-colors">Mylar Bags</a>
                   <a href="#" className="hover:text-white transition-colors">T-shirts</a>
                   <a href="#" className="hover:text-white transition-colors">Outerwear</a>
                   <a href="#" className="hover:text-white transition-colors">Hats</a>
