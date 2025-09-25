@@ -93,9 +93,11 @@ supabase db push     # Push migrations to remote
 ## Deployment
 
 ### Production Domains
-- **Primary**: `tdstudiosny.com` (auto-deploys from main branch)
-- **Secondary**: `tdstudiosdigital.com`
-- **Optional**: `tdstudioshq.com`
+- **Primary**: `tdstudioshq.com` (auto-deploys from main branch)
+
+### Related TD Studios Projects
+- `tdstudiosny.com` → td-luxury-site project
+- `tdstudiosdigital.com` → tdstudioscannamenu-22 project
 
 ### Workflow
 1. Generate sitemap: `node scripts/generate-sitemap.mjs`

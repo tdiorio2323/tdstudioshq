@@ -101,7 +101,7 @@ vercel deploy --prod --yes
 - `index.html` contains title, description, OG, and canonical tags
 
 ## Domains
-Production: `tdstudiosny.com` (Deployment Protection disabled)
+Production: `tdstudioshq.com` (Deployment Protection disabled)
 
 Optional: `tdstudioshq.com` via Wix DNS
 - `A @` → `76.76.21.21`
@@ -129,12 +129,11 @@ git push origin main
 
 ### Verify Production
 - Vercel: Project → Deployments → confirm latest build on `main`.
-- Domains: ensure `tdstudiosny.com` (protection off), `tdstudiosdigital.com`, and Wix DNS (`A @` → `76.76.21.21`, `CNAME www` → `cname.vercel-dns.com`) are correct.
+- Domains: ensure `tdstudioshq.com` (protection off) and Wix DNS (`A @` → `76.76.21.21`, `CNAME www` → `cname.vercel-dns.com`) are correct.
 
 CLI spot-checks:
 ```bash
-curl -I https://tdstudiosny.com
-curl -I https://tdstudiosdigital.com
+curl -I https://tdstudioshq.com
 dig +short tdstudioshq.com
 dig +short www.tdstudioshq.com
 ```

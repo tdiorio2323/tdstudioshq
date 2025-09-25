@@ -8,12 +8,12 @@ const Auth = () => {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center p-4 relative bg-cover bg-center bg-no-repeat md:bg-[url('/lovable-uploads/67d6d2cf-3ae5-48f0-8b30-8cbded3815b7.png')] bg-[url('/times%20square')]"
+      className="min-h-screen flex items-center justify-center px-3 py-4 sm:px-4 sm:py-6 md:px-6 md:py-8 relative bg-cover bg-center bg-no-repeat md:bg-[url('/lovable-uploads/67d6d2cf-3ae5-48f0-8b30-8cbded3815b7.png')] bg-[url('/times%20square')]"
     >
       {/* Dark overlay for better contrast */}
       <div className="absolute inset-0 bg-black/40" />
 
-      <Card className="w-full max-w-md bg-black/5 backdrop-blur-[2px] border-white/10 shadow-2xl drop-shadow-2xl relative z-10" style={{
+      <Card className="w-full max-w-sm sm:max-w-md bg-black/5 backdrop-blur-[2px] border-white/10 shadow-2xl drop-shadow-2xl relative z-10" style={{
         boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.1)'
       }}>
         <CardHeader className="text-center space-y-6">
