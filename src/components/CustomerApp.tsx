@@ -137,7 +137,7 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
                   variant="ghost"
                   size="icon"
                   onClick={() => setIsMenuOpen(!isMenuOpen)}
-                  className="text-white hover:bg-white/10 md:hidden -mr-2"
+                  className="text-white hover:bg-white/10 md:hidden -mr-1"
                 >
                   {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
                 </Button>
