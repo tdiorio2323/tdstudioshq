@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
-import grassBackground from '@/assets/grass-background.jpg';
+// Ocean-themed background for mylar shop
 import { MYLAR_PRODUCTS, MYLAR_CATEGORIES, MylarProduct } from '@/data/mylarProducts';
 
 const MylarCustomerApp = () => {
@@ -131,10 +131,22 @@ const MylarCustomerApp = () => {
 
   if (selectedProduct) {
     return (
-      <div className="min-h-screen bg-cover bg-center bg-no-repeat" style={{
-        backgroundImage: `url(${grassBackground})`
+      <div className="min-h-screen" style={{
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 25%, #2196f3 50%, #21cbf3 75%, #4fa8f7 100%), radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 0%, transparent 70%)',
+        backgroundSize: '400% 400%, 100% 100%',
+        animation: 'ocean-wave 15s ease-in-out infinite'
       }}>
-        <div className="min-h-screen bg-black/60 backdrop-blur-sm">
+        <style jsx>{`
+          @keyframes ocean-wave {
+            0%, 100% {
+              background-position: 0% 50%, 50% 50%;
+            }
+            50% {
+              background-position: 100% 50%, 50% 50%;
+            }
+          }
+        `}</style>
+        <div className="min-h-screen bg-black/40 backdrop-blur-sm">
           {/* Header */}
           <header className="bg-black/80 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
             <div className="container mx-auto px-4 py-4">
@@ -280,10 +292,22 @@ const MylarCustomerApp = () => {
   }
 
   return (
-    <div className="min-h-screen bg-cover bg-center bg-no-repeat" style={{
-      backgroundImage: `url(${grassBackground})`
+    <div className="min-h-screen" style={{
+      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 25%, #2196f3 50%, #21cbf3 75%, #4fa8f7 100%), radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 0%, transparent 70%)',
+      backgroundSize: '400% 400%, 100% 100%',
+      animation: 'ocean-wave 15s ease-in-out infinite'
     }}>
-      <div className="min-h-screen bg-black/60 backdrop-blur-sm">
+      <style jsx>{`
+        @keyframes ocean-wave {
+          0%, 100% {
+            background-position: 0% 50%, 50% 50%;
+          }
+          50% {
+            background-position: 100% 50%, 50% 50%;
+          }
+        }
+      `}</style>
+      <div className="min-h-screen bg-black/40 backdrop-blur-sm">
         {/* Header */}
         <header className="bg-black/80 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
           <div className="container mx-auto px-4 py-4">
