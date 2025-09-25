@@ -171,7 +171,7 @@ const MylarCustomerApp = () => {
                 variant="ghost"
                 size="icon"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="text-white hover:bg-white/10 md:hidden absolute right-4 top-1/2 transform -translate-y-1/2 z-10"
+                className="text-white hover:bg-white/10 md:hidden absolute right-2 top-1/2 transform -translate-y-1/2 z-10"
               >
                 {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
               </Button>
@@ -382,7 +382,7 @@ const MylarCustomerApp = () => {
                 variant="ghost"
                 size="icon"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="text-white hover:bg-white/10 md:hidden absolute right-4 top-1/2 transform -translate-y-1/2"
+                className="text-white hover:bg-white/10 md:hidden absolute right-2 top-1/2 transform -translate-y-1/2"
               >
                 {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
               </Button>
