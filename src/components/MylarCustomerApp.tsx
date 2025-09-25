@@ -136,19 +136,18 @@ const MylarCustomerApp = () => {
         <div className="min-h-screen bg-black/40 backdrop-blur-sm">
           {/* Header */}
           <header className="bg-black/80 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
-            <div className="container mx-auto px-4 py-4">
-              <div className="flex items-center justify-between">
-                {/* Back Button */}
-                <Button
-                  variant="outline"
-                  onClick={() => setSelectedProduct(null)}
-                  className="bg-white/10 border-white/20 text-white hover:bg-white/20"
-                >
-                  ← <span className="hidden sm:inline ml-1">Back</span>
-                </Button>
+            <div className="container mx-auto px-4 py-4 relative">
+              {/* Back Button */}
+              <Button
+                variant="outline"
+                onClick={() => setSelectedProduct(null)}
+                className="bg-white/10 border-white/20 text-white hover:bg-white/20 absolute left-4 top-1/2 transform -translate-y-1/2 z-10"
+              >
+                ← <span className="hidden sm:inline ml-1">Back</span>
+              </Button>
 
-                {/* Centered Logo */}
-                <div className="flex flex-col items-center space-y-2 flex-1">
+              {/* Centered Logo */}
+              <div className="flex flex-col items-center space-y-2 w-full">
                   <img
                     src="/lovable-uploads/bff2ab24-8836-4dfa-836d-bff37b607cfa.png"
                     alt="TD Studios"
@@ -167,17 +166,15 @@ const MylarCustomerApp = () => {
                   </nav>
                 </div>
 
-                {/* Hamburger Menu Button */}
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => setIsMenuOpen(!isMenuOpen)}
-                  className="text-white hover:bg-white/10 md:hidden"
-                >
-                  {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-                </Button>
-                <div className="hidden md:block w-16"></div> {/* Spacer for balance on desktop */}
-              </div>
+              {/* Hamburger Menu Button */}
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="text-white hover:bg-white/10 md:hidden absolute right-4 top-1/2 transform -translate-y-1/2 z-10"
+              >
+                {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              </Button>
 
               {/* Mobile Navigation Menu */}
               {isMenuOpen && (
@@ -356,12 +353,12 @@ const MylarCustomerApp = () => {
         {/* Header */}
         <header className="bg-black/80 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
           <div className="container mx-auto px-4 py-4">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between md:justify-center">
               {/* Empty spacer for mobile balance */}
               <div className="md:hidden w-10"></div>
 
               {/* Centered Logo */}
-              <div className="flex flex-col items-center space-y-2 flex-1 md:flex-none">
+              <div className="flex flex-col items-center space-y-2 flex-1">
                 <img
                   src="/lovable-uploads/bff2ab24-8836-4dfa-836d-bff37b607cfa.png"
                   alt="TD Studios"
@@ -385,11 +382,10 @@ const MylarCustomerApp = () => {
                 variant="ghost"
                 size="icon"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="text-white hover:bg-white/10 md:hidden"
+                className="text-white hover:bg-white/10 md:hidden absolute right-4 top-1/2 transform -translate-y-1/2"
               >
                 {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
               </Button>
-              <div className="hidden md:block w-10"></div> {/* Spacer for desktop */}
             </div>
 
             {/* Mobile Navigation Menu */}
