@@ -10,7 +10,7 @@ const Auth = () => {
       {/* Dark overlay for better contrast */}
       <div className="absolute inset-0 bg-black/40" />
 
-      <Card className="w-full max-w-md bg-black/10 backdrop-blur-sm border-white/10 shadow-2xl relative z-10">
+      <Card className="w-full max-w-md bg-black/5 backdrop-blur-[2px] border-white/10 shadow-2xl relative z-10">
         <CardHeader className="text-center space-y-6">
           <div className="flex items-center justify-center">
             <img
