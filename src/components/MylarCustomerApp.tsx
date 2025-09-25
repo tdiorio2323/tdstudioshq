@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, Menu, X } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -20,6 +20,7 @@ const MylarCustomerApp = () => {
   const [socialMedia, setSocialMedia] = useState('');
   const [designNotes, setDesignNotes] = useState('');
   const [uploadedFiles, setUploadedFiles] = useState<FileList | null>(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const filteredProducts = useMemo(() => {
     return MYLAR_PRODUCTS.filter(p => p.active !== false);
@@ -131,40 +132,41 @@ const MylarCustomerApp = () => {
 
   if (selectedProduct) {
     return (
-      <div className="min-h-screen" style={{
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 25%, #2196f3 50%, #21cbf3 75%, #4fa8f7 100%), radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 0%, transparent 70%)',
-        backgroundSize: '400% 400%, 100% 100%',
-        animation: 'ocean-wave 15s ease-in-out infinite'
-      }}>
-        <style jsx>{`
-          @keyframes ocean-wave {
-            0%, 100% {
-              background-position: 0% 50%, 50% 50%;
-            }
-            50% {
-              background-position: 100% 50%, 50% 50%;
-            }
-          }
-        `}</style>
+      <div className="min-h-screen bg-black">
         <div className="min-h-screen bg-black/40 backdrop-blur-sm">
           {/* Header */}
           <header className="bg-black/80 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
             <div className="container mx-auto px-4 py-4">
-              <div className="flex items-start justify-between">
-                <Button
-                  variant="outline"
-                  onClick={() => setSelectedProduct(null)}
-                  className="bg-white/10 border-white/20 text-white hover:bg-white/20"
-                >
-                  ← Back to Products
-                </Button>
-                <div className="flex flex-col items-center space-y-4">
+              <div className="flex items-center justify-between">
+                {/* Back Button / Hamburger Menu Button */}
+                <div className="flex items-center space-x-2">
+                  <Button
+                    variant="outline"
+                    onClick={() => setSelectedProduct(null)}
+                    className="bg-white/10 border-white/20 text-white hover:bg-white/20"
+                  >
+                    ← <span className="hidden sm:inline ml-1">Back</span>
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setIsMenuOpen(!isMenuOpen)}
+                    className="text-white hover:bg-white/10 md:hidden"
+                  >
+                    {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                  </Button>
+                </div>
+
+                {/* Centered Logo */}
+                <div className="flex flex-col items-center space-y-2 flex-1">
                   <img
                     src="/lovable-uploads/bff2ab24-8836-4dfa-836d-bff37b607cfa.png"
                     alt="TD Studios"
-                    className="h-32 w-auto"
+                    className="h-20 sm:h-24 md:h-32 w-auto"
                   />
-                  <nav className="flex space-x-6 text-white/80 text-sm">
+
+                  {/* Desktop Navigation */}
+                  <nav className="hidden md:flex space-x-6 text-white/80 text-sm">
                     <a href="/" className="hover:text-white transition-colors">Home</a>
                     <a href="/shop" className="hover:text-white transition-colors">Shop All</a>
                     <a href="/mylars" className="hover:text-white transition-colors font-semibold">Mylar Bags</a>
@@ -174,8 +176,66 @@ const MylarCustomerApp = () => {
                     <a href="#" className="hover:text-white transition-colors">Accessories</a>
                   </nav>
                 </div>
-                <div></div>
+
+                <div className="w-16"></div> {/* Spacer for balance */}
               </div>
+
+              {/* Mobile Navigation Menu */}
+              {isMenuOpen && (
+                <div className="md:hidden mt-4 pb-4 border-t border-white/10">
+                  <nav className="flex flex-col space-y-3 pt-4">
+                    <a
+                      href="/"
+                      className="text-white/80 hover:text-white transition-colors px-2 py-2 rounded hover:bg-white/10"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Home
+                    </a>
+                    <a
+                      href="/shop"
+                      className="text-white/80 hover:text-white transition-colors px-2 py-2 rounded hover:bg-white/10"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Shop All
+                    </a>
+                    <a
+                      href="/mylars"
+                      className="text-white hover:text-white transition-colors px-2 py-2 rounded hover:bg-white/10 font-semibold"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Mylar Bags
+                    </a>
+                    <a
+                      href="#"
+                      className="text-white/80 hover:text-white transition-colors px-2 py-2 rounded hover:bg-white/10"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      T-shirts
+                    </a>
+                    <a
+                      href="#"
+                      className="text-white/80 hover:text-white transition-colors px-2 py-2 rounded hover:bg-white/10"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Outerwear
+                    </a>
+                    <a
+                      href="#"
+                      className="text-white/80 hover:text-white transition-colors px-2 py-2 rounded hover:bg-white/10"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Hats
+                    </a>
+                    <a
+                      href="#"
+                      className="text-white/80 hover:text-white transition-colors px-2 py-2 rounded hover:bg-white/10"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Accessories
+                    </a>
+                  </nav>
+                </div>
+              )}
             </div>
           </header>
 
@@ -292,34 +352,33 @@ const MylarCustomerApp = () => {
   }
 
   return (
-    <div className="min-h-screen" style={{
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 25%, #2196f3 50%, #21cbf3 75%, #4fa8f7 100%), radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 0%, transparent 70%)',
-      backgroundSize: '400% 400%, 100% 100%',
-      animation: 'ocean-wave 15s ease-in-out infinite'
-    }}>
-      <style jsx>{`
-        @keyframes ocean-wave {
-          0%, 100% {
-            background-position: 0% 50%, 50% 50%;
-          }
-          50% {
-            background-position: 100% 50%, 50% 50%;
-          }
-        }
-      `}</style>
+    <div className="min-h-screen bg-black">
       <div className="min-h-screen bg-black/40 backdrop-blur-sm">
         {/* Header */}
         <header className="bg-black/80 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
           <div className="container mx-auto px-4 py-4">
-            <div className="flex items-start justify-between">
-              <div></div>
-              <div className="flex flex-col items-center space-y-4">
+            <div className="flex items-center justify-between">
+              {/* Hamburger Menu Button */}
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="text-white hover:bg-white/10 md:hidden"
+              >
+                {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              </Button>
+              <div className="md:hidden"></div> {/* Spacer for mobile */}
+
+              {/* Centered Logo */}
+              <div className="flex flex-col items-center space-y-2 flex-1 md:flex-none">
                 <img
                   src="/lovable-uploads/bff2ab24-8836-4dfa-836d-bff37b607cfa.png"
                   alt="TD Studios"
-                  className="h-32 w-auto"
+                  className="h-20 sm:h-24 md:h-32 w-auto"
                 />
-                <nav className="flex space-x-6 text-white/80 text-sm">
+
+                {/* Desktop Navigation */}
+                <nav className="hidden md:flex space-x-6 text-white/80 text-sm">
                   <a href="/" className="hover:text-white transition-colors">Home</a>
                   <a href="/shop" className="hover:text-white transition-colors">Shop All</a>
                   <a href="/mylars" className="hover:text-white transition-colors font-semibold">Mylar Bags</a>
@@ -329,8 +388,66 @@ const MylarCustomerApp = () => {
                   <a href="#" className="hover:text-white transition-colors">Accessories</a>
                 </nav>
               </div>
-              <div></div>
+
+              <div className="hidden md:block"></div> {/* Spacer for desktop */}
             </div>
+
+            {/* Mobile Navigation Menu */}
+            {isMenuOpen && (
+              <div className="md:hidden mt-4 pb-4 border-t border-white/10">
+                <nav className="flex flex-col space-y-3 pt-4">
+                  <a
+                    href="/"
+                    className="text-white/80 hover:text-white transition-colors px-2 py-2 rounded hover:bg-white/10"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Home
+                  </a>
+                  <a
+                    href="/shop"
+                    className="text-white/80 hover:text-white transition-colors px-2 py-2 rounded hover:bg-white/10"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Shop All
+                  </a>
+                  <a
+                    href="/mylars"
+                    className="text-white hover:text-white transition-colors px-2 py-2 rounded hover:bg-white/10 font-semibold"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Mylar Bags
+                  </a>
+                  <a
+                    href="#"
+                    className="text-white/80 hover:text-white transition-colors px-2 py-2 rounded hover:bg-white/10"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    T-shirts
+                  </a>
+                  <a
+                    href="#"
+                    className="text-white/80 hover:text-white transition-colors px-2 py-2 rounded hover:bg-white/10"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Outerwear
+                  </a>
+                  <a
+                    href="#"
+                    className="text-white/80 hover:text-white transition-colors px-2 py-2 rounded hover:bg-white/10"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Hats
+                  </a>
+                  <a
+                    href="#"
+                    className="text-white/80 hover:text-white transition-colors px-2 py-2 rounded hover:bg-white/10"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Accessories
+                  </a>
+                </nav>
+              </div>
+            )}
           </div>
         </header>
 

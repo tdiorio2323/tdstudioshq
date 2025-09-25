@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Minus, ShoppingCart, Star, Heart, Filter, Search, User, MapPin, Clock } from 'lucide-react';
+import { Plus, Minus, ShoppingCart, Star, Heart, Filter, Search, User, MapPin, Clock, Menu, X } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -25,6 +25,7 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchTerm, setSearchTerm] = useState('');
   const [cartTotal, setCartTotal] = useState(0);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const filteredProducts = useMemo(() => {
     const base = PRODUCTS.filter(p => p.active !== false);
@@ -78,17 +79,29 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
         {/* Header */}
         <header className="bg-black/80 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
           <div className="container mx-auto px-4 py-4">
-            {/* Header row with logo and cart */}
-            <div className="flex items-start justify-between">
-              <div></div> {/* Empty div for spacing */}
-              <div className="flex flex-col items-center space-y-4">
+            {/* Header row with hamburger, logo and cart */}
+            <div className="flex items-center justify-between">
+              {/* Hamburger Menu Button */}
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="text-white hover:bg-white/10 md:hidden"
+              >
+                {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              </Button>
+              <div className="md:hidden"></div> {/* Spacer for mobile */}
+
+              {/* Centered Logo */}
+              <div className="flex flex-col items-center space-y-2 flex-1 md:flex-none">
                 <img
                   src="/lovable-uploads/bff2ab24-8836-4dfa-836d-bff37b607cfa.png"
                   alt="TD Studios"
-                  className="h-32 w-auto"
+                  className="h-20 sm:h-24 md:h-32 w-auto"
                 />
-                {/* Navigation Menu */}
-                <nav className="flex space-x-6 text-white/80 text-sm">
+
+                {/* Desktop Navigation */}
+                <nav className="hidden md:flex space-x-6 text-white/80 text-sm">
                   <a href="/" className="hover:text-white transition-colors">Home</a>
                   <a href="/shop" className="hover:text-white transition-colors">Shop All</a>
                   <a href="/mylars" className="hover:text-white transition-colors">Mylar Bags</a>
@@ -98,6 +111,7 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
                   <a href="#" className="hover:text-white transition-colors">Accessories</a>
                 </nav>
               </div>
+              {/* Cart Button */}
               <Button
                 variant="outline"
                 size="sm"
@@ -115,15 +129,72 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
                   }
                 }}
               >
-                <ShoppingCart className="h-4 w-4 mr-2" />
-                Cart ({cart.length})
+                <ShoppingCart className="h-4 w-4 mr-1 sm:mr-2" />
+                <span className="hidden sm:inline">Cart</span> ({cart.length})
                   {cart.length > 0 && (
-                    <Badge className="ml-2 bg-primary text-primary-foreground">
+                    <Badge className="ml-1 sm:ml-2 bg-primary text-primary-foreground text-xs">
                       ${cartTotal.toFixed(2)}
                     </Badge>
                   )}
               </Button>
             </div>
+
+            {/* Mobile Navigation Menu */}
+            {isMenuOpen && (
+              <div className="md:hidden mt-4 pb-4 border-t border-white/10">
+                <nav className="flex flex-col space-y-3 pt-4">
+                  <a
+                    href="/"
+                    className="text-white/80 hover:text-white transition-colors px-2 py-2 rounded hover:bg-white/10"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Home
+                  </a>
+                  <a
+                    href="/shop"
+                    className="text-white/80 hover:text-white transition-colors px-2 py-2 rounded hover:bg-white/10"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Shop All
+                  </a>
+                  <a
+                    href="/mylars"
+                    className="text-white/80 hover:text-white transition-colors px-2 py-2 rounded hover:bg-white/10"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Mylar Bags
+                  </a>
+                  <a
+                    href="#"
+                    className="text-white/80 hover:text-white transition-colors px-2 py-2 rounded hover:bg-white/10"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    T-shirts
+                  </a>
+                  <a
+                    href="#"
+                    className="text-white/80 hover:text-white transition-colors px-2 py-2 rounded hover:bg-white/10"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Outerwear
+                  </a>
+                  <a
+                    href="#"
+                    className="text-white/80 hover:text-white transition-colors px-2 py-2 rounded hover:bg-white/10"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Hats
+                  </a>
+                  <a
+                    href="#"
+                    className="text-white/80 hover:text-white transition-colors px-2 py-2 rounded hover:bg-white/10"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Accessories
+                  </a>
+                </nav>
+              </div>
+            )}
           </div>
         </header>
 
