@@ -71,9 +71,8 @@ const MylarCustomerApp = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          subject: `New Mylar Bag Order - ${product.name}`,
-          message: `
-🛍️ NEW MYLAR BAG ORDER
+          _subject: `New Mylar Order - ${product.name} ($${currentPrice})`,
+          message: `🛍️ NEW MYLAR BAG ORDER
 
 📦 Product: ${product.name}
 💰 Price: $${currentPrice}
@@ -92,11 +91,14 @@ ${designNotes}
 💳 Payment Method: CashApp ($tdiorio23)
 
 ---
-Customer will pay $${currentPrice} via CashApp
-          `,
-          email: 'tyler@tdstudiosny.com', // Your email here
-          _replyto: contactName,
-          _subject: `New Mylar Order - ${product.name} ($${currentPrice})`
+Customer will pay $${currentPrice} via CashApp`,
+          contactName: contactName,
+          productName: product.name,
+          price: currentPrice,
+          quantity: product.hasQuantityOptions ? selectedQuantity : 1,
+          designNotes: designNotes,
+          socialMedia: socialMedia || 'Not provided',
+          files: orderSummary.fileNames
         })
       });
 
