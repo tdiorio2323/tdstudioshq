@@ -5,24 +5,8 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 const Auth = () => {
   return (
     <div
-      className="min-h-screen flex items-center justify-center p-4 relative"
-      style={{
-        backgroundImage: `url('/lovable-uploads/67d6d2cf-3ae5-48f0-8b30-8cbded3815b7.png')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
-      }}
+      className="min-h-screen flex items-center justify-center p-4 relative bg-cover bg-center bg-no-repeat md:bg-[url('/lovable-uploads/67d6d2cf-3ae5-48f0-8b30-8cbded3815b7.png')] bg-[url('/times%20square')]"
     >
-      {/* Mobile Times Square Background */}
-      <div
-        className="md:hidden absolute inset-0"
-        style={{
-          backgroundImage: `url('/times square')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat'
-        }}
-      />
       {/* Dark overlay for better contrast */}
       <div className="absolute inset-0 bg-black/40" />
 
