@@ -13,7 +13,9 @@ const Auth = () => {
       {/* Dark overlay for better contrast */}
       <div className="absolute inset-0 bg-black/40" />
 
-      <Card className="w-full max-w-md bg-black/5 backdrop-blur-[2px] border-white/10 shadow-2xl relative z-10">
+      <Card className="w-full max-w-md bg-black/5 backdrop-blur-[2px] border-white/10 shadow-2xl drop-shadow-2xl relative z-10" style={{
+        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.1)'
+      }}>
         <CardHeader className="text-center space-y-6">
           <div className="flex items-center justify-center">
             <img
@@ -47,7 +49,7 @@ const Auth = () => {
             <Button
               variant="platinum"
               className="w-full h-12 text-base font-semibold rounded-xl"
-              onClick={undefined}
+              onClick={() => navigate('/mylars')}
             >
               DESIGNS
             </Button>
@@ -61,7 +63,7 @@ const Auth = () => {
             <Button
               variant="platinum"
               className="w-full h-12 text-base font-semibold rounded-xl"
-              onClick={undefined}
+              onClick={() => window.open('https://wa.me/13474859935', '_blank', 'noopener,noreferrer')}
             >
               CONTACT
             </Button>
@@ -71,9 +73,29 @@ const Auth = () => {
             <Button
               variant="ghost"
               type="button"
-              className="glossy-instagram w-full h-14 rounded-xl flex items-center justify-center"
+              className="glossy-instagram w-full h-14 rounded-xl flex items-center justify-center overflow-hidden relative"
+              style={{
+                background: 'linear-gradient(135deg, rgba(131, 58, 180, 0.9) 0%, rgba(253, 29, 29, 0.9) 50%, rgba(252, 176, 64, 0.9) 100%)',
+                boxShadow: '0 8px 32px 0 rgba(131, 58, 180, 0.37), inset 0 2px 4px 0 rgba(255, 255, 255, 0.3), inset 0 -2px 4px 0 rgba(0, 0, 0, 0.2)',
+                position: 'relative'
+              }}
               onClick={() => window.open('https://instagram.com/tdstudiosco', '_blank', 'noopener,noreferrer')}
             >
+              <div
+                className="absolute inset-0 opacity-30"
+                style={{
+                  background: 'linear-gradient(135deg, transparent 30%, rgba(255, 255, 255, 0.6) 50%, transparent 70%)',
+                  transform: 'translateX(-100%)',
+                  animation: 'shine 3s infinite'
+                }}
+              />
+              <style jsx>{`
+                @keyframes shine {
+                  0% { transform: translateX(-100%); }
+                  50% { transform: translateX(100%); }
+                  100% { transform: translateX(100%); }
+                }
+              `}</style>
               FOLLOW @TDSTUDIOSCO
             </Button>
           </div>

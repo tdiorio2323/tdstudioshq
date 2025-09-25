@@ -13,10 +13,12 @@ This is a React-based multi-tenant cannabis menu application built with TypeScri
 
 ### Development
 ```bash
-npm run dev          # Start development server (localhost:5173)
+npm run dev          # Start development server (localhost:8080)
 npm run build        # Production build
 npm run preview      # Preview production build
 npm run sitemap      # Generate sitemap.xml
+npx eslint .         # Run ESLint for code linting
+npx tsc --noEmit     # Run TypeScript type checking
 ```
 
 ### Database
@@ -82,7 +84,7 @@ supabase db push     # Push migrations to remote
 
 ## Development Notes
 
-- **Port**: Development server runs on port 5173
+- **Port**: Development server runs on port 8080
 - **Alias**: `@/` maps to `src/` directory
 - **Hot Reload**: Vite with React SWC for fast development
 - **Type Safety**: Full TypeScript coverage with generated Supabase types
