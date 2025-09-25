@@ -13,11 +13,10 @@ This is a React-based multi-tenant cannabis menu application built with TypeScri
 
 ### Development
 ```bash
-npm run dev          # Start development server (localhost:8080)
+npm run dev          # Start development server (localhost:5173)
 npm run build        # Production build
-npm run build:dev    # Development build
 npm run preview      # Preview production build
-npm run lint         # Run ESLint
+npm run sitemap      # Generate sitemap.xml
 ```
 
 ### Database
@@ -83,11 +82,24 @@ supabase db push     # Push migrations to remote
 
 ## Development Notes
 
-- **Port**: Development server runs on port 8080
+- **Port**: Development server runs on port 5173
 - **Alias**: `@/` maps to `src/` directory
 - **Hot Reload**: Vite with React SWC for fast development
 - **Type Safety**: Full TypeScript coverage with generated Supabase types
-- **Database**: Supabase project ID `crpalakzdzvtgvljlutd`
+- **SEO**: Sitemap generation via `scripts/generate-sitemap.mjs`
+
+## Deployment
+
+### Production Domains
+- **Primary**: `tdstudiosny.com` (auto-deploys from main branch)
+- **Secondary**: `tdstudiosdigital.com`
+- **Optional**: `tdstudioshq.com`
+
+### Workflow
+1. Generate sitemap: `node scripts/generate-sitemap.mjs`
+2. Build: `npm run build`
+3. Push to `main` branch on `github.com/tdiorio2323/TD-STUDIOS-LOVABLE-SITE`
+4. Vercel auto-deploys to production
 
 ## Build Configuration
 

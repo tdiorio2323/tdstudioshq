@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://td-studios-lovable-site.vercel.app/sitemap.xml
+Sitemap: https://tdstudioshq.com/sitemap.xml

@@ -1,33 +1,14 @@
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
-import SuperAdminDashboard from "@/components/SuperAdminDashboard";
+import React from "react";
 
 const Admin = () => {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    // Check if user is authenticated and has admin role
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!session) {
-        navigate('/auth');
-        return;
-      }
-
-      supabase
-        .from('user_roles')
-        .select('role')
-        .eq('user_id', session.user.id)
-        .maybeSingle()
-        .then(({ data }) => {
-          if (!data || data.role !== 'admin') {
-            navigate('/shop');
-          }
-        });
-    });
-  }, [navigate]);
-
-  return <SuperAdminDashboard />;
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-background">
+      <div className="text-center">
+        <h1 className="text-4xl font-bold mb-4">Admin Dashboard</h1>
+        <p className="text-muted-foreground">Coming Soon</p>
+      </div>
+    </div>
+  );
 };
 
 export default Admin;

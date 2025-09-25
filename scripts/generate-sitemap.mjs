@@ -1,5 +1,5 @@
 import { writeFileSync } from "node:fs";
-const base = "https://td-studios-lovable-site.vercel.app";
+const base = "https://tdstudioshq.com";
 const urls = [`${base}/`];
 const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

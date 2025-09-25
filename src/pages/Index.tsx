@@ -1,63 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
+import React from "react";
 
 const Index = () => {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    // Check current session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) {
-        // Get user role from users table
-        supabase
-          .from('user_roles')
-          .select('role')
-          .eq('user_id', session.user.id)
-          .maybeSingle()
-          .then(({ data }) => {
-            if (data) {
-              if (data.role === 'admin') {
-                navigate('/admin');
-              } else if (data.role === 'brand') {
-                navigate('/brand');
-              } else {
-                navigate('/shop');
-              }
-            }
-          });
-      } else {
-        // No session, redirect to auth
-        navigate('/auth');
-      }
-    });
-
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === 'SIGNED_IN' && session) {
-        supabase
-          .from('user_roles')
-          .select('role')
-          .eq('user_id', session.user.id)
-          .maybeSingle()
-          .then(({ data }) => {
-            if (data) {
-              if (data.role === 'admin') {
-                navigate('/admin');
-              } else if (data.role === 'brand') {
-                navigate('/brand');
-              } else {
-                navigate('/shop');
-              }
-            }
-          });
-      } else if (event === 'SIGNED_OUT') {
-        navigate('/auth');
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, [navigate]);
+  // This component is no longer used since Auth is now the home route
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background">
