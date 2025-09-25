@@ -149,6 +149,18 @@ All colors MUST be HSL.
   }
 }
 
+@keyframes shine {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
 @layer base {
   * {
     @apply border-border;
@@ -156,7 +168,13 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+  }
 }
+
+@layer utilities {
+  .animate-shine {
+    animation: shine 3s infinite;
+  }
 }
 
 footer{padding-block:18px}

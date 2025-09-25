@@ -82,20 +82,11 @@ const Auth = () => {
               onClick={() => window.open('https://instagram.com/tdstudiosco', '_blank', 'noopener,noreferrer')}
             >
               <div
-                className="absolute inset-0 opacity-30"
+                className="absolute inset-0 opacity-30 animate-shine"
                 style={{
-                  background: 'linear-gradient(135deg, transparent 30%, rgba(255, 255, 255, 0.6) 50%, transparent 70%)',
-                  transform: 'translateX(-100%)',
-                  animation: 'shine 3s infinite'
+                  background: 'linear-gradient(135deg, transparent 30%, rgba(255, 255, 255, 0.6) 50%, transparent 70%)'
                 }}
               />
-              <style jsx>{`
-                @keyframes shine {
-                  0% { transform: translateX(-100%); }
-                  50% { transform: translateX(100%); }
-                  100% { transform: translateX(100%); }
-                }
-              `}</style>
               FOLLOW @TDSTUDIOSCO
             </Button>
           </div>

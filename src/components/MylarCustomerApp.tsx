@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ExternalLink, Menu, X } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -12,15 +12,21 @@ import { toast } from 'sonner';
 // Ocean-themed background for mylar shop
 import { MYLAR_PRODUCTS, MYLAR_CATEGORIES, MylarProduct } from '@/data/mylarProducts';
 
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/mnngnbqy";
+const CASH_TAG = "$tdiorio23";
+
 const MylarCustomerApp = () => {
   const navigate = useNavigate();
+  const { slug } = useParams<{ slug?: string }>();
   const [selectedProduct, setSelectedProduct] = useState<MylarProduct | null>(null);
   const [selectedQuantity, setSelectedQuantity] = useState<number>(4);
-  const [contactName, setContactName] = useState('');
-  const [socialMedia, setSocialMedia] = useState('');
-  const [designNotes, setDesignNotes] = useState('');
+  const [contactName, setContactName] = useState("");
+  const [socialMedia, setSocialMedia] = useState("");
+  const [designNotes, setDesignNotes] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [uploadedFiles, setUploadedFiles] = useState<FileList | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   const filteredProducts = useMemo(() => {
     return MYLAR_PRODUCTS.filter(p => p.active !== false);
@@ -34,88 +40,72 @@ const MylarCustomerApp = () => {
     return product.basePrice;
   };
 
+  useEffect(() => {
+    if (!slug) {
+      setSelectedProduct(null);
+      return;
+    }
+
+    const matchedProduct = MYLAR_PRODUCTS.find((item) => item.slug === slug);
+
+    if (matchedProduct) {
+      setSelectedProduct(matchedProduct);
+    } else {
+      navigate('/mylars', { replace: true });
+    }
+  }, [slug, navigate]);
+
   const handleCashAppCheckout = async (product: MylarProduct) => {
-    const currentPrice = getCurrentPrice(product);
+    if (submitting) return;
+    setSubmitting(true);
 
-    if (!contactName.trim()) {
-      toast.error('Please enter your contact name');
+    const price = getCurrentPrice(product);
+    if (!contactName.trim() || !designNotes.trim()) {
+      toast.error("Enter your name and design notes.");
+      setSubmitting(false);
       return;
     }
 
-    if (!designNotes.trim()) {
-      toast.error('Please provide design notes');
-      return;
-    }
+    const fileNames = uploadedFiles ? Array.from(uploadedFiles).map((file) => file.name) : [];
 
-    // Create order summary
-    const orderSummary = {
-      product: product.name,
-      quantity: product.hasQuantityOptions ? selectedQuantity : 1,
-      price: currentPrice,
+    const filesLabel = fileNames.length ? fileNames.join(", ") : "None";
+
+    const payload = {
+      _subject: `New Mylar Order — ${product.name} ($${price})`,
+      message: `🛍️ NEW MYLAR BAG ORDER\nProduct: ${product.name}\nPrice: $${price}\nQty: ${product.hasQuantityOptions ? selectedQuantity : 1}\nName: ${contactName}\nPhone: ${phoneNumber || "N/A"}\nSocial: ${socialMedia || "N/A"}\nNotes: ${designNotes}\nFiles: ${filesLabel}\n⏰ ${new Date().toLocaleString()}\n💳 Cash App: ${CASH_TAG}`,
       contactName,
-      socialMedia,
+      productName: product.name,
+      price,
+      quantity: product.hasQuantityOptions ? selectedQuantity : 1,
       designNotes,
-      hasFiles: uploadedFiles && uploadedFiles.length > 0,
-      timestamp: new Date().toISOString(),
-      fileNames: uploadedFiles ? Array.from(uploadedFiles).map(f => f.name).join(', ') : 'None'
+      socialMedia: socialMedia || "N/A",
+      phoneNumber: phoneNumber || "N/A",
+      files: filesLabel,
+      // optional if you add a customer email field:
+      // _replyto: customerEmail,
     };
 
-    // Store order details for confirmation
-    sessionStorage.setItem('mylarOrder', JSON.stringify(orderSummary));
+    sessionStorage.setItem("mylarOrder", JSON.stringify(payload));
 
     try {
-      // Submit order to your email
-      const response = await fetch('https://formspree.io/f/mnngnbqy', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          _subject: `New Mylar Order - ${product.name} ($${currentPrice})`,
-          message: `🛍️ NEW MYLAR BAG ORDER
-
-📦 Product: ${product.name}
-💰 Price: $${currentPrice}
-🔢 Quantity: ${product.hasQuantityOptions ? selectedQuantity : 1} design${product.hasQuantityOptions && selectedQuantity > 1 ? 's' : ''}
-
-👤 Customer Information:
-• Name: ${contactName}
-• Social Media: ${socialMedia || 'Not provided'}
-
-📝 Design Notes:
-${designNotes}
-
-📎 Files: ${orderSummary.fileNames}
-
-⏰ Order Time: ${new Date().toLocaleString()}
-💳 Payment Method: CashApp ($tdiorio23)
-
----
-Customer will pay $${currentPrice} via CashApp`,
-          contactName: contactName,
-          productName: product.name,
-          price: currentPrice,
-          quantity: product.hasQuantityOptions ? selectedQuantity : 1,
-          designNotes: designNotes,
-          socialMedia: socialMedia || 'Not provided',
-          files: orderSummary.fileNames
-        })
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: { Accept: "application/json", "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
       });
-
-      if (response.ok) {
-        toast.success(`Order submitted! Opening CashApp - please pay $${currentPrice}`, {
-          duration: 8000,
-        });
-
-        // Open CashApp profile
-        const cashAppUrl = `https://cash.app/$tdiorio23`;
-        window.open(cashAppUrl, '_blank');
-      } else {
-        throw new Error('Failed to submit order');
+      const responseBody = await response.text();
+      console.log("Formspree:", response.status, responseBody);
+      if (!response.ok) {
+        throw new Error(`Formspree ${response.status}: ${responseBody}`);
       }
-    } catch (error) {
-      toast.error('Failed to submit order. Please try again or contact support.');
-      console.error('Order submission error:', error);
+
+      toast.success(`Order sent. Opening Cash App for $${price}.`, { duration: 6000 });
+    } catch (e) {
+      console.error("Order submit failed:", e);
+      toast.error("We couldn’t submit your details. We’ll still open Cash App.", { duration: 6000 });
+    } finally {
+      window.open(`https://cash.app/${CASH_TAG}`, "_blank", "noopener,noreferrer");
+      setSubmitting(false);
     }
   };
 
@@ -169,7 +159,10 @@ Customer will pay $${currentPrice} via CashApp`,
           </div>
 
           <Button
-            onClick={() => setSelectedProduct(product)}
+            onClick={() => {
+              setSelectedProduct(product);
+              navigate(`/mylars/${product.slug}`);
+            }}
             className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
           >
             Customize Order
@@ -180,6 +173,7 @@ Customer will pay $${currentPrice} via CashApp`,
   );
 
   if (selectedProduct) {
+    const product = selectedProduct;
     return (
       <div className="min-h-screen bg-black">
         <div className="min-h-screen bg-black/40 backdrop-blur-sm">
@@ -189,7 +183,10 @@ Customer will pay $${currentPrice} via CashApp`,
               {/* Back Button */}
               <Button
                 variant="outline"
-                onClick={() => setSelectedProduct(null)}
+                onClick={() => {
+                  setSelectedProduct(null);
+                  navigate('/mylars');
+                }}
                 className="bg-white/10 border-white/20 text-white hover:bg-white/20 absolute left-4 top-1/2 transform -translate-y-1/2 z-10"
               >
                 ← <span className="hidden sm:inline ml-1">Back</span>
@@ -291,8 +288,8 @@ Customer will pay $${currentPrice} via CashApp`,
                 {/* Product Image */}
                 <div className="aspect-square bg-white/5 rounded-lg overflow-hidden">
                   <img
-                    src={selectedProduct.image}
-                    alt={selectedProduct.name}
+                    src={product.image}
+                    alt={product.name}
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -300,11 +297,11 @@ Customer will pay $${currentPrice} via CashApp`,
                 {/* Product Form */}
                 <div className="space-y-6">
                   <div>
-                    <h1 className="text-3xl font-bold text-white mb-2">{selectedProduct.name}</h1>
-                    <p className="text-white/70">{selectedProduct.description}</p>
+                  <h1 className="text-3xl font-bold text-white mb-2">{product.name}</h1>
+                  <p className="text-white/70">{product.description}</p>
                   </div>
 
-                  {selectedProduct.hasQuantityOptions && (
+                  {product.hasQuantityOptions && (
                     <div>
                       <Label className="text-white mb-2 block">Number of Designs</Label>
                       <Select value={selectedQuantity.toString()} onValueChange={(value) => setSelectedQuantity(parseInt(value))}>
@@ -312,7 +309,7 @@ Customer will pay $${currentPrice} via CashApp`,
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          {selectedProduct.quantityOptions?.map((option) => (
+                          {product.quantityOptions?.map((option) => (
                             <SelectItem key={option.quantity} value={option.quantity.toString()}>
                               {option.quantity} designs - ${option.price}
                             </SelectItem>
@@ -323,7 +320,7 @@ Customer will pay $${currentPrice} via CashApp`,
                   )}
 
                   <div className="text-3xl font-bold text-white">
-                    Total: ${getCurrentPrice(selectedProduct).toFixed(2)}
+                    Total: ${getCurrentPrice(product).toFixed(2)}
                   </div>
 
                   {/* Customer Info Form */}
@@ -344,6 +341,16 @@ Customer will pay $${currentPrice} via CashApp`,
                         value={socialMedia}
                         onChange={(e) => setSocialMedia(e.target.value)}
                         placeholder="@username or profile link"
+                        className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+                      />
+                    </div>
+
+                    <div>
+                      <Label className="text-white mb-2 block">Phone Number</Label>
+                      <Input
+                        value={phoneNumber}
+                        onChange={(e) => setPhoneNumber(e.target.value)}
+                        placeholder="Best number to reach you"
                         className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
                       />
                     </div>
@@ -377,15 +384,16 @@ Customer will pay $${currentPrice} via CashApp`,
 
                   {/* CashApp Checkout */}
                   <Button
-                    onClick={() => handleCashAppCheckout(selectedProduct)}
+                    disabled={submitting}
+                    onClick={() => handleCashAppCheckout(product)}
                     className="w-full bg-green-600 hover:bg-green-700 text-white py-3 text-lg font-semibold"
                   >
                     <ExternalLink className="h-5 w-5 mr-2" />
-                    Open CashApp Profile ($${getCurrentPrice(selectedProduct)})
+                    Pay with Cash App
                   </Button>
 
                   <p className="text-white/60 text-sm text-center">
-                    Click the button above to open CashApp profile - enter the amount shown and send to $tdiorio23
+                    Click the button above to open CashApp profile - enter the amount shown and send to {CASH_TAG}
                   </p>
                 </div>
               </div>

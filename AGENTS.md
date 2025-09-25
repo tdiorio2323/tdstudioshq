@@ -1,30 +1,19 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
-- `src/pages` defines routed views; wire new routes in `src/App.tsx` to keep navigation consistent.
-- `src/components` houses shared UI built with Radix primitives and Tailwind utilities; colocate feature-specific components under matching subfolders.
-- `src/hooks`, `src/lib`, and `src/integrations` centralize custom logic, helpers, and Supabase or third-party clients; prefer re-using these instead of duplicating requests.
-- Static assets live in `public/` and `src/assets/`; database migrations sit in `supabase/migrations` and should mirror any backend schema change.
+The Vite-powered front end lives in `src/`, with routed pages under `src/pages` and shared UI primitives in `src/components`. Add new views by defining the route component and wiring it through `src/App.tsx`. Feature-specific logic should stay close to its usage: hooks in `src/hooks`, utilities in `src/lib`, and third-party or Supabase clients in `src/integrations`. Public-facing assets belong in `public/`, while reusable graphics and icons sit in `src/assets/`. Database changes must be mirrored in `supabase/migrations` so deployments track schema history.
 
 ## Build, Test, and Development Commands
-- `npm install` – install dependencies (preferred over Bun to stay aligned with `package-lock.json`).
-- `npm run dev` – start the Vite dev server with hot module reload at `http://localhost:5173`.
-- `npm run build` – create a production bundle in `dist/`.
-- `npm run build:dev` – produce a development-targeted build for staging checks.
-- `npm run preview` – serve the bundled app locally.
-- `npm run lint` – run ESLint with the shared TypeScript/React ruleset; ensure a clean run before committing.
+Run `npm install` to sync dependencies with `package-lock.json`. Use `npm run dev` for the local dev server at `http://localhost:5173` and `npm run preview` to smoke-test a built bundle. `npm run build` creates a production-ready output in `dist/`, while `npm run build:dev` targets staging environments. Lint with `npm run lint`; keep runs clean before opening a PR.
 
 ## Coding Style & Naming Conventions
-- Write React components in TypeScript (`.tsx`) with PascalCase filenames (e.g., `ProfileCard.tsx`); hooks use camelCase with a `use` prefix.
-- Favor functional, composable components that rely on Tailwind utility classes; keep CSS overrides in `src/App.css` or feature-specific files.
-- Stick with double quotes and two-space indentation as in existing modules; import local code via the `@/` alias configured in `tsconfig.json`.
+Write components in TypeScript `.tsx` files using PascalCase names (`ProfileCard.tsx`). Custom hooks use camelCase prefixed with `use` (`useCheckoutRedirect`). Follow the repo’s two-space indentation, double quotes, and Tailwind-first styling. Reach for Radix UI primitives already wrapped under `src/components` before introducing new libraries. Import local modules via the `@/` alias to avoid brittle relative paths.
 
 ## Testing Guidelines
-- Automated tests are not yet configured; when adding them, place Vitest or React Testing Library specs alongside source files as `*.test.tsx` and mirror component names.
-- Until automation lands, perform manual smoke tests by running `npm run dev`, navigating core routes (`/`, `/auth`, `/checkout`), and verifying console cleanliness.
-- Document significant manual test steps in the PR description to aid reviewers.
+Automated tests are not yet configured. When adding coverage, colocate Vitest or React Testing Library specs beside the source as `ComponentName.test.tsx`. Until then, run `npm run dev`, exercise primary flows (`/`, `/auth`, `/checkout`), and confirm the console stays quiet. Capture any manual QA steps in the PR description for traceability.
 
 ## Commit & Pull Request Guidelines
-- Follow the existing history’s short, sentence-case imperatives (e.g., `Add CTA buttons to Auth page`); include scope when touching multiple areas.
-- Run `npm run lint` and relevant build commands before pushing; attach screenshots or GIFs for UI-facing changes.
-- Reference linked issues or Supabase migration IDs in the description, and note any configuration updates (env keys, migrations) required for deployment.
+Keep commits short, sentence-case imperatives (`Update checkout loader`). Document the scope in PR descriptions, link issues or Supabase migration IDs, and list required environment changes. Include screenshots or GIFs for UI adjustments and confirm `npm run lint` (and builds when applicable) before requesting review.
+
+## Security & Configuration Tips
+Store Supabase keys and other secrets in a local `.env` file and mirror required variables in shared docs. Never commit credentials or generated `.env` files. When touching migrations, note the run order and any manual backfill steps in the PR so others can reproduce the rollout.

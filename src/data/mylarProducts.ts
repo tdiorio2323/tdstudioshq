@@ -1,5 +1,6 @@
 export type MylarProduct = {
   id: string;
+  slug: string;
   name: string;
   description?: string;
   basePrice: number;
@@ -16,6 +17,7 @@ export type MylarProduct = {
 export const MYLAR_PRODUCTS: MylarProduct[] = [
   {
     id: "mylar-1-design",
+    slug: "1design",
     name: "1 Design",
     description: "Custom mylar bag design service for 1 unique design",
     basePrice: 40,
@@ -26,6 +28,7 @@ export const MYLAR_PRODUCTS: MylarProduct[] = [
   },
   {
     id: "mylar-2-designs",
+    slug: "2designs",
     name: "2 Designs",
     description: "Custom mylar bag design service for 2 unique designs",
     basePrice: 60,
@@ -36,6 +39,7 @@ export const MYLAR_PRODUCTS: MylarProduct[] = [
   },
   {
     id: "mylar-3-designs",
+    slug: "3designs",
     name: "3 Designs",
     description: "Custom mylar bag design service for 3 unique designs",
     basePrice: 85,
@@ -46,6 +50,7 @@ export const MYLAR_PRODUCTS: MylarProduct[] = [
   },
   {
     id: "mylar-4plus-designs",
+    slug: "4designs",
     name: "4+ Designs",
     description: "Custom mylar bag design service for 4 or more unique designs",
     basePrice: 100,
