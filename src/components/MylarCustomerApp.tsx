@@ -138,24 +138,14 @@ const MylarCustomerApp = () => {
           <header className="bg-black/80 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
             <div className="container mx-auto px-4 py-4">
               <div className="flex items-center justify-between">
-                {/* Back Button / Hamburger Menu Button */}
-                <div className="flex items-center space-x-2">
-                  <Button
-                    variant="outline"
-                    onClick={() => setSelectedProduct(null)}
-                    className="bg-white/10 border-white/20 text-white hover:bg-white/20"
-                  >
-                    ← <span className="hidden sm:inline ml-1">Back</span>
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => setIsMenuOpen(!isMenuOpen)}
-                    className="text-white hover:bg-white/10 md:hidden"
-                  >
-                    {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-                  </Button>
-                </div>
+                {/* Back Button */}
+                <Button
+                  variant="outline"
+                  onClick={() => setSelectedProduct(null)}
+                  className="bg-white/10 border-white/20 text-white hover:bg-white/20"
+                >
+                  ← <span className="hidden sm:inline ml-1">Back</span>
+                </Button>
 
                 {/* Centered Logo */}
                 <div className="flex flex-col items-center space-y-2 flex-1">
@@ -177,7 +167,16 @@ const MylarCustomerApp = () => {
                   </nav>
                 </div>
 
-                <div className="w-16"></div> {/* Spacer for balance */}
+                {/* Hamburger Menu Button */}
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setIsMenuOpen(!isMenuOpen)}
+                  className="text-white hover:bg-white/10 md:hidden"
+                >
+                  {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                </Button>
+                <div className="hidden md:block w-16"></div> {/* Spacer for balance on desktop */}
               </div>
 
               {/* Mobile Navigation Menu */}
@@ -358,16 +357,8 @@ const MylarCustomerApp = () => {
         <header className="bg-black/80 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
           <div className="container mx-auto px-4 py-4">
             <div className="flex items-center justify-between">
-              {/* Hamburger Menu Button */}
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="text-white hover:bg-white/10 md:hidden"
-              >
-                {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-              </Button>
-              <div className="md:hidden"></div> {/* Spacer for mobile */}
+              {/* Empty spacer for mobile balance */}
+              <div className="md:hidden w-10"></div>
 
               {/* Centered Logo */}
               <div className="flex flex-col items-center space-y-2 flex-1 md:flex-none">
@@ -389,7 +380,16 @@ const MylarCustomerApp = () => {
                 </nav>
               </div>
 
-              <div className="hidden md:block"></div> {/* Spacer for desktop */}
+              {/* Hamburger Menu Button */}
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="text-white hover:bg-white/10 md:hidden"
+              >
+                {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              </Button>
+              <div className="hidden md:block w-10"></div> {/* Spacer for desktop */}
             </div>
 
             {/* Mobile Navigation Menu */}

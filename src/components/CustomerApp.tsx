@@ -79,18 +79,10 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
         {/* Header */}
         <header className="bg-black/80 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
           <div className="container mx-auto px-4 py-4">
-            {/* Header row with hamburger, logo and cart */}
+            {/* Header row with logo, cart and hamburger */}
             <div className="flex items-center justify-between">
-              {/* Hamburger Menu Button */}
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="text-white hover:bg-white/10 md:hidden"
-              >
-                {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-              </Button>
-              <div className="md:hidden"></div> {/* Spacer for mobile */}
+              {/* Empty spacer for mobile balance */}
+              <div className="md:hidden w-10"></div>
 
               {/* Centered Logo */}
               <div className="flex flex-col items-center space-y-2 flex-1 md:flex-none">
@@ -111,32 +103,45 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
                   <a href="#" className="hover:text-white transition-colors">Accessories</a>
                 </nav>
               </div>
-              {/* Cart Button */}
-              <Button
-                variant="outline"
-                size="sm"
-                className="relative bg-white/10 border-white/20 text-white hover:bg-white/20"
-                onClick={() => {
-                  if (cart.length > 0 && onCheckout) {
-                    onCheckout(cart, cartTotal);
-                  } else if (cart.length > 0) {
-                    // Store cart data and navigate to checkout
-                    sessionStorage.setItem('cartItems', JSON.stringify(cart));
-                    sessionStorage.setItem('cartTotal', cartTotal.toString());
-                    navigate('/checkout');
-                  } else {
-                    toast.info('Add items to cart first!');
-                  }
-                }}
-              >
-                <ShoppingCart className="h-4 w-4 mr-1 sm:mr-2" />
-                <span className="hidden sm:inline">Cart</span> ({cart.length})
-                  {cart.length > 0 && (
-                    <Badge className="ml-1 sm:ml-2 bg-primary text-primary-foreground text-xs">
-                      ${cartTotal.toFixed(2)}
-                    </Badge>
-                  )}
-              </Button>
+              {/* Cart Button and Hamburger Menu */}
+              <div className="flex items-center space-x-2">
+                {/* Cart Button */}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="relative bg-white/10 border-white/20 text-white hover:bg-white/20"
+                  onClick={() => {
+                    if (cart.length > 0 && onCheckout) {
+                      onCheckout(cart, cartTotal);
+                    } else if (cart.length > 0) {
+                      // Store cart data and navigate to checkout
+                      sessionStorage.setItem('cartItems', JSON.stringify(cart));
+                      sessionStorage.setItem('cartTotal', cartTotal.toString());
+                      navigate('/checkout');
+                    } else {
+                      toast.info('Add items to cart first!');
+                    }
+                  }}
+                >
+                  <ShoppingCart className="h-4 w-4 mr-1 sm:mr-2" />
+                  <span className="hidden sm:inline">Cart</span> ({cart.length})
+                    {cart.length > 0 && (
+                      <Badge className="ml-1 sm:ml-2 bg-primary text-primary-foreground text-xs">
+                        ${cartTotal.toFixed(2)}
+                      </Badge>
+                    )}
+                </Button>
+
+                {/* Hamburger Menu Button */}
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setIsMenuOpen(!isMenuOpen)}
+                  className="text-white hover:bg-white/10 md:hidden"
+                >
+                  {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                </Button>
+              </div>
             </div>
 
             {/* Mobile Navigation Menu */}
