@@ -1,8 +1,11 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 const Auth = () => {
+  const navigate = useNavigate();
+
   return (
     <div
       className="min-h-screen flex items-center justify-center p-4 relative bg-cover bg-center bg-no-repeat md:bg-[url('/lovable-uploads/67d6d2cf-3ae5-48f0-8b30-8cbded3815b7.png')] bg-[url('/times%20square')]"
@@ -51,7 +54,7 @@ const Auth = () => {
             <Button
               variant="platinum"
               className="w-full h-12 text-base font-semibold rounded-xl"
-              onClick={() => window.location.href = '/shop'}
+              onClick={() => navigate('/shop')}
             >
               SHOP
             </Button>
