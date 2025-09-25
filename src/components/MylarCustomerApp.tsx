@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, ExternalLink } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -14,8 +14,6 @@ import { MYLAR_PRODUCTS, MYLAR_CATEGORIES, MylarProduct } from '@/data/mylarProd
 
 const MylarCustomerApp = () => {
   const navigate = useNavigate();
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
-  const [searchTerm, setSearchTerm] = useState('');
   const [selectedProduct, setSelectedProduct] = useState<MylarProduct | null>(null);
   const [selectedQuantity, setSelectedQuantity] = useState<number>(4);
   const [contactName, setContactName] = useState('');
@@ -24,13 +22,8 @@ const MylarCustomerApp = () => {
   const [uploadedFiles, setUploadedFiles] = useState<FileList | null>(null);
 
   const filteredProducts = useMemo(() => {
-    const base = MYLAR_PRODUCTS.filter(p => p.active !== false);
-    const byCat = selectedCategory === 'All' ? base : base.filter(p => p.category === selectedCategory);
-    const byText = searchTerm ? byCat.filter(p =>
-      (p.name + " " + (p.description ?? "")).toLowerCase().includes(searchTerm.toLowerCase())
-    ) : byCat;
-    return byText;
-  }, [searchTerm, selectedCategory]);
+    return MYLAR_PRODUCTS.filter(p => p.active !== false);
+  }, []);
 
   const getCurrentPrice = (product: MylarProduct) => {
     if (product.hasQuantityOptions && product.quantityOptions) {
@@ -324,34 +317,6 @@ const MylarCustomerApp = () => {
             <p className="text-white/70 text-lg">Professional mylar bag design services for your brand</p>
           </div>
 
-          {/* Filters */}
-          <div className="mb-8 space-y-4">
-            <div className="flex flex-col md:flex-row gap-4">
-              <div className="flex-1">
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/60 h-4 w-4" />
-                  <Input
-                    placeholder="Search products..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10 bg-white/10 border-white/20 text-white placeholder:text-white/60"
-                  />
-                </div>
-              </div>
-              <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                <SelectTrigger className="w-full md:w-48 bg-white/10 border-white/20 text-white">
-                  <SelectValue placeholder="All Categories" />
-                </SelectTrigger>
-                <SelectContent>
-                  {MYLAR_CATEGORIES.map(category => (
-                    <SelectItem key={category} value={category}>
-                      {category.charAt(0).toUpperCase() + category.slice(1).replace('_', ' ')}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
 
           {/* Products Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -360,12 +325,6 @@ const MylarCustomerApp = () => {
             ))}
           </div>
 
-          {filteredProducts.length === 0 && (
-            <div className="text-center py-12">
-              <div className="text-white/60 text-xl mb-4">No products found</div>
-              <p className="text-white/40">Try adjusting your search or filter criteria</p>
-            </div>
-          )}
         </main>
 
         {/* Footer */}
