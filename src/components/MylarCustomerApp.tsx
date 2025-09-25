@@ -34,7 +34,7 @@ const MylarCustomerApp = () => {
     return product.basePrice;
   };
 
-  const handleCashAppCheckout = (product: MylarProduct) => {
+  const handleCashAppCheckout = async (product: MylarProduct) => {
     const currentPrice = getCurrentPrice(product);
 
     if (!contactName.trim()) {
@@ -55,19 +55,66 @@ const MylarCustomerApp = () => {
       contactName,
       socialMedia,
       designNotes,
-      hasFiles: uploadedFiles && uploadedFiles.length > 0
+      hasFiles: uploadedFiles && uploadedFiles.length > 0,
+      timestamp: new Date().toISOString(),
+      fileNames: uploadedFiles ? Array.from(uploadedFiles).map(f => f.name).join(', ') : 'None'
     };
 
     // Store order details for confirmation
     sessionStorage.setItem('mylarOrder', JSON.stringify(orderSummary));
 
-    toast.success(`Order details saved! Opening CashApp profile - you can enter $${currentPrice}`, {
-      duration: 8000,
-    });
+    try {
+      // Submit order to your email
+      const response = await fetch('https://formspree.io/f/mnngnbqy', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          subject: `New Mylar Bag Order - ${product.name}`,
+          message: `
+🛍️ NEW MYLAR BAG ORDER
 
-    // Open CashApp profile - user will enter amount manually
-    const cashAppUrl = `https://cash.app/$tdiorio23`;
-    window.open(cashAppUrl, '_blank');
+📦 Product: ${product.name}
+💰 Price: $${currentPrice}
+🔢 Quantity: ${product.hasQuantityOptions ? selectedQuantity : 1} design${product.hasQuantityOptions && selectedQuantity > 1 ? 's' : ''}
+
+👤 Customer Information:
+• Name: ${contactName}
+• Social Media: ${socialMedia || 'Not provided'}
+
+📝 Design Notes:
+${designNotes}
+
+📎 Files: ${orderSummary.fileNames}
+
+⏰ Order Time: ${new Date().toLocaleString()}
+💳 Payment Method: CashApp ($tdiorio23)
+
+---
+Customer will pay $${currentPrice} via CashApp
+          `,
+          email: 'tyler@tdstudiosny.com', // Your email here
+          _replyto: contactName,
+          _subject: `New Mylar Order - ${product.name} ($${currentPrice})`
+        })
+      });
+
+      if (response.ok) {
+        toast.success(`Order submitted! Opening CashApp - please pay $${currentPrice}`, {
+          duration: 8000,
+        });
+
+        // Open CashApp profile
+        const cashAppUrl = `https://cash.app/$tdiorio23`;
+        window.open(cashAppUrl, '_blank');
+      } else {
+        throw new Error('Failed to submit order');
+      }
+    } catch (error) {
+      toast.error('Failed to submit order. Please try again or contact support.');
+      console.error('Order submission error:', error);
+    }
   };
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
