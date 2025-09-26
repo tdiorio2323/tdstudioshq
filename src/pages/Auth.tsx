@@ -2,6 +2,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { OptimizedImage } from "@/components/ui/optimized-image";
+import { ext } from "@/lib/safeLink";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -18,9 +20,12 @@ const Auth = () => {
       }}>
         <CardHeader className="text-center space-y-6">
           <div className="flex items-center justify-center">
-            <img
+            <OptimizedImage
               src="/td-studios-chrome-metal-logo.png"
               alt="TD Studios"
+              width={320}
+              height={160}
+              priority
               className="h-40 w-auto"
             />
           </div>
@@ -35,14 +40,14 @@ const Auth = () => {
             <Button
               variant="platinum"
               className="w-full h-12 text-base font-semibold rounded-xl"
-              onClick={() => window.open('https://tdstudiosny.com', '_blank', 'noopener,noreferrer')}
+              onClick={() => window.open('https://tdstudiosny.com', ext.target, ext.rel)}
             >
               AGENCY
             </Button>
             <Button
               variant="platinum"
               className="w-full h-12 text-base font-semibold rounded-xl"
-              onClick={() => window.open('https://tdstudiosdigital.com', '_blank', 'noopener,noreferrer')}
+              onClick={() => window.open('https://tdstudiosdigital.com', ext.target, ext.rel)}
             >
               DIGITAL
             </Button>
@@ -63,7 +68,7 @@ const Auth = () => {
             <Button
               variant="platinum"
               className="w-full h-12 text-base font-semibold rounded-xl"
-              onClick={() => window.open('https://wa.me/13474859935', '_blank', 'noopener,noreferrer')}
+              onClick={() => window.open('https://wa.me/13474859935', ext.target, ext.rel)}
             >
               CONTACT
             </Button>
@@ -79,7 +84,7 @@ const Auth = () => {
                 boxShadow: '0 8px 32px 0 rgba(131, 58, 180, 0.37), inset 0 2px 4px 0 rgba(255, 255, 255, 0.3), inset 0 -2px 4px 0 rgba(0, 0, 0, 0.2)',
                 position: 'relative'
               }}
-              onClick={() => window.open('https://instagram.com/tdstudiosco', '_blank', 'noopener,noreferrer')}
+              onClick={() => window.open('https://instagram.com/tdstudiosco', ext.target, ext.rel)}
             >
               <div
                 className="absolute inset-0 opacity-30 animate-shine"

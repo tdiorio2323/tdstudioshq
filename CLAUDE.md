@@ -21,6 +21,15 @@ npm run lint         # Run ESLint for code linting
 npm run typecheck    # Run TypeScript type checking
 ```
 
+### Testing
+```bash
+npx playwright test                    # Run all Playwright tests
+npx playwright test tests/mylars.spec.ts  # Run specific test file
+npx playwright test --headed              # Run tests with browser UI
+npx playwright test --debug               # Run tests in debug mode
+SLUG=3designs npx playwright test        # Run tests with environment variable
+```
+
 ### Database
 ```bash
 # Supabase commands (if supabase CLI is installed)
@@ -32,15 +41,17 @@ supabase db push     # Push migrations to remote
 ## Architecture
 
 ### Frontend Structure
-- **Pages**: Route components in `src/pages/` (Auth, Shop, Checkout, Admin, Brand)
+- **Pages**: Route components in `src/pages/` (Auth, Shop, Checkout, Admin, Brand, Candyman, MylarShop)
 - **Components**: Reusable UI components in `src/components/`
   - `AuthPage.tsx` - Authentication flow
   - `CustomerApp.tsx` - Customer shopping interface
+  - `MylarCustomerApp.tsx` - Mylar product shopping interface
   - `BrandDashboard.tsx` - Brand management interface
   - `SuperAdminDashboard.tsx` - Admin panel
   - `CheckoutFlow.tsx` - Purchase workflow
   - `DashboardLayout.tsx` - Common layout wrapper
 - **UI Components**: shadcn/ui components in `src/components/ui/`
+- **Data**: Product catalogs in `src/data/` (products.ts, mylarProducts.ts)
 
 ### Authentication & Authorization
 - Role-based routing handled in `src/pages/Index.tsx`
@@ -100,10 +111,12 @@ supabase db push     # Push migrations to remote
 - `tdstudiosdigital.com` → tdstudioscannamenu-22 project
 
 ### Workflow
-1. Generate sitemap: `node scripts/generate-sitemap.mjs`
-2. Build: `npm run build`
-3. Push to `main` branch on `github.com/tdiorio2323/TD-STUDIOS-LOVABLE-SITE`
-4. Vercel auto-deploys to production
+1. Run linting and type checking: `npm run lint && npm run typecheck`
+2. Run tests: `npx playwright test`
+3. Generate sitemap: `node scripts/generate-sitemap.mjs`
+4. Build: `npm run build`
+5. Push to `main` branch on `github.com/tdiorio2323/TD-STUDIOS-LOVABLE-SITE`
+6. Vercel auto-deploys to production
 
 ## Build Configuration
 

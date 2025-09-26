@@ -4,48 +4,52 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
-import Index from "./pages/Index";
-import CustomerApp from "./components/CustomerApp";
-import { AuthPage } from "./components/AuthPage";
-import { CheckoutFlow } from "./components/CheckoutFlow";
-import SuperAdminDashboard from "./components/SuperAdminDashboard";
-import BrandDashboard from "./components/BrandDashboard";
-import NotFound from "./pages/NotFound";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { lazy, Suspense } from "react";
+
+// Lazy load components
+const Shop = lazy(() => import("./pages/Shop"));
+const MylarShop = lazy(() => import("./pages/MylarShop"));
+const Admin = lazy(() => import("./pages/Admin"));
+const Brand = lazy(() => import("./pages/Brand"));
+const LinkTest = lazy(() => import("./pages/LinkTest"));
+const Candyman = lazy(() => import("./pages/Candyman"));
+
+// Keep Auth as synchronous since it's the landing page
 import Auth from "./pages/Auth";
-import Shop from "./pages/Shop";
-import MylarShop from "./pages/MylarShop";
+import NotFound from "./pages/NotFound";
 import Checkout from "./pages/Checkout";
-import Admin from "./pages/Admin";
-import Brand from "./pages/Brand";
-import LinkTest from "./pages/LinkTest";
-import Candyman from "./pages/Candyman";
 
 const queryClient = new QueryClient();
 
 const App = () => (
-  <HelmetProvider>
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Auth />} />
-            <Route path="/shop" element={<Shop />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/mylars" element={<MylarShop />} />
-            <Route path="/mylars/:slug" element={<MylarShop />} />
-            <Route path="/admin" element={<Admin />} />
-            <Route path="/brand" element={<Brand />} />
-            <Route path="/linktest" element={<LinkTest />} />
-            <Route path="/candyman" element={<Candyman />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </QueryClientProvider>
-  </HelmetProvider>
+  <ErrorBoundary>
+    <HelmetProvider>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Suspense fallback={<div className="p-6">Loading…</div>}>
+              <Routes>
+                <Route path="/" element={<Auth />} />
+                <Route path="/shop" element={<ErrorBoundary><Shop /></ErrorBoundary>} />
+                <Route path="/checkout" element={<ErrorBoundary><Checkout /></ErrorBoundary>} />
+                <Route path="/mylars" element={<ErrorBoundary><MylarShop /></ErrorBoundary>} />
+                <Route path="/mylars/:slug" element={<ErrorBoundary><MylarShop /></ErrorBoundary>} />
+                <Route path="/admin" element={<ErrorBoundary><Admin /></ErrorBoundary>} />
+                <Route path="/brand" element={<ErrorBoundary><Brand /></ErrorBoundary>} />
+                <Route path="/linktest" element={<ErrorBoundary><LinkTest /></ErrorBoundary>} />
+                <Route path="/candyman" element={<ErrorBoundary><Candyman /></ErrorBoundary>} />
+                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Suspense>
+          </BrowserRouter>
+        </TooltipProvider>
+      </QueryClientProvider>
+    </HelmetProvider>
+  </ErrorBoundary>
 );
 
 export default App;
