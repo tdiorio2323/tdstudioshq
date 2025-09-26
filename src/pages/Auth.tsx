@@ -19,7 +19,7 @@ const Auth = () => {
         <CardHeader className="text-center space-y-6">
           <div className="flex items-center justify-center">
             <img
-              src="/lovable-uploads/TD STUDIOS WHITE LOGO SIZED.png"
+              src="/td-studios-chrome-metal-logo.png"
               alt="TD Studios"
               className="h-40 w-auto"
             />
