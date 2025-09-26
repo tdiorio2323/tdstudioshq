@@ -218,6 +218,28 @@ const MylarCustomerApp = () => {
           <meta name="twitter:title" content={productTitle} />
           <meta name="twitter:description" content={productDescription} />
           <meta name="twitter:image" content={productImage} />
+    {selectedProduct && (
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            name: selectedProduct.name,
+            image: abs(selectedProduct.image),
+            description: selectedProduct.description || "Custom mylar bag design",
+            brand: "TD Studios",
+            sku: selectedProduct.slug,
+            offers: {
+              "@type": "Offer",
+              url: window.location.href,
+              priceCurrency: "USD",
+              price: selectedProduct.price || "",
+              availability: "https://schema.org/InStock"
+            }
+          })}
+        </script>
+      </Helmet>
+    )}
         </Helmet>
 
         <div className="min-h-screen bg-black">
@@ -612,27 +634,3 @@ const MylarCustomerApp = () => {
 
 export default MylarCustomerApp;
 
-// --- SEO: Product JSON-LD ---
-{selectedProduct && (
-  <Helmet>
-    <script type="application/ld+json">
-      {JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "Product",
-        name: selectedProduct?.name,
-        image: abs(selectedProduct?.image),
-        description: selectedProduct?.description || "Custom mylar bag design",
-        brand: "TD Studios",
-        sku: selectedProduct?.slug,
-        offers: {
-          "@type": "Offer",
-          url: window.location.href,
-          priceCurrency: "USD",
-          price: selectedProduct?.price || "",
-          availability: "https://schema.org/InStock"
-        }
-      })}
-    </script>
-  </Helmet>
-)}
-// --- END SEO: Product JSON-LD ---
