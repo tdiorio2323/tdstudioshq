@@ -1,6 +1,14 @@
 {
   "rewrites": [
     {
+      "source": "/candyman",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/linktest",
+      "destination": "/index.html"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
