@@ -1,14 +1,34 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
-const Auth = () => {
-  const navigate = useNavigate();
+const LinkTest = () => {
+  const candymanImages = [
+    "/slideshow/candyman1.png",
+    "/slideshow/candyman2.png",
+    "/slideshow/candyman3.png",
+    "/slideshow/candyman4.jpg",
+    "/slideshow/candyman5.jpg",
+    "/slideshow/candyman6.png",
+    "/slideshow/candyman7.png",
+    "/slideshow/candyman8.jpg"
+  ];
+
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) =>
+        (prevIndex + 1) % candymanImages.length
+      );
+    }, 2000); // 2 seconds per image
+
+    return () => clearInterval(interval);
+  }, [candymanImages.length]);
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center px-3 py-4 sm:px-4 sm:py-6 md:px-6 md:py-8 relative bg-cover bg-center bg-no-repeat md:bg-[url('/lovable-uploads/827a6d46-d4f2-4ea8-9cf2-e7eb451da03b.png')] bg-[url('/lovable-uploads/fa9437b3-6b52-4add-a826-421f47af7c9c.png')]"
+      className="min-h-screen flex items-center justify-center px-3 py-4 sm:px-4 sm:py-6 md:px-6 md:py-8 relative bg-cover bg-center bg-no-repeat md:bg-[url('/lovable-uploads/67d6d2cf-3ae5-48f0-8b30-8cbded3815b7.png')] bg-[url('/times%20square')]"
     >
       {/* Dark overlay for better contrast */}
       <div className="absolute inset-0 bg-black/40" />
@@ -19,13 +39,13 @@ const Auth = () => {
         <CardHeader className="text-center space-y-6">
           <div className="flex items-center justify-center">
             <img
-              src="/lovable-uploads/TD STUDIOS WHITE LOGO SIZED.png"
-              alt="TD Studios"
+              src="/products/rich-off-candy.PNG"
+              alt="Rich Off Candy"
               className="h-40 w-auto"
             />
           </div>
           <div className="space-y-2">
-            <h2 className="text-2xl font-bold text-white">Welcome to TD STUDIOS</h2>
+            <h2 className="text-2xl font-bold text-white">CANDYMAN EXOTICS</h2>
           </div>
         </CardHeader>
 
@@ -35,38 +55,26 @@ const Auth = () => {
             <Button
               variant="platinum"
               className="w-full h-12 text-base font-semibold rounded-xl"
-              onClick={() => window.open('https://tdstudiosny.com', '_blank', 'noopener,noreferrer')}
+              onClick={() => window.open('https://www.instagram.com/candyman__exotics/', '_blank', 'noopener,noreferrer')}
             >
-              AGENCY
+              FOLLOW
             </Button>
             <Button
               variant="platinum"
               className="w-full h-12 text-base font-semibold rounded-xl"
-              onClick={() => window.open('https://tdstudiosdigital.com', '_blank', 'noopener,noreferrer')}
+              onClick={() => {}}
             >
-              DIGITAL
+              TELEGRAM
             </Button>
-            <Button
-              variant="platinum"
-              className="w-full h-12 text-base font-semibold rounded-xl"
-              onClick={() => navigate('/mylars')}
-            >
-              DESIGNS
-            </Button>
-            <Button
-              variant="platinum"
-              className="w-full h-12 text-base font-semibold rounded-xl"
-              onClick={() => navigate('/shop')}
-            >
-              SHOP
-            </Button>
-            <Button
-              variant="platinum"
-              className="w-full h-12 text-base font-semibold rounded-xl"
-              onClick={() => window.open('https://wa.me/13474859935', '_blank', 'noopener,noreferrer')}
-            >
-              CONTACT
-            </Button>
+          </div>
+
+          {/* Image Slideshow */}
+          <div className="w-full h-80 bg-white/5 rounded-lg overflow-hidden">
+            <img
+              src={candymanImages[currentImageIndex]}
+              alt={`Candyman ${currentImageIndex + 1}`}
+              className="w-full h-full object-cover transition-opacity duration-500"
+            />
           </div>
 
           <div className="flex justify-center">
@@ -96,4 +104,4 @@ const Auth = () => {
   );
 };
 
-export default Auth;
+export default LinkTest;

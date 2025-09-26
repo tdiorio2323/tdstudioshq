@@ -16,6 +16,39 @@ export type MylarProduct = {
 
 export const MYLAR_PRODUCTS: MylarProduct[] = [
   {
+    id: "logo-revamp",
+    slug: "logo-revamp",
+    name: "Logo/Logo Revamp",
+    description: "Professional logo design or complete logo revamp service",
+    basePrice: 75,
+    image: "/products/rich-off-candy.PNG",
+    category: "Design Services",
+    active: true,
+    hasQuantityOptions: false
+  },
+  {
+    id: "link-page",
+    slug: "link-page",
+    name: "Link Page",
+    description: "Custom link-in-bio page design and setup",
+    basePrice: 100,
+    image: "/products/link-page-sample.jpg",
+    category: "Design Services",
+    active: true,
+    hasQuantityOptions: false
+  },
+  {
+    id: "social-media-content",
+    slug: "social-media-content",
+    name: "Social Media Content",
+    description: "Custom social media content creation - Message for pricing",
+    basePrice: 0,
+    image: "/candyman-social-media.png",
+    category: "Design Services",
+    active: true,
+    hasQuantityOptions: false
+  },
+  {
     id: "mylar-1-design",
     slug: "1design",
     name: "1 Design",

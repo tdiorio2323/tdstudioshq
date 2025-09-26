@@ -17,6 +17,8 @@ import MylarShop from "./pages/MylarShop";
 import Checkout from "./pages/Checkout";
 import Admin from "./pages/Admin";
 import Brand from "./pages/Brand";
+import LinkTest from "./pages/LinkTest";
+import Candyman from "./pages/Candyman";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +37,8 @@ const App = () => (
             <Route path="/mylars/:slug" element={<MylarShop />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/brand" element={<Brand />} />
+            <Route path="/linktest" element={<LinkTest />} />
+            <Route path="/candyman" element={<Candyman />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

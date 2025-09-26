@@ -14,6 +14,7 @@ interface CartItem {
   price: number;
   quantity: number;
   image_url: string | null;
+  image?: string;
   thc_percentage: number | null;
   category: string;
 }
@@ -42,8 +43,8 @@ export const CheckoutFlow = ({ cartItems, total, onBack, onOrderComplete }: Chec
     nameOnCard: ""
   });
 
-  const deliveryFee = 499; // $4.99 in cents
-  const tax = Math.round(total * 0.0875); // 8.75% tax in cents
+  const deliveryFee = 1000; // $10.00 flat rate shipping
+  const tax = Math.round(total * 0.08875); // 8.875% NY state tax
   const finalTotal = total + deliveryFee + tax;
 
   const handleDeliverySubmit = (e: React.FormEvent) => {
@@ -75,7 +76,7 @@ export const CheckoutFlow = ({ cartItems, total, onBack, onOrderComplete }: Chec
             <CheckCircle className="h-16 w-16 text-primary mx-auto" />
             <h2 className="text-2xl font-bold text-primary">Order Confirmed!</h2>
             <p className="text-muted-foreground">
-              Your order will be delivered in 30-45 minutes
+              Your order will be delivered in 3-5 working business days
             </p>
             <Badge variant="secondary" className="text-sm">
               Order #12345
@@ -120,9 +121,9 @@ export const CheckoutFlow = ({ cartItems, total, onBack, onOrderComplete }: Chec
         {/* Brand Logo */}
         <div className="flex justify-center mt-4 mb-6">
           <img 
-            src="/lovable-uploads/bff2ab24-8836-4dfa-836d-bff37b607cfa.png" 
+            src="/lovable-uploads/TD STUDIOS WHITE LOGO SIZED.png" 
             alt="Brand Logo" 
-            className="h-36 w-auto"
+            className="h-9 w-auto"
           />
         </div>
         
@@ -145,17 +146,6 @@ export const CheckoutFlow = ({ cartItems, total, onBack, onOrderComplete }: Chec
       </div>
 
       <div className="p-4 space-y-6">
-        {/* Brand Logo */}
-        <Card>
-          <CardContent className="py-16 flex justify-center items-center">
-            <img 
-              src="/lovable-uploads/bff2ab24-8836-4dfa-836d-bff37b607cfa.png" 
-              alt="Cabana" 
-              className="h-full w-full object-contain max-h-20"
-            />
-          </CardContent>
-        </Card>
-
         {/* Order Summary */}
         <Card>
           <CardHeader>
@@ -166,8 +156,8 @@ export const CheckoutFlow = ({ cartItems, total, onBack, onOrderComplete }: Chec
               <div key={item.id} className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
                   <div className="w-12 h-12 rounded-lg bg-muted flex items-center justify-center overflow-hidden">
-                    {item.image_url ? (
-                      <img src={item.image_url} alt={item.name} className="w-full h-full object-cover" />
+                    {(item.image_url || item.image) ? (
+                      <img src={item.image_url || item.image} alt={item.name} className="w-full h-full object-cover" />
                     ) : (
                       <div className="text-xs text-muted-foreground">{item.category}</div>
                     )}
@@ -187,7 +177,7 @@ export const CheckoutFlow = ({ cartItems, total, onBack, onOrderComplete }: Chec
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="font-medium">${(item.price / 100).toFixed(2)}</p>
+                  <p className="font-medium">${item.price.toFixed(2)}</p>
                   <p className="text-sm text-muted-foreground">Qty: {item.quantity}</p>
                 </div>
               </div>
@@ -198,20 +188,20 @@ export const CheckoutFlow = ({ cartItems, total, onBack, onOrderComplete }: Chec
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <span>Subtotal</span>
-                <span>${(total / 100).toFixed(2)}</span>
+                <span>${total.toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
                 <span>Delivery Fee</span>
-                <span>${(deliveryFee / 100).toFixed(2)}</span>
+                <span>${deliveryFee.toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
                 <span>Tax</span>
-                <span>${(tax / 100).toFixed(2)}</span>
+                <span>${tax.toFixed(2)}</span>
               </div>
               <Separator />
               <div className="flex justify-between font-medium text-base">
                 <span>Total</span>
-                <span>${(finalTotal / 100).toFixed(2)}</span>
+                <span>${finalTotal.toFixed(2)}</span>
               </div>
             </div>
           </CardContent>
@@ -288,7 +278,7 @@ export const CheckoutFlow = ({ cartItems, total, onBack, onOrderComplete }: Chec
                   <Clock className="h-5 w-5 text-primary" />
                   <div>
                     <p className="font-medium text-sm">Estimated Delivery Time</p>
-                    <p className="text-sm text-muted-foreground">30-45 minutes</p>
+                    <p className="text-sm text-muted-foreground">3-5 working business days</p>
                   </div>
                 </div>
 
@@ -361,7 +351,7 @@ export const CheckoutFlow = ({ cartItems, total, onBack, onOrderComplete }: Chec
                 </div>
 
                 <Button type="submit" className="w-full">
-                  Place Order - ${(finalTotal / 100).toFixed(2)}
+                  Place Order - ${finalTotal.toFixed(2)}
                 </Button>
               </form>
             </CardContent>

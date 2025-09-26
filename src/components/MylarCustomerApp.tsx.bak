@@ -90,18 +90,12 @@ const MylarCustomerApp = () => {
 
     const filesLabel = fileNames.length ? fileNames.join(", ") : "None";
 
-    const isMessageForPricing = product.basePrice === 0;
-    const priceDisplay = isMessageForPricing ? "Message for Pricing" : `$${price}`;
-    const subjectLine = isMessageForPricing ?
-      `New Quote Request — ${product.name}` :
-      `New Mylar Order — ${product.name} ($${price})`;
-
     const payload = {
-      _subject: subjectLine,
-      message: `${isMessageForPricing ? '💬 NEW QUOTE REQUEST' : '🛍️ NEW MYLAR BAG ORDER'}\nProduct: ${product.name}\nPrice: ${priceDisplay}\nQty: ${product.hasQuantityOptions ? selectedQuantity : 1}\nName: ${contactName}\nPhone: ${phoneNumber || "N/A"}\nSocial: ${socialMedia || "N/A"}\nNotes: ${designNotes}\nFiles: ${filesLabel}\n⏰ ${new Date().toLocaleString()}${isMessageForPricing ? '' : `\n💳 Cash App: ${CASH_TAG}`}`,
+      _subject: `New Mylar Order — ${product.name} ($${price})`,
+      message: `🛍️ NEW MYLAR BAG ORDER\nProduct: ${product.name}\nPrice: $${price}\nQty: ${product.hasQuantityOptions ? selectedQuantity : 1}\nName: ${contactName}\nPhone: ${phoneNumber || "N/A"}\nSocial: ${socialMedia || "N/A"}\nNotes: ${designNotes}\nFiles: ${filesLabel}\n⏰ ${new Date().toLocaleString()}\n💳 Cash App: ${CASH_TAG}`,
       contactName,
       productName: product.name,
-      price: priceDisplay,
+      price,
       quantity: product.hasQuantityOptions ? selectedQuantity : 1,
       designNotes,
       socialMedia: socialMedia || "N/A",
@@ -125,21 +119,12 @@ const MylarCustomerApp = () => {
         throw new Error(`Formspree ${response.status}: ${responseBody}`);
       }
 
-      if (isMessageForPricing) {
-        toast.success("Quote request sent successfully! We'll get back to you soon.", { duration: 6000 });
-      } else {
-        toast.success(`Order sent. Opening Cash App for $${price}.`, { duration: 6000 });
-        window.open(`https://cash.app/${CASH_TAG}`, "_blank", "noopener,noreferrer");
-      }
+      toast.success(`Order sent. Opening Cash App for $${price}.`, { duration: 6000 });
     } catch (e) {
       console.error("Order submit failed:", e);
-      if (isMessageForPricing) {
-        toast.error("We couldn't submit your quote request. Please try again.", { duration: 6000 });
-      } else {
-        toast.error("We couldn't submit your details. We'll still open Cash App.", { duration: 6000 });
-        window.open(`https://cash.app/${CASH_TAG}`, "_blank", "noopener,noreferrer");
-      }
+      toast.error("We couldn’t submit your details. We’ll still open Cash App.", { duration: 6000 });
     } finally {
+      window.open(`https://cash.app/${CASH_TAG}`, "_blank", "noopener,noreferrer");
       setSubmitting(false);
     }
   };
@@ -188,8 +173,7 @@ const MylarCustomerApp = () => {
           <div className="flex justify-between items-center">
             <div>
               <span className="text-2xl font-bold text-white">
-                {product.basePrice === 0 ? 'Message for Pricing' :
-                 product.hasQuantityOptions ? `$${getCurrentPrice(product)}` : `$${product.basePrice.toFixed(2)}`}
+                ${product.hasQuantityOptions ? `${getCurrentPrice(product)}` : product.basePrice.toFixed(2)}
               </span>
             </div>
           </div>
@@ -234,31 +218,9 @@ const MylarCustomerApp = () => {
           <meta name="twitter:title" content={productTitle} />
           <meta name="twitter:description" content={productDescription} />
           <meta name="twitter:image" content={productImage} />
-    {selectedProduct && (
-      <Helmet>
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Product",
-            name: selectedProduct.name,
-            image: abs(selectedProduct.image),
-            description: selectedProduct.description || "Custom mylar bag design",
-            brand: "TD Studios",
-            sku: selectedProduct.slug,
-            offers: {
-              "@type": "Offer",
-              url: window.location.href,
-              priceCurrency: "USD",
-              price: selectedProduct.price || "",
-              availability: "https://schema.org/InStock"
-            }
-          })}
-        </script>
-      </Helmet>
-    )}
         </Helmet>
 
-        <div className="min-h-screen bg-cover bg-center bg-no-repeat md:bg-black bg-[url('/times%20square')]">
+        <div className="min-h-screen bg-black">
           <div className="min-h-screen bg-black/40 backdrop-blur-sm">
             {/* Header */}
             <header className="bg-black/80 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
@@ -278,9 +240,9 @@ const MylarCustomerApp = () => {
                 {/* Centered Logo */}
                 <div className="flex flex-col items-center space-y-2 w-full">
                   <img
-                    src="/lovable-uploads/TD STUDIOS WHITE LOGO SIZED.png"
+                    src="/lovable-uploads/bff2ab24-8836-4dfa-836d-bff37b607cfa.png"
                     alt="TD Studios"
-                    className="h-7 sm:h-8 md:h-11 w-auto"
+                    className="h-20 sm:h-24 md:h-32 w-auto"
                   />
 
                   {/* Desktop Navigation */}
@@ -403,7 +365,7 @@ const MylarCustomerApp = () => {
                     )}
 
                     <div className="text-3xl font-bold text-white">
-                      {product.basePrice === 0 ? 'Message for Pricing' : `Total: $${getCurrentPrice(product).toFixed(2)}`}
+                      Total: ${getCurrentPrice(product).toFixed(2)}
                     </div>
 
                     {/* Customer Info Form */}
@@ -472,13 +434,11 @@ const MylarCustomerApp = () => {
                       className="w-full bg-green-600 hover:bg-green-700 text-white py-3 text-lg font-semibold"
                     >
                       <ExternalLink className="h-5 w-5 mr-2" />
-                      {product.basePrice === 0 ? 'Contact for Quote' : 'Pay with Cash App'}
+                      Pay with Cash App
                     </Button>
 
                     <p className="text-white/60 text-sm text-center">
-                      {product.basePrice === 0 ?
-                        'Click the button above to contact us for a custom quote on this service' :
-                        `Click the button above to open CashApp profile - enter the amount shown and send to ${CASH_TAG}`}
+                      Click the button above to open CashApp profile - enter the amount shown and send to {CASH_TAG}
                     </p>
                   </div>
                 </div>
@@ -527,9 +487,9 @@ const MylarCustomerApp = () => {
               {/* Centered Logo */}
               <div className="flex flex-col items-center space-y-2 flex-1">
                 <img
-                  src="/lovable-uploads/TD STUDIOS WHITE LOGO SIZED.png"
+                  src="/lovable-uploads/bff2ab24-8836-4dfa-836d-bff37b607cfa.png"
                   alt="TD Studios"
-                  className="h-7 sm:h-8 md:h-11 w-auto"
+                  className="h-20 sm:h-24 md:h-32 w-auto"
                 />
 
                 {/* Desktop Navigation */}
@@ -635,9 +595,9 @@ const MylarCustomerApp = () => {
         <footer className="bg-black/70 border-t border-white/10">
           <div className="mx-auto max-w-7xl px-4 py-6 flex flex-col items-center space-y-4">
             <img
-              src="/lovable-uploads/TD STUDIOS WHITE LOGO SIZED.png"
+              src="/lovable-uploads/bff2ab24-8836-4dfa-836d-bff37b607cfa.png"
               alt="TD Studios"
-              className="h-5 w-auto"
+              className="h-16 w-auto"
             />
             <div className="text-center text-white/40 text-xs">
               © 2024 TD Studios. All rights reserved. Professional design services.
@@ -652,3 +612,27 @@ const MylarCustomerApp = () => {
 
 export default MylarCustomerApp;
 
+// --- SEO: Product JSON-LD ---
+{selectedProduct && (
+  <Helmet>
+    <script type="application/ld+json">
+      {JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Product",
+        name: selectedProduct?.name,
+        image: abs(selectedProduct?.image),
+        description: selectedProduct?.description || "Custom mylar bag design",
+        brand: "TD Studios",
+        sku: selectedProduct?.slug,
+        offers: {
+          "@type": "Offer",
+          url: window.location.href,
+          priceCurrency: "USD",
+          price: selectedProduct?.price || "",
+          availability: "https://schema.org/InStock"
+        }
+      })}
+    </script>
+  </Helmet>
+)}
+// --- END SEO: Product JSON-LD ---
