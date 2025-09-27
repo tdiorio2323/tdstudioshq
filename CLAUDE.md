@@ -52,6 +52,8 @@ supabase db push     # Push migrations to remote
   - `DashboardLayout.tsx` - Common layout wrapper
 - **UI Components**: shadcn/ui components in `src/components/ui/`
 - **Data**: Product catalogs in `src/data/` (products.ts, mylarProducts.ts)
+- **Validation**: Zod schemas in `src/lib/validation.ts` for form validation
+- **Error Handling**: Error boundaries in `src/components/ErrorBoundary.tsx`
 
 ### Authentication & Authorization
 - Role-based routing handled in `src/pages/Index.tsx`
@@ -67,7 +69,8 @@ supabase db push     # Push migrations to remote
 
 ### State Management
 - **TanStack Query** for server state management
-- **React Router** for navigation
+- **React Router** for navigation with lazy loading
+- **React Hook Form** with Zod validation for form state
 - **Local state** with React hooks for component state
 
 ### Styling
@@ -113,9 +116,9 @@ supabase db push     # Push migrations to remote
 ### Workflow
 1. Run linting and type checking: `npm run lint && npm run typecheck`
 2. Run tests: `npx playwright test`
-3. Generate sitemap: `node scripts/generate-sitemap.mjs`
+3. Generate sitemap: `npm run sitemap`
 4. Build: `npm run build`
-5. Push to `main` branch on `github.com/tdiorio2323/TD-STUDIOS-LOVABLE-SITE`
+5. Push to `main` branch on `github.com/tdiorio2323/tdstudioshq`
 6. Vercel auto-deploys to production
 
 ## Build Configuration
@@ -124,3 +127,6 @@ supabase db push     # Push migrations to remote
 - **ESLint** with React hooks and TypeScript rules
 - **PostCSS** with Tailwind CSS and Autoprefixer
 - **Component tagging** enabled in development mode (Lovable integration)
+- **TypeScript** in strict mode with comprehensive type checking
+- **Code splitting** at route level with React.lazy()
+- **Bundle analysis** with rollup-plugin-visualizer

@@ -13,6 +13,8 @@ export const PRODUCTS: Product[] = [
   { id: "td-bomber-white", name: "TD BOMBER (White)", price: 120, image: "/products/WHITE BOMBER.png", category: "Outerwear", active: true },
   { id: "td-hoodie-black", name: "TD HOODIE (Black)", price: 100, image: "/products/BLACK TD STUDIOS FRIDAY 13TH HOODIE.png", category: "Outerwear", active: true },
   { id: "td-beanie", name: "TD STUDIOS BEANIE", price: 40, image: "/TD STUDIOS BEANIE.png", category: "Hats", active: true },
+  { id: "td-championship-hat-black", name: "TD STUDIOS CHAMPIONSHIP HAT (Black)", price: 40, image: "/products/td-studios-championship-hat-black.png", category: "Hats", active: true },
+  { id: "td-championship-hat-white", name: "TD STUDIOS CHAMPIONSHIP HAT (White)", price: 40, image: "/products/td-studios-championship-hat-white.png", category: "Hats", active: true },
 ];
 
 export const CATEGORIES = ["All", ...Array.from(new Set(PRODUCTS.map(p => p.category)))];

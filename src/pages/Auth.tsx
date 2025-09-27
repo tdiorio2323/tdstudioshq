@@ -9,13 +9,25 @@ const Auth = () => {
   const navigate = useNavigate();
 
   return (
-    <div
-      className="min-h-screen flex items-center justify-center px-3 py-4 sm:px-4 sm:py-6 md:px-6 md:py-8 relative bg-cover bg-center bg-no-repeat md:bg-[url('/lovable-uploads/827a6d46-d4f2-4ea8-9cf2-e7eb451da03b.png')] bg-[url('/lovable-uploads/fa9437b3-6b52-4add-a826-421f47af7c9c.png')]"
-    >
-      {/* Dark overlay for better contrast */}
-      <div className="absolute inset-0 bg-black/40" />
+    <div className="min-h-screen flex items-center justify-center px-3 py-4 sm:px-4 sm:py-6 md:px-6 md:py-8 relative overflow-hidden">
+      {/* Video Background */}
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover z-0"
+        poster="/td-studios-home-background.jpg"
+      >
+        <source src="/td-studios-home-background.mov" type="video/mp4" />
+        <source src="/td-studios-home-background.mov" type="video/quicktime" />
+        Your browser does not support the video tag.
+      </video>
 
-      <Card className="w-full max-w-sm sm:max-w-md bg-black/5 backdrop-blur-[2px] border-white/10 shadow-2xl drop-shadow-2xl relative z-10" style={{
+      {/* Dark overlay for better contrast */}
+      <div className="absolute inset-0 bg-black/40 z-10" />
+
+      <Card className="w-full max-w-sm sm:max-w-md bg-black/5 backdrop-blur-[2px] border-white/10 shadow-2xl drop-shadow-2xl relative z-20" style={{
         boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.1)'
       }}>
         <CardHeader className="text-center space-y-6">
