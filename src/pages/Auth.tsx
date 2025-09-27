@@ -2,25 +2,42 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { OptimizedImage } from "@/components/ui/optimized-image";
+import { ext } from "@/lib/safeLink";
 
 const Auth = () => {
   const navigate = useNavigate();
 
   return (
-    <div
-      className="min-h-screen flex items-center justify-center px-3 py-4 sm:px-4 sm:py-6 md:px-6 md:py-8 relative bg-cover bg-center bg-no-repeat md:bg-[url('/lovable-uploads/827a6d46-d4f2-4ea8-9cf2-e7eb451da03b.png')] bg-[url('/lovable-uploads/fa9437b3-6b52-4add-a826-421f47af7c9c.png')]"
-    >
-      {/* Dark overlay for better contrast */}
-      <div className="absolute inset-0 bg-black/40" />
+    <div className="min-h-screen flex items-center justify-center px-3 py-4 sm:px-4 sm:py-6 md:px-6 md:py-8 relative overflow-hidden">
+      {/* Video Background */}
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover z-0"
+        poster="/td-studios-home-background.jpg"
+      >
+        <source src="/td-studios-home-background.mov" type="video/mp4" />
+        <source src="/td-studios-home-background.mov" type="video/quicktime" />
+        Your browser does not support the video tag.
+      </video>
 
-      <Card className="w-full max-w-sm sm:max-w-md bg-black/5 backdrop-blur-[2px] border-white/10 shadow-2xl drop-shadow-2xl relative z-10" style={{
+      {/* Dark overlay for better contrast */}
+      <div className="absolute inset-0 bg-black/40 z-10" />
+
+      <Card className="w-full max-w-sm sm:max-w-md bg-black/5 backdrop-blur-[2px] border-white/10 shadow-2xl drop-shadow-2xl relative z-20" style={{
         boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.1)'
       }}>
         <CardHeader className="text-center space-y-6">
           <div className="flex items-center justify-center">
-            <img
+            <OptimizedImage
               src="/td-studios-chrome-metal-logo.png"
               alt="TD Studios"
+              width={320}
+              height={160}
+              priority
               className="h-40 w-auto"
             />
           </div>
@@ -35,14 +52,14 @@ const Auth = () => {
             <Button
               variant="platinum"
               className="w-full h-12 text-base font-semibold rounded-xl"
-              onClick={() => window.open('https://tdstudiosny.com', '_blank', 'noopener,noreferrer')}
+              onClick={() => window.open('https://tdstudiosny.com', ext.target, ext.rel)}
             >
               AGENCY
             </Button>
             <Button
               variant="platinum"
               className="w-full h-12 text-base font-semibold rounded-xl"
-              onClick={() => window.open('https://tdstudiosdigital.com', '_blank', 'noopener,noreferrer')}
+              onClick={() => window.open('https://tdstudiosdigital.com', ext.target, ext.rel)}
             >
               DIGITAL
             </Button>
@@ -63,7 +80,7 @@ const Auth = () => {
             <Button
               variant="platinum"
               className="w-full h-12 text-base font-semibold rounded-xl"
-              onClick={() => window.open('https://wa.me/13474859935', '_blank', 'noopener,noreferrer')}
+              onClick={() => window.open('https://wa.me/13474859935', ext.target, ext.rel)}
             >
               CONTACT
             </Button>
@@ -79,7 +96,7 @@ const Auth = () => {
                 boxShadow: '0 8px 32px 0 rgba(131, 58, 180, 0.37), inset 0 2px 4px 0 rgba(255, 255, 255, 0.3), inset 0 -2px 4px 0 rgba(0, 0, 0, 0.2)',
                 position: 'relative'
               }}
-              onClick={() => window.open('https://instagram.com/tdstudiosco', '_blank', 'noopener,noreferrer')}
+              onClick={() => window.open('https://instagram.com/tdstudiosco', ext.target, ext.rel)}
             >
               <div
                 className="absolute inset-0 opacity-30 animate-shine"
