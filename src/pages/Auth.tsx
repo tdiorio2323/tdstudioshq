@@ -19,8 +19,7 @@ const Auth = () => {
         className="absolute inset-0 w-full h-full object-cover z-0"
         poster="/td-studios-home-background.jpg"
       >
-        <source src="/td-studios-home-background.mov" type="video/mp4" />
-        <source src="/td-studios-home-background.mov" type="video/quicktime" />
+        <source src="/td-studios-home-background.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
 
