@@ -7,6 +7,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, CreditCard, MapPin, Clock, CheckCircle } from "lucide-react";
+import { DELIVERY_FEE_CENTS } from "@/lib/config";
+import { toDollars, fmt } from "@/lib/money";
 
 interface CartItem {
   id: string;
@@ -43,9 +45,10 @@ export const CheckoutFlow = ({ cartItems, total, onBack, onOrderComplete }: Chec
     nameOnCard: ""
   });
 
-  const deliveryFee = 10.00; // $10.00 flat rate shipping (corrected from $1000.00)
-  const tax = Math.round(total * 0.08875); // 8.875% NY state tax
-  const finalTotal = total + deliveryFee + tax;
+  const deliveryFeeCents = DELIVERY_FEE_CENTS;
+  const deliveryFee = toDollars(deliveryFeeCents);
+  const taxCents = Math.round(total * 0.08875 * 100);
+  const finalTotal = toDollars(total * 100 + deliveryFeeCents + taxCents);
 
   // Optimized handlers to prevent INP issues
   const updateDeliveryInfo = useCallback((field: keyof typeof deliveryInfo, value: string) => {
@@ -186,7 +189,7 @@ export const CheckoutFlow = ({ cartItems, total, onBack, onOrderComplete }: Chec
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="font-medium">${item.price.toFixed(2)}</p>
+                  <p className="font-medium">{fmt(item.price)}</p>
                   <p className="text-sm text-muted-foreground">Qty: {item.quantity}</p>
                 </div>
               </div>
@@ -197,20 +200,20 @@ export const CheckoutFlow = ({ cartItems, total, onBack, onOrderComplete }: Chec
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <span>Subtotal</span>
-                <span>${total.toFixed(2)}</span>
+                <span>{fmt(total)}</span>
               </div>
               <div className="flex justify-between">
                 <span>Delivery Fee</span>
-                <span>${deliveryFee.toFixed(2)}</span>
+                <span>{fmt(deliveryFee)}</span>
               </div>
               <div className="flex justify-between">
                 <span>Tax</span>
-                <span>${tax.toFixed(2)}</span>
+                <span>{fmt(toDollars(taxCents))}</span>
               </div>
               <Separator />
               <div className="flex justify-between font-medium text-base">
                 <span>Total</span>
-                <span>${finalTotal.toFixed(2)}</span>
+                <span>{fmt(finalTotal)}</span>
               </div>
             </div>
           </CardContent>
@@ -360,7 +363,7 @@ export const CheckoutFlow = ({ cartItems, total, onBack, onOrderComplete }: Chec
                 </div>
 
                 <Button type="submit" className="w-full">
-                  Place Order - ${finalTotal.toFixed(2)}
+                  Place Order - {fmt(finalTotal)}
                 </Button>
               </form>
             </CardContent>
