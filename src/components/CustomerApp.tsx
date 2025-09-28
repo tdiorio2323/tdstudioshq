@@ -153,7 +153,7 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
 
               {/* Perfectly Centered Logo on Mobile */}
               <img
-                src="/lovable-uploads/TD STUDIOS WHITE LOGO SIZED.png"
+                src="/td-studios-chrome-metal-logo.png"
                 alt="TD Studios"
                 className="h-7 sm:h-8 w-auto"
               />
@@ -179,7 +179,7 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
 
                 {/* Centered Logo */}
                 <img
-                  src="/lovable-uploads/TD STUDIOS WHITE LOGO SIZED.png"
+                  src="/td-studios-chrome-metal-logo.png"
                   alt="TD Studios"
                   className="h-11 w-auto"
                 />
@@ -448,7 +448,7 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
         <footer className="bg-black/70 border-t border-white/10">
           <div className="mx-auto max-w-7xl px-4 py-6 flex flex-col items-center space-y-4">
             <img
-              src="/lovable-uploads/TD STUDIOS WHITE LOGO SIZED.png"
+              src="/td-studios-chrome-metal-logo.png"
               alt="TD Studios"
               className="h-5 w-auto"
             />

@@ -278,7 +278,7 @@ const MylarCustomerApp = () => {
                 {/* Centered Logo */}
                 <div className="flex flex-col items-center space-y-2 w-full">
                   <img
-                    src="/lovable-uploads/TD STUDIOS WHITE LOGO SIZED.png"
+                    src="/td-studios-chrome-metal-logo.png"
                     alt="TD Studios"
                     className="h-7 sm:h-8 md:h-11 w-auto"
                   />
@@ -527,7 +527,7 @@ const MylarCustomerApp = () => {
               {/* Centered Logo */}
               <div className="flex flex-col items-center space-y-2 flex-1">
                 <img
-                  src="/lovable-uploads/TD STUDIOS WHITE LOGO SIZED.png"
+                  src="/td-studios-chrome-metal-logo.png"
                   alt="TD Studios"
                   className="h-7 sm:h-8 md:h-11 w-auto"
                 />
@@ -635,7 +635,7 @@ const MylarCustomerApp = () => {
         <footer className="bg-black/70 border-t border-white/10">
           <div className="mx-auto max-w-7xl px-4 py-6 flex flex-col items-center space-y-4">
             <img
-              src="/lovable-uploads/TD STUDIOS WHITE LOGO SIZED.png"
+              src="/td-studios-chrome-metal-logo.png"
               alt="TD Studios"
               className="h-5 w-auto"
             />

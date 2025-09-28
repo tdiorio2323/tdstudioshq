@@ -121,7 +121,7 @@ export const CheckoutFlow = ({ cartItems, total, onBack, onOrderComplete }: Chec
         {/* Brand Logo */}
         <div className="flex justify-center mt-4 mb-6">
           <img 
-            src="/lovable-uploads/TD STUDIOS WHITE LOGO SIZED.png" 
+            src="/td-studios-chrome-metal-logo.png" 
             alt="Brand Logo" 
             className="h-9 w-auto"
           />
