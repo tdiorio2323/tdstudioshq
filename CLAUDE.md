@@ -23,11 +23,19 @@ npm run typecheck    # Run TypeScript type checking
 
 ### Testing
 ```bash
-npx playwright test                    # Run all Playwright tests
+npm run test:e2e                      # Run all Playwright tests
+npx playwright test                    # Alternative command for all tests
 npx playwright test tests/mylars.spec.ts  # Run specific test file
 npx playwright test --headed              # Run tests with browser UI
 npx playwright test --debug               # Run tests in debug mode
 SLUG=3designs npx playwright test        # Run tests with environment variable
+```
+
+### Git Hooks & Linting
+```bash
+npm run prepare      # Install Husky git hooks
+# Pre-commit hook runs lint-staged on *.{ts,tsx,css,md} files
+# lint-staged automatically runs eslint --fix on staged files
 ```
 
 ### Database
@@ -41,7 +49,7 @@ supabase db push     # Push migrations to remote
 ## Architecture
 
 ### Frontend Structure
-- **Pages**: Route components in `src/pages/` (Auth, Shop, Checkout, Admin, Brand, Candyman, MylarShop)
+- **Pages**: Route components in `src/pages/` (Auth, Shop, Checkout, Admin, Brand, Candyman, MylarShop, LinkTest, NotFound)
 - **Components**: Reusable UI components in `src/components/`
   - `AuthPage.tsx` - Authentication flow
   - `CustomerApp.tsx` - Customer shopping interface
@@ -115,11 +123,19 @@ supabase db push     # Push migrations to remote
 
 ### Workflow
 1. Run linting and type checking: `npm run lint && npm run typecheck`
-2. Run tests: `npx playwright test`
+2. Run tests: `npm run test:e2e`
 3. Generate sitemap: `npm run sitemap`
 4. Build: `npm run build`
 5. Push to `main` branch on `github.com/tdiorio2323/tdstudioshq`
 6. Vercel auto-deploys to production
+
+### Git Repository
+- **Primary repo**: `github.com/tdiorio2323/tdstudioshq`
+- **Legacy repo**: `github.com/tdiorio2323/TD-STUDIOS-LOVABLE-SITE`
+- **SSH setup** for tdiorio2323 account if needed:
+  ```bash
+  git remote set-url origin git@github.com:tdiorio2323/tdstudioshq.git
+  ```
 
 ## Build Configuration
 

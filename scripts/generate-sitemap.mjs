@@ -12,7 +12,7 @@ const urls = new Set([
 ]);
 
 // 2) Parse slugs from TS source
-const srcPath = resolve(ROOT, "../src/data/mylarProducts.ts");
+const srcPath = resolve(ROOT, "src/data/mylarProducts.ts");
 const ts = readFileSync(srcPath, "utf8");
 // matches: slug: "3designs"
 const slugRe = /slug\s*:\s*["'`]([^"'`]+)["'`]/g;
@@ -37,7 +37,7 @@ ${urlset}
 `;
 
 // 4) Write to public/sitemap.xml
-const outDir = resolve(ROOT, "../public");
+const outDir = resolve(ROOT, "public");
 mkdirSync(outDir, { recursive: true });
 const outPath = resolve(outDir, "sitemap.xml");
 writeFileSync(outPath, xml, "utf8");
