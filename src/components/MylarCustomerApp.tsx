@@ -79,6 +79,16 @@ const MylarCustomerApp = () => {
     if (submitting) return;
     setSubmitting(true);
 
+    // Special handling for Telegram Menu Bot
+    if (product.id === 'telegram-menu-bot') {
+      const message = `Hi! I'm interested in the Telegram Menu Bot service. Here are my details:\n\nName: ${contactName || 'Not provided'}\nPhone: ${phoneNumber || 'Not provided'}\nSocial: ${socialMedia || 'Not provided'}\nProject Details: ${designNotes || 'Not provided'}`;
+      const telegramUrl = `https://t.me/+13474859935?text=${encodeURIComponent(message)}`;
+      window.open(telegramUrl, '_blank', 'noopener,noreferrer');
+      toast.success('Opening Telegram to contact TD Studios!', { duration: 6000 });
+      setSubmitting(false);
+      return;
+    }
+
     const price = getCurrentPrice(product);
     if (!contactName.trim() || !designNotes.trim()) {
       toast.error("Enter your name and design notes.");
@@ -472,11 +482,14 @@ const MylarCustomerApp = () => {
                       className="w-full bg-green-600 hover:bg-green-700 text-white py-3 text-lg font-semibold"
                     >
                       <ExternalLink className="h-5 w-5 mr-2" />
-                      {product.basePrice === 0 ? 'Contact for Quote' : 'Pay with Cash App'}
+                      {product.id === 'telegram-menu-bot' ? 'Message on Telegram' :
+                       product.basePrice === 0 ? 'Contact for Quote' : 'Pay with Cash App'}
                     </Button>
 
                     <p className="text-white/60 text-sm text-center">
-                      {product.basePrice === 0 ?
+                      {product.id === 'telegram-menu-bot' ?
+                        'Click the button above to message us directly on Telegram for a custom quote' :
+                        product.basePrice === 0 ?
                         'Click the button above to contact us for a custom quote on this service' :
                         `Click the button above to open CashApp profile - enter the amount shown and send to ${CASH_TAG}`}
                     </p>
