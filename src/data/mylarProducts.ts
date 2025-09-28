@@ -117,7 +117,7 @@ export const MYLAR_PRODUCTS: MylarProduct[] = [
     name: "Telegram Menu Bot",
     description: "Custom Telegram bot for your menu and ordering system - Message for pricing",
     basePrice: 0,
-    image: "/candyman-social-media.png",
+    image: "https://i.imgur.com/0qLsCXx.png",
     category: "Design Services",
     active: true,
     hasQuantityOptions: false
