@@ -43,7 +43,7 @@ export const CheckoutFlow = ({ cartItems, total, onBack, onOrderComplete }: Chec
     nameOnCard: ""
   });
 
-  const deliveryFee = 1000; // $10.00 flat rate shipping
+  const deliveryFee = 10.00; // $10.00 flat rate shipping
   const tax = Math.round(total * 0.08875); // 8.875% NY state tax
   const finalTotal = total + deliveryFee + tax;
 

@@ -16,6 +16,12 @@ const Auth = () => {
         muted
         loop
         playsInline
+        preload="auto"
+        disablePictureInPicture
+        webkit-playsinline="true"
+        x5-playsinline="true"
+        x5-video-player-type="h5"
+        x5-video-player-fullscreen="true"
         className="absolute inset-0 w-full h-full object-cover z-0"
         poster="/td-studios-home-background.jpg"
       >
