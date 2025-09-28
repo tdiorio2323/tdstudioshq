@@ -29,7 +29,7 @@ const Candyman = () => {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center px-3 py-4 sm:px-4 sm:py-6 md:px-6 md:py-8 relative bg-cover bg-center bg-no-repeat md:bg-[url('/lovable-uploads/67d6d2cf-3ae5-48f0-8b30-8cbded3815b7.png')] bg-[url('/times%20square')]"
+      className="min-h-screen flex items-center justify-center px-3 py-4 sm:px-4 sm:py-6 md:px-6 md:py-8 relative bg-cover bg-center bg-no-repeat bg-[url('/times%20square')]"
     >
       {/* Dark overlay for better contrast */}
       <div className="absolute inset-0 bg-black/40" />

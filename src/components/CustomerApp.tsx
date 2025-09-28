@@ -45,8 +45,8 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
   }, [cart]);
 
   const addToCart = (product: Product) => {
-    // Check if size is required (not a beanie) and not selected
-    const requiresSize = product.category !== 'Hats' || !product.name.includes('BEANIE');
+    // Check if size is required (only outerwear requires sizes, all hats are One Size)
+    const requiresSize = product.category !== 'Hats';
     const selectedSize = selectedSizes[product.id];
 
     if (requiresSize && !selectedSize) {
@@ -153,7 +153,7 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
 
               {/* Perfectly Centered Logo on Mobile */}
               <img
-                src="/lovable-uploads/TD STUDIOS WHITE LOGO SIZED.png"
+                src="/td-studios-chrome-metal-logo.png"
                 alt="TD Studios"
                 className="h-7 sm:h-8 w-auto"
               />
@@ -179,7 +179,7 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
 
                 {/* Centered Logo */}
                 <img
-                  src="/lovable-uploads/TD STUDIOS WHITE LOGO SIZED.png"
+                  src="/td-studios-chrome-metal-logo.png"
                   alt="TD Studios"
                   className="h-11 w-auto"
                 />
@@ -375,8 +375,13 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
                           {product.category.charAt(0).toUpperCase() + product.category.slice(1).replace('_', ' ')}
                         </Badge>
 
-                        {/* Size Selection - only for non-beanie items */}
-                        {(product.category !== 'Hats' || !product.name.includes('BEANIE')) && (
+                        {/* Size Selection - only for outerwear items, hats are all One Size */}
+                        {product.category === 'Hats' && (
+                          <Badge variant="outline" className="bg-white/10 text-white/90 border-white/30">
+                            One Size
+                          </Badge>
+                        )}
+                        {product.category !== 'Hats' && (
                           <div className="flex gap-1 ml-2">
                             {['S', 'M', 'L', 'XL', '2XL'].map((size) => (
                               <Button
@@ -443,7 +448,7 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
         <footer className="bg-black/70 border-t border-white/10">
           <div className="mx-auto max-w-7xl px-4 py-6 flex flex-col items-center space-y-4">
             <img
-              src="/lovable-uploads/TD STUDIOS WHITE LOGO SIZED.png"
+              src="/td-studios-chrome-metal-logo.png"
               alt="TD Studios"
               className="h-5 w-auto"
             />

@@ -1,0 +1,1 @@
+export const ext = { rel: "noopener noreferrer", target: "_blank" } as const;
