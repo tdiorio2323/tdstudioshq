@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -43,9 +43,18 @@ export const CheckoutFlow = ({ cartItems, total, onBack, onOrderComplete }: Chec
     nameOnCard: ""
   });
 
-  const deliveryFee = 10.00; // $10.00 flat rate shipping
+  const deliveryFee = 10.00; // $10.00 flat rate shipping (corrected from $1000.00)
   const tax = Math.round(total * 0.08875); // 8.875% NY state tax
   const finalTotal = total + deliveryFee + tax;
+
+  // Optimized handlers to prevent INP issues
+  const updateDeliveryInfo = useCallback((field: keyof typeof deliveryInfo, value: string) => {
+    setDeliveryInfo(prev => ({ ...prev, [field]: value }));
+  }, []);
+
+  const updatePaymentInfo = useCallback((field: keyof typeof paymentInfo, value: string) => {
+    setPaymentInfo(prev => ({ ...prev, [field]: value }));
+  }, []);
 
   const handleDeliverySubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -224,7 +233,7 @@ export const CheckoutFlow = ({ cartItems, total, onBack, onOrderComplete }: Chec
                     id="address"
                     placeholder="Enter your address"
                     value={deliveryInfo.address}
-                    onChange={(e) => setDeliveryInfo({...deliveryInfo, address: e.target.value})}
+                    onChange={(e) => updateDeliveryInfo('address', e.target.value)}
                     required
                   />
                 </div>
@@ -236,7 +245,7 @@ export const CheckoutFlow = ({ cartItems, total, onBack, onOrderComplete }: Chec
                       id="city"
                       placeholder="City"
                       value={deliveryInfo.city}
-                      onChange={(e) => setDeliveryInfo({...deliveryInfo, city: e.target.value})}
+                      onChange={(e) => updateDeliveryInfo('city', e.target.value)}
                       required
                     />
                   </div>
@@ -246,7 +255,7 @@ export const CheckoutFlow = ({ cartItems, total, onBack, onOrderComplete }: Chec
                       id="zipCode"
                       placeholder="ZIP"
                       value={deliveryInfo.zipCode}
-                      onChange={(e) => setDeliveryInfo({...deliveryInfo, zipCode: e.target.value})}
+                      onChange={(e) => updateDeliveryInfo('zipCode', e.target.value)}
                       required
                     />
                   </div>
@@ -259,7 +268,7 @@ export const CheckoutFlow = ({ cartItems, total, onBack, onOrderComplete }: Chec
                     type="tel"
                     placeholder="(555) 123-4567"
                     value={deliveryInfo.phone}
-                    onChange={(e) => setDeliveryInfo({...deliveryInfo, phone: e.target.value})}
+                    onChange={(e) => updateDeliveryInfo('phone', e.target.value)}
                     required
                   />
                 </div>
@@ -270,7 +279,7 @@ export const CheckoutFlow = ({ cartItems, total, onBack, onOrderComplete }: Chec
                     id="notes"
                     placeholder="e.g., Leave at door, Ring doorbell"
                     value={deliveryInfo.notes}
-                    onChange={(e) => setDeliveryInfo({...deliveryInfo, notes: e.target.value})}
+                    onChange={(e) => updateDeliveryInfo('notes', e.target.value)}
                   />
                 </div>
 
@@ -306,7 +315,7 @@ export const CheckoutFlow = ({ cartItems, total, onBack, onOrderComplete }: Chec
                     id="cardNumber"
                     placeholder="1234 5678 9012 3456"
                     value={paymentInfo.cardNumber}
-                    onChange={(e) => setPaymentInfo({...paymentInfo, cardNumber: e.target.value})}
+                    onChange={(e) => updatePaymentInfo('cardNumber', e.target.value)}
                     required
                   />
                 </div>
@@ -318,7 +327,7 @@ export const CheckoutFlow = ({ cartItems, total, onBack, onOrderComplete }: Chec
                       id="expiryDate"
                       placeholder="MM/YY"
                       value={paymentInfo.expiryDate}
-                      onChange={(e) => setPaymentInfo({...paymentInfo, expiryDate: e.target.value})}
+                      onChange={(e) => updatePaymentInfo('expiryDate', e.target.value)}
                       required
                     />
                   </div>
@@ -328,7 +337,7 @@ export const CheckoutFlow = ({ cartItems, total, onBack, onOrderComplete }: Chec
                       id="cvv"
                       placeholder="123"
                       value={paymentInfo.cvv}
-                      onChange={(e) => setPaymentInfo({...paymentInfo, cvv: e.target.value})}
+                      onChange={(e) => updatePaymentInfo('cvv', e.target.value)}
                       required
                     />
                   </div>
@@ -340,7 +349,7 @@ export const CheckoutFlow = ({ cartItems, total, onBack, onOrderComplete }: Chec
                     id="nameOnCard"
                     placeholder="John Doe"
                     value={paymentInfo.nameOnCard}
-                    onChange={(e) => setPaymentInfo({...paymentInfo, nameOnCard: e.target.value})}
+                    onChange={(e) => updatePaymentInfo('nameOnCard', e.target.value)}
                     required
                   />
                 </div>
