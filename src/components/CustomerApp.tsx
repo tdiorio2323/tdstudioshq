@@ -64,8 +64,8 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
   }, [cart]);
 
   const addToCart = (product: Product) => {
-    // Check if size is required (only outerwear requires sizes, all hats are One Size)
-    const requiresSize = product.category !== 'Hats';
+    // Check if size is required (only outerwear requires sizes, hats and accessories are One Size)
+    const requiresSize = product.category !== 'Hats' && product.category !== 'Accessories';
     const selectedSize = selectedSizes[product.id];
 
     if (requiresSize && !selectedSize) {
@@ -416,12 +416,12 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
                           </Badge>
 
                           {/* Size Selection - only for outerwear items, hats are all One Size */}
-                          {product.category === 'Hats' && (
+                          {(product.category === 'Hats' || product.category === 'Accessories') && (
                             <Badge variant="outline" className="bg-white/10 text-white/90 border-white/30">
                               One Size
                             </Badge>
                           )}
-                          {product.category !== 'Hats' && (
+                          {product.category !== 'Hats' && product.category !== 'Accessories' && (
                             <div className="flex gap-1 ml-2">
                               {['S', 'M', 'L', 'XL', '2XL'].map((size) => (
                                 <Button

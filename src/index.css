@@ -54,7 +54,7 @@ All colors MUST be HSL.
     --gradient-primary: linear-gradient(135deg, hsl(142 76% 36%), hsl(142 76% 45%));
     --gradient-hero: linear-gradient(135deg, hsl(140 10% 15%), hsl(142 30% 25%));
     --gradient-card: linear-gradient(180deg, hsl(0 0% 100%), hsl(140 5% 98%));
-    
+
     /* Luxury CTA gradients */
     --gradient-chrome: linear-gradient(135deg, hsl(0 0% 85%), hsl(0 0% 95%), hsl(0 0% 85%));
     --gradient-platinum: linear-gradient(135deg, hsl(220 20% 75%), hsl(220 20% 90%), hsl(220 20% 80%));
@@ -128,7 +128,7 @@ All colors MUST be HSL.
     --gradient-primary: linear-gradient(135deg, hsl(142 76% 45%), hsl(142 76% 55%));
     --gradient-hero: linear-gradient(135deg, hsl(140 10% 8%), hsl(142 30% 15%));
     --gradient-card: linear-gradient(180deg, hsl(140 10% 12%), hsl(140 10% 10%));
-    
+
     /* Dark mode luxury CTA gradients */
     --gradient-chrome: linear-gradient(135deg, hsl(0 0% 25%), hsl(0 0% 35%), hsl(0 0% 30%));
     --gradient-platinum: linear-gradient(135deg, hsl(220 15% 35%), hsl(220 15% 45%), hsl(220 15% 40%));
@@ -202,4 +202,205 @@ footer{padding-block:18px}
   transform:translateY(0);
   box-shadow:inset 0 1px 0 rgba(255,255,255,0.08),0 4px 12px rgba(0,0,0,0.45);
 }
+
+/* Shared base for all buttons */
+.btn-shared {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  padding: 14px 32px;
+  width: 100%;
+  max-width: 560px;
+  font: 700 14px/1 "Helvetica Neue", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1.6px;
+  border-radius: 14px;
+  border: 4px solid transparent;
+  background-clip: padding-box;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  vertical-align: middle;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  transform: translateZ(0);
+  transition: all .3s ease;
+  text-decoration: none;
+  text-shadow: none;
+}
+
+/* Chrome frame */
+.btn-shared::before {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 16px;
+  background: linear-gradient(145deg, #f5f5f5, #8d8d8d, #f5f5f5);
+  z-index: -2;
+  box-shadow: 0 6px 14px rgba(0,0,0,.8), inset 0 1px 3px rgba(255,255,255,.5);
+}
+
+/* Gloss sweep */
+.btn-shared::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, rgba(255,255,255,0) 35%, rgba(255,255,255,.35) 50%, rgba(255,255,255,0) 65%);
+  width: 60%;
+  left: -70%;
+  clip-path: polygon(0 0,100% 0,80% 100%,0 100%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.btn-shared:hover::after {
+  animation: gloss 1.4s ease forwards;
+}
+
+@keyframes gloss {
+  from { left: -70%; }
+  to { left: 120%; }
+}
+
+/* Silver buttons (Agency, Digital, etc.) */
+.btn-silver {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  padding: 14px 32px;
+  width: 100%;
+  max-width: 560px;
+  font: 700 14px/1 "Helvetica Neue", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1.6px;
+  border-radius: 14px;
+  border: 4px solid transparent;
+  background-clip: padding-box;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  vertical-align: middle;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  transform: translateZ(0);
+  transition: all .3s ease;
+  text-decoration: none;
+  text-shadow: none;
+  background: linear-gradient(160deg, #dcdcdc, #b5b5b5);
+  color: #111;
+}
+
+.btn-silver::before {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 16px;
+  background: linear-gradient(145deg, #f5f5f5, #8d8d8d, #f5f5f5);
+  z-index: -2;
+  box-shadow: 0 6px 14px rgba(0,0,0,.8), inset 0 1px 3px rgba(255,255,255,.5);
+}
+
+.btn-silver::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, rgba(255,255,255,0) 35%, rgba(255,255,255,.35) 50%, rgba(255,255,255,0) 65%);
+  width: 60%;
+  left: -70%;
+  clip-path: polygon(0 0,100% 0,80% 100%,0 100%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.btn-silver:hover::after {
+  animation: gloss 1.4s ease forwards;
+}
+
+.btn-silver:hover {
+  background: linear-gradient(160deg, #c8c8c8, #a0a0a0);
+  color: #000;
+  box-shadow: inset 0 3px 8px rgba(255,255,255,.25), 0 8px 20px rgba(0,0,0,.9);
+}
+
+/* Black Follow button */
+.btn-black {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  padding: 14px 32px;
+  width: 100%;
+  max-width: 560px;
+  font: 700 14px/1 "Helvetica Neue", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1.6px;
+  border-radius: 14px;
+  border: 4px solid transparent;
+  background-clip: padding-box;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  vertical-align: middle;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  transform: translateZ(0);
+  transition: all .3s ease;
+  text-decoration: none;
+  text-shadow: none;
+  background: #000000;
+  color: #e8e8e8;
+}
+
+.btn-black::before {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 16px;
+  background: linear-gradient(145deg, #f5f5f5, #8d8d8d, #f5f5f5);
+  z-index: -2;
+  box-shadow: 0 6px 14px rgba(0,0,0,.8), inset 0 1px 3px rgba(255,255,255,.5);
+}
+
+.btn-black::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, rgba(255,255,255,0) 35%, rgba(255,255,255,.35) 50%, rgba(255,255,255,0) 65%);
+  width: 60%;
+  left: -70%;
+  clip-path: polygon(0 0,100% 0,80% 100%,0 100%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.btn-black:hover::after {
+  animation: gloss 1.4s ease forwards;
+}
+
+.btn-black:hover {
+  background: #000000;
+  color: #ffffff;
+  box-shadow: inset 0 3px 8px rgba(255,255,255,.25), 0 8px 20px rgba(0,0,0,.9);
+}
+
+/* Optional: ensure the container centers the button */
+.button-row { display: flex; justify-content: center; }
+
 /* Footer tiles */
+/* ---break---
+*/
+@theme inline {
+  @keyframes moveBackground {
+  from {
+    background-position: 0% 0%;
+    }
+  to {
+    background-position: 0% -1000%;
+    }
+  }
+}

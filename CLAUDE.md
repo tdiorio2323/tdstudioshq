@@ -4,10 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a React-based multi-tenant cannabis menu application built with TypeScript, Vite, and Supabase. The app serves three distinct user roles:
-- **Customers**: Browse and purchase cannabis products
-- **Brands**: Manage their product catalog and orders
-- **Super Admin**: Oversee all brands, products, and system operations
+This is a React-based TD Studios portfolio and e-commerce application built with TypeScript, Vite, and shadcn/ui. The app serves multiple purposes:
+- **Landing Page** (`/`): Video background homepage with navigation to various TD Studios properties
+- **Shop** (`/shop`): E-commerce interface for TD Studios merchandise (apparel, hats)
+- **Mylars** (`/mylars`, `/mylars/:slug`): Custom mylar product catalog with SEO optimization
+- **Admin/Brand**: Legacy multi-tenant dashboard features
 
 ## Commands
 
@@ -34,13 +35,16 @@ SLUG=3designs npx playwright test        # Run tests with environment variable
 ### Git Hooks & Linting
 ```bash
 npm run prepare      # Install Husky git hooks
-# Pre-commit hook runs lint-staged on *.{ts,tsx,css,md} files
-# lint-staged automatically runs eslint --fix on staged files
+# Pre-commit hook (.husky/pre-commit) runs:
+#   1. npm run lint (ESLint with auto-fix via lint-staged)
+#   2. npm run typecheck (TypeScript type checking)
+#   3. npm run test:e2e (Playwright tests, continues on failure)
 ```
 
-### Database
+### Database (Legacy)
 ```bash
 # Supabase commands (if supabase CLI is installed)
+# Note: Database features are legacy - most products are static in src/data/
 supabase start       # Start local Supabase
 supabase db reset    # Reset local database
 supabase db push     # Push migrations to remote
@@ -49,68 +53,98 @@ supabase db push     # Push migrations to remote
 ## Architecture
 
 ### Frontend Structure
-- **Pages**: Route components in `src/pages/` (Auth, Shop, Checkout, Admin, Brand, Candyman, MylarShop, LinkTest, NotFound)
-- **Components**: Reusable UI components in `src/components/`
-  - `AuthPage.tsx` - Authentication flow
-  - `CustomerApp.tsx` - Customer shopping interface
-  - `MylarCustomerApp.tsx` - Mylar product shopping interface
-  - `BrandDashboard.tsx` - Brand management interface
-  - `SuperAdminDashboard.tsx` - Admin panel
+- **Pages** in `src/pages/`:
+  - `Auth.tsx` - Landing page with video background and navigation buttons
+  - `Shop.tsx` - Product shop for TD Studios merchandise
+  - `MylarShop.tsx` - Mylar product catalog with dynamic slug routing
+  - `Checkout.tsx` - Checkout flow
+  - `Admin.tsx`, `Brand.tsx` - Legacy admin interfaces
+  - `Candyman.tsx`, `LinkTest.tsx` - Special pages
+  - `NotFound.tsx` - 404 handler
+- **Main Components** in `src/components/`:
+  - `CustomerApp.tsx` - Shop interface with cart, filtering, and search
+  - `MylarCustomerApp.tsx` - Mylar product browsing with SEO metadata
   - `CheckoutFlow.tsx` - Purchase workflow
-  - `DashboardLayout.tsx` - Common layout wrapper
-- **UI Components**: shadcn/ui components in `src/components/ui/`
-- **Data**: Product catalogs in `src/data/` (products.ts, mylarProducts.ts)
-- **Validation**: Zod schemas in `src/lib/validation.ts` for form validation
-- **Error Handling**: Error boundaries in `src/components/ErrorBoundary.tsx`
+  - `BrandDashboard.tsx`, `SuperAdminDashboard.tsx` - Admin interfaces
+  - `DashboardLayout.tsx` - Layout wrapper
+  - `ErrorBoundary.tsx` - Global error handling
+- **UI Components**: shadcn/ui library in `src/components/ui/`
+  - Custom components: `liquid-glass.tsx`, `optimized-image.tsx`
+- **Data Layer**:
+  - `src/data/products.ts` - Shop product catalog (apparel, hats)
+  - `src/data/mylarProducts.ts` - Mylar product catalog
+- **Utilities**:
+  - `src/lib/validation.ts` - Zod schemas for form validation
+  - `src/lib/safeLink.tsx` - External link security helpers
+  - `src/lib/money.ts` - Currency formatting utilities
+  - `src/lib/config.ts` - Application configuration
 
-### Authentication & Authorization
-- Role-based routing handled in `src/pages/Index.tsx`
-- User roles stored in `user_roles` table (admin, brand, customer)
-- Authentication flow redirects users based on their role after login
-- Session persistence using Supabase auth with localStorage
+### Routing & Navigation
+- All routes defined in `src/App.tsx` with lazy loading for performance
+- Error boundaries wrap each route for graceful error handling
+- Landing page (`Auth.tsx`) navigates to:
+  - External: `tdstudiosny.com` (AGENCY), `tdstudiosdigital.com` (DIGITAL)
+  - Internal: `/shop`, `/mylars`
+  - WhatsApp contact link
 
-### Database Architecture (Supabase)
-- **PostgreSQL backend** with Row Level Security (RLS)
-- **Key tables**: products, user_roles, orders, order_items
-- **Migration files** in `supabase/migrations/`
-- **Generated types** in `src/integrations/supabase/types.ts`
+### SEO & Metadata
+- React Helmet Async for dynamic meta tags
+- Structured data (JSON-LD) for products
+- Open Graph tags for social sharing
+- Canonical URLs and sitemap generation
+- Product-specific metadata in mylar pages
 
 ### State Management
-- **TanStack Query** for server state management
+- **React hooks** for local component state (cart, filters, search)
+- **TanStack Query** for server state (if using Supabase features)
 - **React Router** for navigation with lazy loading
-- **React Hook Form** with Zod validation for form state
-- **Local state** with React hooks for component state
+- **React Hook Form** with Zod validation for checkout forms
 
 ### Styling
 - **Tailwind CSS** for utility-first styling
-- **shadcn/ui** for component library
-- **CSS custom properties** for theming
+- **shadcn/ui** for component library (buttons, cards, dialogs, etc.)
+- **Custom CSS** for animations (glossy effects, video backgrounds)
 - **Responsive design** with mobile-first approach
+- **Theme variants**: Platinum button styles, custom gradients
 
 ## Key Patterns
 
-### Component Structure
-- Use TypeScript interfaces for props
-- Follow shadcn/ui patterns for consistent styling
-- Implement responsive design with Tailwind breakpoints
+### Product Data Structure
+```typescript
+// src/data/products.ts and src/data/mylarProducts.ts
+type Product = {
+  id: string;
+  name: string;
+  description?: string;
+  price: number;
+  image: string;  // Images stored in /public/products/
+  category: string;
+  active?: boolean;
+}
+```
 
-### Data Fetching
-- Use TanStack Query hooks for API calls
-- Supabase client configured in `src/integrations/supabase/client.ts`
-- Real-time subscriptions for live data updates
+### Cart Management
+- Local state with `useState<CartItem[]>`
+- CartItem extends Product with `quantity` and optional `size`
+- Total calculation and item updates in CustomerApp
 
-### Routing
-- All routes defined in `src/App.tsx`
-- Protected routes based on authentication state
-- Role-based redirection in Index component
+### External Link Safety
+- Use `ext` helper from `src/lib/safeLink.tsx`
+- Pattern: `window.open(url, ext.target, ext.rel)`
+- Ensures `rel="noopener noreferrer"` for security
 
 ## Development Notes
 
 - **Port**: Development server runs on port 5173
-- **Alias**: `@/` maps to `src/` directory
+- **Path Alias**: `@/` maps to `src/` directory (configured in tsconfig and vite.config)
 - **Hot Reload**: Vite with React SWC for fast development
-- **Type Safety**: Full TypeScript coverage with generated Supabase types
+- **Type Safety**: Full TypeScript coverage in strict mode
 - **SEO**: Sitemap generation via `scripts/generate-sitemap.mjs`
+- **Static Assets**: Store product images in `/public/products/` for optimal loading
+- **Video Background**: Landing page uses `/public/td-studios-home-background.mp4`
+- **Testing**: Playwright E2E tests in `/tests/` directory
+  - Tests validate page loads, metadata, and SEO tags
+  - Can run with environment variables like `SLUG=3designs`
 
 ## Deployment
 
@@ -140,9 +174,20 @@ supabase db push     # Push migrations to remote
 ## Build Configuration
 
 - **Vite** as build tool with React SWC plugin
-- **ESLint** with React hooks and TypeScript rules
+- **ESLint** with React hooks and TypeScript rules (eslint.config.js)
 - **PostCSS** with Tailwind CSS and Autoprefixer
+- **Tailwind Config**: Typography plugin included (tailwind.config.ts)
 - **Component tagging** enabled in development mode (Lovable integration)
 - **TypeScript** in strict mode with comprehensive type checking
 - **Code splitting** at route level with React.lazy()
 - **Bundle analysis** with rollup-plugin-visualizer
+- **Husky** for git hooks with lint-staged
+
+## Important Project Context
+
+- This is primarily a **portfolio and e-commerce site** for TD Studios
+- Product data is **static** (stored in `src/data/`), not database-driven
+- The **landing page** (`/`) is the main entry point with navigation to other properties
+- **External properties** linked: tdstudiosny.com (Agency), tdstudiosdigital.com (Digital)
+- **Internal pages**: `/shop` (merchandise), `/mylars` (custom product catalog)
+- Admin/Brand features are **legacy** from original multi-tenant architecture

@@ -6,9 +6,13 @@ export type Product = {
   image: string;      // put images under /public/products/
   category: string;
   active?: boolean;
+  tags?: string[];
 };
 
 export const PRODUCTS: Product[] = [
+  { id: "serious-inquiries-keychain", name: "SERIOUS INQUIRIES ONLY Keychain", price: 12, image: "https://i.imgur.com/5vvxbIy.png", category: "Accessories", active: true, tags: ["Serious Inquiries Only"] },
+  { id: "serious-inquiries-pin", name: "SERIOUS INQUIRIES ONLY Pin", price: 10, image: "https://i.imgur.com/5vvxbIy.png", category: "Accessories", active: true, tags: ["Serious Inquiries Only"] },
+  { id: "serious-inquiries-crop-tee", name: "SERIOUS INQUIRIES ONLY Crop Tee (Women's)", price: 35, image: "https://i.imgur.com/ONmjTPH.png", category: "Apparel", active: true, tags: ["Serious Inquiries Only"] },
   { id: "td-bomber-black", name: "TD BOMBER (Black)", price: 120, image: "/products/td-bomber-black.jpg", category: "Outerwear", active: true },
   { id: "td-bomber-white", name: "TD BOMBER (White)", price: 120, image: "/products/WHITE BOMBER.png", category: "Outerwear", active: true },
   { id: "td-hoodie-black", name: "TD HOODIE (Black)", price: 100, image: "/products/BLACK TD STUDIOS FRIDAY 13TH HOODIE.png", category: "Outerwear", active: true },
