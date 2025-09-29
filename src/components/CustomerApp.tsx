@@ -286,13 +286,12 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
                 {/* Centered Navigation */}
                 <nav className="flex justify-center space-x-6 text-white/80 text-sm">
                   <a href="/" className="hover:text-white transition-colors">Home</a>
-                  <a href="/shop" className="hover:text-white transition-colors">Shop All</a>
-                  <a href="/mylars" className="hover:text-white transition-colors">Mylar Bags</a>
-                  <a href="#" className="hover:text-white transition-colors">T-shirts</a>
-                  <a href="#" className="hover:text-white transition-colors">Outerwear</a>
-                  <a href="#" className="hover:text-white transition-colors">Hats</a>
-                  <a href="#" className="hover:text-white transition-colors">Accessories</a>
-                </nav>
+                                  <a href="#" onClick={() => setSelectedCategory('All')} className="hover:text-white transition-colors">Shop All</a>
+                                  <a href="/mylars" className="hover:text-white transition-colors">Mylar Bags</a>
+                                  <a href="#" onClick={() => setSelectedCategory('T-Shirts')} className="hover:text-white transition-colors">T-shirts</a>
+                                  <a href="#" onClick={() => setSelectedCategory('Outerwear')} className="hover:text-white transition-colors">Outerwear</a>
+                                  <a href="#" onClick={() => setSelectedCategory('Hats')} className="hover:text-white transition-colors">Hats</a>
+                                  <a href="#" onClick={() => setSelectedCategory('Accessories')} className="hover:text-white transition-colors">Accessories</a>                </nav>
               </div>
 
               {/* Mobile Navigation Menu */}
@@ -306,49 +305,48 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
                     >
                       Home
                     </a>
-                    <a
-                      href="/shop"
-                      className="text-white/80 hover:text-white transition-colors px-2 py-2 rounded hover:bg-white/10"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      Shop All
-                    </a>
-                    <a
-                      href="/mylars"
-                      className="text-white/80 hover:text-white transition-colors px-2 py-2 rounded hover:bg-white/10"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      Mylar Bags
-                    </a>
-                    <a
-                      href="#"
-                      className="text-white/80 hover:text-white transition-colors px-2 py-2 rounded hover:bg-white/10"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      T-shirts
-                    </a>
-                    <a
-                      href="#"
-                      className="text-white/80 hover:text-white transition-colors px-2 py-2 rounded hover:bg-white/10"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      Outerwear
-                    </a>
-                    <a
-                      href="#"
-                      className="text-white/80 hover:text-white transition-colors px-2 py-2 rounded hover:bg-white/10"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      Hats
-                    </a>
-                    <a
-                      href="#"
-                      className="text-white/80 hover:text-white transition-colors px-2 py-2 rounded hover:bg-white/10"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      Accessories
-                    </a>
-                  </nav>
+                                      <a
+                                        href="#"
+                                        className="text-white/80 hover:text-white transition-colors px-2 py-2 rounded hover:bg-white/10"
+                                        onClick={() => { setSelectedCategory('All'); setIsMenuOpen(false); }}
+                                      >
+                                        Shop All
+                                      </a>
+                                      <a
+                                        href="/mylars"
+                                        className="text-white/80 hover:text-white transition-colors px-2 py-2 rounded hover:bg-white/10"
+                                        onClick={() => setIsMenuOpen(false)}
+                                      >
+                                        Mylar Bags
+                                      </a>
+                                      <a
+                                        href="#"
+                                        className="text-white/80 hover:text-white transition-colors px-2 py-2 rounded hover:bg-white/10"
+                                        onClick={() => { setSelectedCategory('T-Shirts'); setIsMenuOpen(false); }}
+                                      >
+                                        T-shirts
+                                      </a>
+                                      <a
+                                        href="#"
+                                        className="text-white/80 hover:text-white transition-colors px-2 py-2 rounded hover:bg-white/10"
+                                        onClick={() => { setSelectedCategory('Outerwear'); setIsMenuOpen(false); }}
+                                      >
+                                        Outerwear
+                                      </a>
+                                      <a
+                                        href="#"
+                                        className="text-white/80 hover:text-white transition-colors px-2 py-2 rounded hover:bg-white/10"
+                                        onClick={() => { setSelectedCategory('Hats'); setIsMenuOpen(false); }}
+                                      >
+                                        Hats
+                                      </a>
+                                      <a
+                                        href="#"
+                                        className="text-white/80 hover:text-white transition-colors px-2 py-2 rounded hover:bg-white/10"
+                                        onClick={() => { setSelectedCategory('Accessories'); setIsMenuOpen(false); }}
+                                      >
+                                        Accessories
+                                      </a>                  </nav>
                 </div>
               )}
             </div>
