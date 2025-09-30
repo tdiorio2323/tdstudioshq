@@ -3,5 +3,20 @@
     { "source": "/candyman", "destination": "/index.html" },
     { "source": "/linktest", "destination": "/index.html" },
     { "source": "/(.*)", "destination": "/index.html" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, s-maxage=0, must-revalidate"
+        },
+        {
+          "key": "X-Cache-Bust",
+          "value": "2025-09-30-19:55"
+        }
+      ]
+    }
   ]
 }
