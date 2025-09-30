@@ -14,7 +14,15 @@
         },
         {
           "key": "X-Cache-Bust",
-          "value": "2025-09-30-19:55"
+          "value": "2025-09-30-20:00"
+        },
+        {
+          "key": "CDN-Cache-Control",
+          "value": "no-cache"
+        },
+        {
+          "key": "Vercel-CDN-Cache-Control",
+          "value": "no-cache"
         }
       ]
     }
