@@ -1,4 +1,17 @@
 {
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "tdstudioshq.com"
+        }
+      ],
+      "destination": "https://www.tdstudioshq.com/:path*",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     { "source": "/candyman", "destination": "/index.html" },
     { "source": "/linktest", "destination": "/index.html" },
