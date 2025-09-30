@@ -126,4 +126,4 @@ export const MYLAR_PRODUCTS: MylarProduct[] = [
 
 export const MYLAR_CATEGORIES = ["All", ...Array.from(new Set(MYLAR_PRODUCTS.map(p => p.category)))];
 
-// Force deployment timestamp: 2024-09-28-7:31PM
+// Force deployment timestamp: 2025-09-30-19:45PM
