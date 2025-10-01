@@ -96,12 +96,12 @@ const Auth = () => {
               AGENCY
             </a>
             <a
-              href="https://tdstudiosdigital.com"
+              href="https://seriousinquiriesonly.tdstudiosny.com"
               target={ext.target}
               rel={ext.rel}
               className="btn-silver"
             >
-              DIGITAL
+              SERIOUS INQUIRIES ONLY
             </a>
             <a
               href="/mylars"
