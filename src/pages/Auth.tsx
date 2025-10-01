@@ -73,10 +73,10 @@ const Auth = () => {
             <OptimizedImage
               src="/td-studios-chrome-metal-logo.png"
               alt="TD Studios"
-              width={320}
-              height={160}
+              width={240}
+              height={120}
               priority
-              className="h-40 w-auto"
+              className="h-30 w-auto"
             />
           </div>
           <div className="space-y-2">
