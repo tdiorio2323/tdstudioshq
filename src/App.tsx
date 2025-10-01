@@ -9,6 +9,7 @@ import { lazy, Suspense } from "react";
 
 // Lazy load components
 const Shop = lazy(() => import("./pages/Shop"));
+const ProductDetail = lazy(() => import("./pages/ProductDetail"));
 const MylarShop = lazy(() => import("./pages/MylarShop"));
 const Admin = lazy(() => import("./pages/Admin"));
 const Brand = lazy(() => import("./pages/Brand"));
@@ -34,6 +35,7 @@ const App = () => (
               <Routes>
                 <Route path="/" element={<Auth />} />
                 <Route path="/shop" element={<ErrorBoundary><Shop /></ErrorBoundary>} />
+                <Route path="/shop/:id" element={<ErrorBoundary><ProductDetail /></ErrorBoundary>} />
                 <Route path="/checkout" element={<ErrorBoundary><Checkout /></ErrorBoundary>} />
                 <Route path="/mylars" element={<ErrorBoundary><MylarShop /></ErrorBoundary>} />
                 <Route path="/mylars/:slug" element={<ErrorBoundary><MylarShop /></ErrorBoundary>} />

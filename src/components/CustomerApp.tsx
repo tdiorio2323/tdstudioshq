@@ -388,12 +388,15 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
               {filteredProducts.map((product) => (
                 <Card key={product.id} className="bg-white/10 backdrop-blur-md border-white/20 hover:bg-white/15 transition-all duration-300">
                   <CardContent className="p-6">
-                    <div className="aspect-square mb-4 bg-white/5 rounded-lg overflow-hidden">
+                    <div
+                      className="aspect-square mb-4 bg-white/5 rounded-lg overflow-hidden cursor-pointer"
+                      onClick={() => navigate(`/shop/${product.id}`)}
+                    >
                       {product.image ? (
                         <img
                           src={product.image}
                           alt={product.name}
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center text-white/40">
@@ -406,10 +409,15 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
                         </div>
                       )}
                     </div>
-                    
+
                     <div className="space-y-3">
                       <div>
-                        <h3 className="font-semibold text-white text-lg">{product.name}</h3>
+                        <h3
+                          className="font-semibold text-white text-lg cursor-pointer hover:text-primary transition-colors"
+                          onClick={() => navigate(`/shop/${product.id}`)}
+                        >
+                          {product.name}
+                        </h3>
                         <div className="flex flex-wrap gap-2 mt-2">
                           <Badge variant="secondary" className="bg-white/20 text-white/80">
                             {product.category.charAt(0).toUpperCase() + product.category.slice(1).replace('_', ' ')}
