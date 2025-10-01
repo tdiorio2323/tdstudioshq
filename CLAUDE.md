@@ -149,7 +149,10 @@ type Product = {
 ## Deployment
 
 ### Production Domains
-- **Primary**: `tdstudioshq.com` (auto-deploys from main branch)
+- **Primary**: `tdstudioshq.com` (auto-deploys from main branch, Deployment Protection disabled)
+- **DNS Configuration** (via Wix):
+  - `A @` → `76.76.21.21`
+  - `CNAME www` → `cname.vercel-dns.com`
 
 ### Related TD Studios Projects
 - `tdstudiosny.com` → td-luxury-site project
@@ -163,12 +166,26 @@ type Product = {
 5. Push to `main` branch on `github.com/tdiorio2323/tdstudioshq`
 6. Vercel auto-deploys to production
 
+### Verification
+```bash
+curl -I https://tdstudioshq.com           # Check site response
+dig +short tdstudioshq.com                # Verify A record
+dig +short www.tdstudioshq.com            # Verify CNAME
+```
+
 ### Git Repository
 - **Primary repo**: `github.com/tdiorio2323/tdstudioshq`
 - **Legacy repo**: `github.com/tdiorio2323/TD-STUDIOS-LOVABLE-SITE`
+- **Lovable integration**: Project URL is `lovable.dev/projects/dbcb82db-3a5c-4d43-86a6-c004351ecb04`
+  - Changes via Lovable auto-commit to this repo
 - **SSH setup** for tdiorio2323 account if needed:
   ```bash
   git remote set-url origin git@github.com:tdiorio2323/tdstudioshq.git
+  ssh-keygen -t ed25519 -C "tyler@tdstudiosny.com" -f ~/.ssh/id_ed25519 -N ""
+  eval "$(ssh-agent -s)"
+  ssh-add ~/.ssh/id_ed25519
+  gh auth login
+  gh ssh-key add ~/.ssh/id_ed25519.pub -t "MBP Lovable Site"
   ```
 
 ## Build Configuration
