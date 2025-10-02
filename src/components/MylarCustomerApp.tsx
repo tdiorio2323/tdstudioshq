@@ -10,6 +10,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
 import { Helmet } from 'react-helmet-async';
+import CheckoutButton from '@/components/CheckoutButton';
 // Ocean-themed background for mylar shop
 import { MYLAR_PRODUCTS, MYLAR_CATEGORIES, MylarProduct } from '@/data/mylarProducts';
 
@@ -475,6 +476,29 @@ const MylarCustomerApp = () => {
                       </div>
                     </div>
 
+                    {/* Stripe Checkout */}
+                    {product.basePrice > 0 && product.id !== 'telegram-menu-bot' && (
+                      <div className="space-y-3">
+                        <CheckoutButton
+                          items={[{
+                            id: product.id,
+                            name: product.name + (product.hasQuantityOptions ? ` (${selectedQuantity} pack)` : ''),
+                            price: getCurrentPrice(product),
+                            quantity: 1,
+                            image: product.image
+                          }]}
+                        />
+                        <div className="relative">
+                          <div className="absolute inset-0 flex items-center">
+                            <span className="w-full border-t border-white/20" />
+                          </div>
+                          <div className="relative flex justify-center text-xs uppercase">
+                            <span className="bg-black/60 px-2 text-white/60">Or</span>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
                     {/* CashApp Checkout */}
                     <Button
                       disabled={submitting}
@@ -491,7 +515,7 @@ const MylarCustomerApp = () => {
                         'Click the button above to message us directly on Telegram for a custom quote' :
                         product.basePrice === 0 ?
                         'Click the button above to contact us for a custom quote on this service' :
-                        `Click the button above to open CashApp profile - enter the amount shown and send to ${CASH_TAG}`}
+                        `Or pay with Cash App - send to ${CASH_TAG}`}
                     </p>
                   </div>
                 </div>

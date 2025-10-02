@@ -15,6 +15,8 @@ const Admin = lazy(() => import("./pages/Admin"));
 const Brand = lazy(() => import("./pages/Brand"));
 const LinkTest = lazy(() => import("./pages/LinkTest"));
 const Candyman = lazy(() => import("./pages/Candyman"));
+const Success = lazy(() => import("./pages/Success"));
+const Cancel = lazy(() => import("./pages/Cancel"));
 
 // Keep Auth as synchronous since it's the landing page
 import Auth from "./pages/Auth";
@@ -43,6 +45,8 @@ const App = () => (
                 <Route path="/brand" element={<ErrorBoundary><Brand /></ErrorBoundary>} />
                 <Route path="/linktest" element={<ErrorBoundary><LinkTest /></ErrorBoundary>} />
                 <Route path="/candyman" element={<ErrorBoundary><Candyman /></ErrorBoundary>} />
+                <Route path="/success" element={<ErrorBoundary><Success /></ErrorBoundary>} />
+                <Route path="/cancel" element={<ErrorBoundary><Cancel /></ErrorBoundary>} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>

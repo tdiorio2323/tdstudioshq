@@ -8,6 +8,8 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Helmet } from 'react-helmet-async';
+import { toast } from 'sonner';
+import CheckoutButton from '@/components/CheckoutButton';
 // Background image will be set via URL
 import { PRODUCTS, CATEGORIES, Product } from '@/data/products';
 
@@ -172,21 +174,15 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
                             <span>Total:</span>
                             <span>${cartTotal.toFixed(2)}</span>
                           </div>
-                          <Button
-                            className="w-full mt-3 bg-primary hover:bg-primary/90"
-                            onClick={() => {
-                              setIsCartOpen(false);
-                              if (onCheckout) {
-                                onCheckout(cart, cartTotal);
-                              } else {
-                                sessionStorage.setItem('cartItems', JSON.stringify(cart));
-                                sessionStorage.setItem('cartTotal', cartTotal.toString());
-                                navigate('/checkout');
-                              }
-                            }}
-                          >
-                            Checkout
-                          </Button>
+                          <CheckoutButton
+                            items={cart.map(item => ({
+                              id: item.id,
+                              name: item.name + (item.size ? ` (${item.size})` : ''),
+                              price: item.price,
+                              quantity: item.quantity,
+                              image: item.image
+                            }))}
+                          />
                         </div>
                       </div>
                     </div>
@@ -261,21 +257,15 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
                               <span>Total:</span>
                               <span>${cartTotal.toFixed(2)}</span>
                             </div>
-                            <Button
-                              className="w-full mt-3 bg-primary hover:bg-primary/90"
-                              onClick={() => {
-                                setIsCartOpen(false);
-                                if (onCheckout) {
-                                  onCheckout(cart, cartTotal);
-                                } else {
-                                  sessionStorage.setItem('cartItems', JSON.stringify(cart));
-                                  sessionStorage.setItem('cartTotal', cartTotal.toString());
-                                  navigate('/checkout');
-                                }
-                              }}
-                            >
-                              Checkout
-                            </Button>
+                            <CheckoutButton
+                              items={cart.map(item => ({
+                                id: item.id,
+                                name: item.name + (item.size ? ` (${item.size})` : ''),
+                                price: item.price,
+                                quantity: item.quantity,
+                                image: item.image
+                              }))}
+                            />
                           </div>
                         </div>
                       </div>
