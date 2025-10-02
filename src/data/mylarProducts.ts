@@ -31,7 +31,7 @@ export const MYLAR_PRODUCTS: MylarProduct[] = [
     slug: "link-page",
     name: "Link Page",
     description: "Custom link-in-bio page design and setup service",
-    basePrice: 100,
+    basePrice: 1,
     image: "/products/punk-page.jpg",
     category: "Design Services",
     active: true,

@@ -6,6 +6,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 });
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/mnngnbqy";
 
 export const config = {
   api: {
@@ -50,8 +51,35 @@ export default async function handler(
   switch (event.type) {
     case 'checkout.session.completed': {
       const session = event.data.object as Stripe.Checkout.Session;
-      console.log('Payment successful:', session.id);
-      // TODO: Fulfill the order, send confirmation email, etc.
+      console.log('✅ Payment successful:', session.id);
+
+      // Send notification via Formspree (Telegram + Email)
+      try {
+        const orderDetails = `
+🛍️ NEW STRIPE ORDER RECEIVED
+
+Order ID: ${session.id}
+Amount: $${(session.amount_total! / 100).toFixed(2)}
+Customer Email: ${session.customer_email || 'N/A'}
+Payment Status: ${session.payment_status}
+Created: ${new Date(session.created * 1000).toLocaleString()}
+
+Stripe Dashboard: https://dashboard.stripe.com/payments/${session.payment_intent}
+        `.trim();
+
+        await fetch(FORMSPREE_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            message: orderDetails,
+            _subject: `🛍️ New Stripe Order - ${session.id}`,
+          }),
+        });
+
+        console.log('📧 Formspree notification sent');
+      } catch (notifyError) {
+        console.error('Failed to send Formspree notification:', notifyError);
+      }
       break;
     }
 

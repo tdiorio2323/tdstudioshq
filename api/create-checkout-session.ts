@@ -43,11 +43,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       };
     });
 
+    // Check if all items are from MYLAR_PRODUCTS (digital services)
+    const allItemsAreDigital = items.every((item) =>
+      MYLAR_PRODUCTS.some(p => p.id === item.id)
+    );
+
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       payment_method_types: ['card'],
       line_items,
       customer_email: customerEmail,
+      // Only collect shipping for physical products (shop items)
+      shipping_address_collection: allItemsAreDigital ? undefined : {
+        allowed_countries: ['US'],
+      },
       success_url: `${req.headers.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${req.headers.origin}/shop`,
     });
