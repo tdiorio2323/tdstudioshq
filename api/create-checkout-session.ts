@@ -1,5 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import Stripe from 'stripe';
+import { PRODUCTS } from '../src/data/products';
+import { MYLAR_PRODUCTS } from '../src/data/mylarProducts';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2024-12-18.acacia',
@@ -11,20 +13,35 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const { items, customerEmail } = req.body as { items: Array<{ name: string; price: number; quantity: number; image?: string }>; customerEmail?: string };
+    const { items, customerEmail } = req.body as { items: Array<{ id: string; name: string; quantity: number; image?: string }>; customerEmail?: string };
 
-    // Create line items from cart
-    const line_items = items.map((item) => ({
-      price_data: {
-        currency: 'usd',
-        product_data: {
-          name: item.name,
-          images: item.image ? [item.image] : [],
+    // Combine both product catalogs for price lookup
+    const allProducts = [...PRODUCTS, ...MYLAR_PRODUCTS];
+
+    // Create line items from cart - validate prices server-side
+    const line_items = items.map((item) => {
+      // Look up product by id to get trusted price
+      const product = allProducts.find(p => p.id === item.id);
+
+      if (!product) {
+        throw new Error(`Invalid product id: ${item.id}`);
+      }
+
+      // Use backend-validated price, not frontend-sent price
+      const price = 'basePrice' in product ? product.basePrice : product.price;
+
+      return {
+        price_data: {
+          currency: 'usd',
+          product_data: {
+            name: product.name,
+            images: product.image ? [product.image] : [],
+          },
+          unit_amount: Math.round(price * 100), // Backend-validated price in cents
         },
-        unit_amount: Math.round(item.price * 100), // Convert to cents
-      },
-      quantity: item.quantity,
-    }));
+        quantity: item.quantity,
+      };
+    });
 
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
