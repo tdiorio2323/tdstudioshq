@@ -252,7 +252,7 @@ const MylarCustomerApp = () => {
             "@context": "https://schema.org",
             "@type": "Product",
             name: selectedProduct.name,
-            image: abs(selectedProduct.image),
+            image: buildAbsoluteUrl(selectedProduct.image),
             description: selectedProduct.description || "Custom mylar bag design",
             brand: "TD Studios",
             sku: selectedProduct.slug,
